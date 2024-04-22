@@ -8,20 +8,25 @@ public class PlayerMove : MonoBehaviour
 	public float speed;
 	float hAxis;
 	float vAxis;
+	bool walking;
 	bool wRun;
-	Transform PlayerCAMRoot;	// 카메라루트를 담을 ? 
-	Animator m_animator;		// 애니메이터정보를 가져와서 반영하자
+	Transform PlayerCAMRoot;    // 카메라루트를 담을 ? 
+	Transform Player;   // 카메라루트를 담을 ? 
+	Animator m_animator;        // 애니메이터정보를 가져와서 반영하자
 
 	Vector3 moveVec;
 	Animator anim;
 
-	private void Awake()
-	{
-		// 플레이어 카메라의 트랜스폼을 가져온다.
-		PlayerCAMRoot = GetComponentsInChildren<Transform>()[0];
-	}
+	float dTime;
 
-	void Start()
+//     /// 이펙트를 위한 테스트용 코드
+//     void OnSlashEvent()
+//     {
+// 		EffectManager effectManager = GameObject.Find("EffectManager").GetComponent<EffectManager>();
+// 		effectManager.PlayerSlash();
+//     }
+
+    void Start()
 	{
 		anim = GetComponentInChildren<Animator>();
 	}
@@ -29,23 +34,61 @@ public class PlayerMove : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		// GetAxisRaw는 -,0,+ 값만 가져온다(방향만 가져옴)
-		hAxis = Input.GetAxisRaw("Horizontal");	// x축에 수평으로 움직인다.
-		vAxis = Input.GetAxisRaw("Vertical");	// x축에 수직으로 움직인다.
+		dTime = Time.deltaTime;
+		hAxis = Input.GetAxisRaw("Horizontal"); // 이동방향을 가져온다.
+		vAxis = Input.GetAxisRaw("Vertical");
+		
+		// 이동버튼이 눌렸다면
+		if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
+		{
+			anim.SetBool("isWalking", true);
+			walking = true;
+		}
+		else
+		{
+			anim.SetBool("isWalking", false);
+			walking = false;
+		}
 
-		wRun = Input.GetButton("Run"); // 동작여부를 받는다.
+		// 구르기
+		if (Input.GetButtonDown("Jump") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Dodge"))
+		{
+			anim.SetTrigger("Dodge");
+		}
+		if(anim.GetCurrentAnimatorStateInfo(0).IsName("Dodge"))
+		{
+			transform.position += transform.forward.normalized * speed * 1.5f * dTime;
+		}
 
-		// 높이의 대한 이동이 없으니 0을 넣는다.
-		moveVec = new Vector3(hAxis, 0, vAxis).normalized;
+		// 공격모션
+		if (Input.GetButtonDown("Punch") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Punch"))
+		{
+			anim.SetTrigger("Punch");
+		}
 
+		if (Input.GetButtonDown("Hook") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Hook"))
+		{
+			anim.SetTrigger("Hook");
+		}
 
-		transform.position += moveVec * speed */* (wDown ? 1f : 0.5f) **/ Time.deltaTime;
+		// 달리기 버튼이 눌렸다면
+		if (Input.GetButton("Run"))
+		{
+			anim.SetBool("isRunning", true);
+			wRun = true;
+		}
+		else
+		{
+			anim.SetBool("isRunning", false);
+			wRun =false;
+		}
 
-		//anim.SetBool("isWalk", moveVec != Vector3.zero);
-		//anim.SetBool("isRun", wDown);
-
-		transform.LookAt(transform.position + moveVec); // 우리가 나아가는 방향으로 바라본다.
-
+		// 이동중이라면 
+		if (walking) 
+		{
+			Debug.Log("앞으로");
+			transform.position += transform.forward.normalized * (wRun == true ? speed * 3f : speed) * dTime; // 전진
+		}
 	}
 }
 
