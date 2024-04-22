@@ -738,3 +738,7 @@ sysinfo.txt
 # End of https://www.toptal.com/developers/gitignore/api/unity,visualstudio,visualstudiocode,rider,csharp
 
 .vsconfig
+
+# SVN 파일
+4_Resources
+GA5thFinalProject_Chronos
