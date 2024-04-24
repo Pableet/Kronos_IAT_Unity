@@ -86,6 +86,7 @@ public class ThirdPersonCam : MonoBehaviour
 		}
 	}
 
+	// 카메라 스타일 바꾸기
 	void SwitchCameraSytle(CameraStyle newStyle)
 	{
 		combatCam.SetActive(false);
