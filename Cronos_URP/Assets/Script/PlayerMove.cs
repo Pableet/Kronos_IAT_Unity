@@ -19,14 +19,7 @@ public class PlayerMove : MonoBehaviour
 
 	float dTime;
 
-//     /// 이펙트를 위한 테스트용 코드
-//     void OnSlashEvent()
-//     {
-// 		EffectManager effectManager = GameObject.Find("EffectManager").GetComponent<EffectManager>();
-// 		effectManager.PlayerSlash();
-//     }
-
-    void Start()
+	void Start()
 	{
 		anim = GetComponentInChildren<Animator>();
 	}
@@ -51,7 +44,7 @@ public class PlayerMove : MonoBehaviour
 		}
 
 		// 구르기
-		if (Input.GetButtonDown("Jump") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Dodge"))
+		if (Input.GetButton("Jump") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Dodge"))
 		{
 			anim.SetTrigger("Dodge");
 		}
@@ -65,11 +58,20 @@ public class PlayerMove : MonoBehaviour
 		{
 			anim.SetTrigger("Punch");
 		}
+		if (anim.GetCurrentAnimatorStateInfo(0).IsName("Punch"))
+		{
+			//transform.position += transform.forward.normalized * speed * 1.5f * dTime;
+		}
 
-		if (Input.GetButtonDown("Hook") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Hook"))
+		if (Input.GetButtonDown("Fire2") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Hook"))
 		{
 			anim.SetTrigger("Hook");
 		}
+		if (anim.GetCurrentAnimatorStateInfo(0).IsName("Hook"))
+		{
+			//transform.position += transform.forward.normalized * speed * 1.5f * dTime;
+		}
+
 
 		// 달리기 버튼이 눌렸다면
 		if (Input.GetButton("Run"))
