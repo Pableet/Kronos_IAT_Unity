@@ -22,6 +22,8 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
 	public Action onLAttackPerformed;	// 공격의 대한 액션을 담기 위한 변수
 	public Action onRAttackPerformed;	// 공격의 대한 액션을 담기 위한 변수
 	
+	public Action onSwitching;
+
 	private Controls controls;
 
 	private void OnEnable()
@@ -70,6 +72,11 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
 	public void OnRAttack(InputAction.CallbackContext context)
 	{
 		onRAttackPerformed?.Invoke();
+	}
+
+	public void OnSwitchingAttribute(InputAction.CallbackContext context)
+	{
+		onSwitching?.Invoke();
 	}
 
 

@@ -12,20 +12,37 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 	PlayerStateMachine PlayerFSM;
-	public string CurrentState;
 
-	[Header("Movement")]
+	[Header("State")]
+	[SerializeField] private string CurrentState;
+	[SerializeField] private string Attribute;
+
+	[Header("Move Option")]
 	[SerializeField] private float Speed = 5f;
 	[SerializeField] private float JumpForce = 10f;
 	[SerializeField] private float LookRotationDampFactor = 10f;
 
-	public float moveSpeed { get { return Speed; }}
+	public float moveSpeed { get { return Speed; } }
 	public float jumpForce { get { return JumpForce; } }
 	public float lookRotationDampFactor { get { return LookRotationDampFactor; } }
+
+	// chronos in game Option
+	private float CP { get; set; }
+	private float TP { get; set; }
+
+
+	bool isAccel = false;
 
 	private void Start()
 	{
 		PlayerFSM = GetComponent<PlayerStateMachine>();
+		
+		// 감속/가속 변경함수를 임시로 사용해보자
+		// 반드시 지워져야할 부분이지만 임시로 넣는다
+		{
+			Attribute = "Is Noting";
+			PlayerFSM.InputReader.onSwitching += Switching;
+		}
 	}
 
 	public void FixedUpdate()
@@ -35,4 +52,23 @@ public class Player : MonoBehaviour
 		// 성능적인 이슈가 없을거라고생각되지가 않는다
 		CurrentState = PlayerFSM.GetState().GetType().Name;
 	}
+
+	// 감속, 가속 변화를 위한 임시함수 
+	public void Switching()
+	{
+		isAccel = !isAccel;
+
+		if (isAccel)
+		{
+			Attribute = "가속";
+		}
+		else
+		{
+			Attribute = "감속";
+		}
+
+	}
+
+
+
 }
