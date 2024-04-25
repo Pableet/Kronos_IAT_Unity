@@ -103,9 +103,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 951cf50ae0af5ec4ba1f24f928283755, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCD: 3
-  attackRange: 2
-  aggroRange: 4
+  playerScanner:
+    heightOffset: 0
+    detectionRadius: 0
+    detectionAngle: 0
+    maxHeightDifference: 0
+    viewBlockerLayerMask:
+      serializedVersion: 2
+      m_Bits: 0
+  timeToStopPursuit: 0
 --- !u!114 &5304896142893553457
 MonoBehaviour:
   m_ObjectHideFlags: 0

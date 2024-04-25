@@ -11,6 +11,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyController : MonoBehaviour
 {
+    public GameObject player;
     public bool interpolateTurning = false;
     public bool applyAnimationRotation = false;
 
@@ -34,6 +35,11 @@ public class EnemyController : MonoBehaviour
 
     void OnEnable()
     {
+        if(player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+        }
+
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _animator = GetComponent<Animator>();
         _animator.updateMode = AnimatorUpdateMode.AnimatePhysics;
@@ -52,7 +58,6 @@ public class EnemyController : MonoBehaviour
 
         _followNavmeshAgent = true;
     }
-
     private void FixedUpdate()
     {
         CheckGrounded();
@@ -61,6 +66,43 @@ public class EnemyController : MonoBehaviour
         {
             ForceMovement();
         }
+    }
+    [Range(0f, 100f)]
+    public float rotationLerpSpeed;
+
+    public void SetRotationLerpSeedFast()
+    {
+        rotationLerpSpeed = 100f;
+    }
+
+    public void SetRotationLerpSeedNormal()
+    {
+        rotationLerpSpeed = 50f;
+    }
+    public void SetRotationLerpSeedSlow()
+    {
+        rotationLerpSpeed = 10f;
+    }
+
+    public void SetRotationLerpSeedZero()
+    {
+        rotationLerpSpeed = 0f;
+    }
+
+
+    public void SetForwardToTarget(Vector3 targetPostion)
+    {
+        Vector3 direction = targetPostion - transform.position;
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+        this.transform.rotation = Quaternion.Lerp(this.transform.rotation, lookRotation, rotationLerpSpeed * Time.deltaTime);
+
+        //Vector3 targetPosition = _target.transform.position;
+        //Vector3 toTarget = targetPosition - transform.position;
+        //toTarget.y = 0;
+        //
+        //transform.forward = toTarget.normalized;
+        //controller.SetForward(transform.forward);
+
     }
 
     // 지면 위에 있는지 검사한다.
@@ -141,7 +183,7 @@ public class EnemyController : MonoBehaviour
     {
         if (_navMeshAgent.enabled)
         {
-            _navMeshAgent.ResetPath(); 
+            _navMeshAgent.ResetPath();
         }
 
         _externalForce = force;

@@ -39,6 +39,7 @@ public class TestEnemySMBPursuit : SceneLinkedSMB<TestEnemyBehavior>
                         .assignedSlot) * _monoBehaviour.attackDistance * 0.9f;
 
                 _monoBehaviour.controller.SetTarget(targetPoint);
+                _monoBehaviour.StopLookAtTarget();
             }
             else
             {
