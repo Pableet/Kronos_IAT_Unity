@@ -105,7 +105,7 @@ public class ThirdPersonCam : MonoBehaviour
 		{
 			topDownCam.SetActive(true);
 		}
-
+		
 		currentStyle = newStyle;
 	}
 }

@@ -71,6 +71,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchingAttribute"",
+                    ""type"": ""Button"",
+                    ""id"": ""9f8c0e93-515b-482d-be7f-db0ecbebfe6d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -194,6 +203,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""R.Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ad4222d8-fbe4-4d37-9aaf-42fa3e824308"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""SwitchingAttribute"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -235,6 +255,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_LAttack = m_Player.FindAction("L.Attack", throwIfNotFound: true);
         m_Player_RAttack = m_Player.FindAction("R.Attack", throwIfNotFound: true);
+        m_Player_SwitchingAttribute = m_Player.FindAction("SwitchingAttribute", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -301,6 +322,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_LAttack;
     private readonly InputAction m_Player_RAttack;
+    private readonly InputAction m_Player_SwitchingAttribute;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -310,6 +332,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @LAttack => m_Wrapper.m_Player_LAttack;
         public InputAction @RAttack => m_Wrapper.m_Player_RAttack;
+        public InputAction @SwitchingAttribute => m_Wrapper.m_Player_SwitchingAttribute;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -334,6 +357,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @RAttack.started += instance.OnRAttack;
             @RAttack.performed += instance.OnRAttack;
             @RAttack.canceled += instance.OnRAttack;
+            @SwitchingAttribute.started += instance.OnSwitchingAttribute;
+            @SwitchingAttribute.performed += instance.OnSwitchingAttribute;
+            @SwitchingAttribute.canceled += instance.OnSwitchingAttribute;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -353,6 +379,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @RAttack.started -= instance.OnRAttack;
             @RAttack.performed -= instance.OnRAttack;
             @RAttack.canceled -= instance.OnRAttack;
+            @SwitchingAttribute.started -= instance.OnSwitchingAttribute;
+            @SwitchingAttribute.performed -= instance.OnSwitchingAttribute;
+            @SwitchingAttribute.canceled -= instance.OnSwitchingAttribute;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -395,5 +424,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnLAttack(InputAction.CallbackContext context);
         void OnRAttack(InputAction.CallbackContext context);
+        void OnSwitchingAttribute(InputAction.CallbackContext context);
     }
 }
