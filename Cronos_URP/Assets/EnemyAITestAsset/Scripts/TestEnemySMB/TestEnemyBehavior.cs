@@ -18,6 +18,9 @@ public class TestEnemyBehavior : MonoBehaviour
     public float detectionAngle = 90f;
     public float maxHeightDifference = 1.5f;
     public int viewBlockerLayerMask = 0;
+    
+    [System.NonSerialized]
+    public float attackDistance = 2;
 
     public EnemyController controller { get { return _controller; } }
     public GameObject target { get { return _target; } }
@@ -142,10 +145,6 @@ public class TestEnemyBehavior : MonoBehaviour
     {
         if (_target == null) return;
 
-        //Vector3 targetPosition = _target.transform.position;
-        //targetPosition.y = 0f; 
-        //this.transform.LookAt(targetPosition); 
-
         _controller.SetForwardToTarget(_target.transform.position);
 
     }
@@ -173,8 +172,6 @@ public class TestEnemyBehavior : MonoBehaviour
         _controller.SetRotationLerpSeedNormal();
     }
 
-    [System.NonSerialized]
-    public float attackDistance = 3;
     public void StopPursuit()
     {
         if (_followerInstance != null)
@@ -222,5 +219,9 @@ public class TestEnemyBehavior : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         playerScanner.EditorGizmo(transform);
+
+        // 공격 범위
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackDistance);
     }
 }
