@@ -30,8 +30,8 @@ public abstract class PlayerBaseState : State
 								+ cameraRight.normalized * stateMachine.InputReader.moveComposite.x;	// 후방
 
 		// 상태머신의 속도는 이동벡터와 속력의 곱이다.
-		stateMachine.Velocity.x = moveDirection.x * stateMachine.MovementSpeed;
-		stateMachine.Velocity.z = moveDirection.z * stateMachine.MovementSpeed;
+		stateMachine.Velocity.x = moveDirection.x * stateMachine.Player.moveSpeed;
+		stateMachine.Velocity.z = moveDirection.z * stateMachine.Player.moveSpeed;
 	}
 
 	/// <summary>
@@ -49,7 +49,7 @@ public abstract class PlayerBaseState : State
 			return;
 		}
 		// 플레이어의 회전은 구면 선형보간의 형태로 이루어진다. 
-		stateMachine.transform.rotation = Quaternion.Slerp(stateMachine.transform.rotation, Quaternion.LookRotation(faceDirection), stateMachine.LookRotationDampFactor * Time.deltaTime);
+		stateMachine.transform.rotation = Quaternion.Slerp(stateMachine.transform.rotation, Quaternion.LookRotation(faceDirection), stateMachine.Player.lookRotationDampFactor * Time.deltaTime);
 	}
 
 	/// <summary>
@@ -75,7 +75,6 @@ public abstract class PlayerBaseState : State
 	{
 		// CharacterController컴포넌트를 이용해서 캐릭터를 이동시킨다.
 		stateMachine.Controller.Move(stateMachine.Velocity * Time.deltaTime);
-
 	}
 
 
