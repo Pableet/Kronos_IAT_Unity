@@ -11,68 +11,60 @@ public class TestEnemyBehavior : MonoBehaviour
     public static readonly int hashAttack = Animator.StringToHash("attack");
     public static readonly int hashInPursuit = Animator.StringToHash("inPursuit");
     public static readonly int hashNearBase = Animator.StringToHash("nearBase");
+
+    [Header("Player Scan")]
+    public float heightOffset = 1.6f;
+    public float detectionRadius = 4f;
+    public float detectionAngle = 90f;
+    public float maxHeightDifference = 1.5f;
+    public int viewBlockerLayerMask = 0;
+
     public EnemyController controller { get { return _controller; } }
     public GameObject target { get { return _target; } }
     public Vector3 originalPosition { get; protected set; }
     public TargetDistributor.TargetFollower followerData { get { return _followerInstance; } }
 
-    public TargetScanner playerScanner;
+    private TargetScanner playerScanner;
     public float timeToStopPursuit;
 
     private GameObject _target;
     private EnemyController _controller;
     protected TargetDistributor.TargetFollower _followerInstance;
 
+    protected float _timerSinceLostTarget = 0.0f;
+
     void OnEnable()
     {
         _controller = GetComponentInChildren<EnemyController>();
 
-        playerScanner = new TargetScanner(GameObject.FindGameObjectWithTag("Player"));
+        playerScanner = new TargetScanner(_controller.player);
 
-        playerScanner.heightOffset = 1.6f;
-        playerScanner.detectionRadius = 4f;
-        playerScanner.detectionAngle = 90f;
-        playerScanner.maxHeightDifference = 1.5f;
-        playerScanner.viewBlockerLayerMask = 0;
+        playerScanner.heightOffset = heightOffset;
+        playerScanner.detectionRadius = detectionRadius;
+        playerScanner.detectionAngle = detectionAngle;
+        playerScanner.maxHeightDifference = maxHeightDifference;
+        playerScanner.viewBlockerLayerMask = viewBlockerLayerMask;
 
         originalPosition = transform.position;
 
         SceneLinkedSMB<TestEnemyBehavior>.Initialise(_controller.animator, this);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //_controller.animator.SetFloat("speed", _controller.navmeshAgent.velocity.magnitude / _controller.navmeshAgent.speed);
-
-        //if (_timePassed >= attackCD)
-        //{
-        //    if (Vector3.Distance(_target.transform.position, transform.position) <= attackRange)
-        //    {
-        //        TriggerAttack();
-        //        _timePassed = 0;
-        //    }
-        //}
-        //_timePassed += Time.deltaTime;
-
-        //if (_newDestinationCD <= 0 && Vector3.Distance(_target.transform.position, transform.position) <= aggroRange)
-        //{
-        //    _newDestinationCD = 0.5f;
-        //    _controller.navmeshAgent.SetDestination(_target.transform.position);
-        //}
-
-        //// 플레이어를 향해 바라보기
-        //Vector3 direction = _target.transform.position - transform.position;
-        //Quaternion lookRotation = Quaternion.LookRotation(direction);
-        //this.transform.rotation = Quaternion.Lerp(this.transform.rotation, lookRotation, Time.deltaTime);
-
-        //_newDestinationCD -= Time.deltaTime;
-    }
-
     protected void OnDisable()
     {
         if (_followerInstance != null)
             _followerInstance.distributor.UnregisterFollower(_followerInstance);
+    }
+
+    private void Update()
+    {
+        LookAtTarget();
+
+        playerScanner.heightOffset = heightOffset;
+        playerScanner.detectionRadius = detectionRadius;
+        playerScanner.detectionAngle = detectionAngle;
+        playerScanner.maxHeightDifference = maxHeightDifference;
+        playerScanner.viewBlockerLayerMask = viewBlockerLayerMask;
     }
 
     private void FixedUpdate()
@@ -83,7 +75,6 @@ public class TestEnemyBehavior : MonoBehaviour
         _controller.animator.SetBool(hashNearBase, toBase.sqrMagnitude < 0.1 * 0.1f);
     }
 
-    protected float _timerSinceLostTarget = 0.0f;
     public void FindTarget()
     {
         //we ignore height difference if the target was already seen
@@ -147,6 +138,28 @@ public class TestEnemyBehavior : MonoBehaviour
         }
     }
 
+    public void LookAtTarget()
+    {
+        if (_target == null) return;
+
+        //Vector3 targetPosition = _target.transform.position;
+        //targetPosition.y = 0f; 
+        //this.transform.LookAt(targetPosition); 
+
+        _controller.SetForwardToTarget(_target.transform.position);
+
+    }
+
+    public void StartLookAtTarget()
+    {
+        _controller.SetRotationLerpSeedSlow();
+    }
+
+    public void StopLookAtTarget()
+    {
+        _controller.SetRotationLerpSeedZero();
+    }
+
     public void StartPursuit()
     {
         if (_followerInstance != null)
@@ -156,6 +169,8 @@ public class TestEnemyBehavior : MonoBehaviour
         }
 
         _controller.animator.SetBool(hashInPursuit, true);
+
+        _controller.SetRotationLerpSeedNormal();
     }
 
     [System.NonSerialized]
@@ -168,6 +183,8 @@ public class TestEnemyBehavior : MonoBehaviour
         }
 
         _controller.animator.SetBool(hashInPursuit, false);
+
+        //StopLookAtTarget();
     }
 
     public void RequestTargetPosition()
