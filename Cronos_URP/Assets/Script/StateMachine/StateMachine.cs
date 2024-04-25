@@ -21,4 +21,11 @@ public abstract class StateMachine : MonoBehaviour
 		// 현재 상태를 점검한다.
         currentState?.Tick();
     }
+
+	public State GetState()	// 현재상태를 반환해준다
+	{
+		return currentState;
+	}
+
+
 }
