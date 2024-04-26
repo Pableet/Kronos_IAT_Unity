@@ -5,6 +5,7 @@ using UnityEngine;
 public class HitStop : MonoBehaviour
 {
     public float hitStopTime = 0.0f;
+    public float hitStopScale = 0.0f;
     Animator animator;
     bool isHit;
 
@@ -26,7 +27,7 @@ public class HitStop : MonoBehaviour
 
     IEnumerator HitStopCoroutine()
     {
-        animator.speed = 0.0f;
+        animator.speed = hitStopScale;
         yield return new WaitForSecondsRealtime(hitStopTime);
         animator.speed = 1.0f;
         isHit = false;
