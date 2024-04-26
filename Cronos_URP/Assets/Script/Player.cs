@@ -36,13 +36,11 @@ public class Player : MonoBehaviour
 	private void Start()
 	{
 		PlayerFSM = GetComponent<PlayerStateMachine>();
-		
+
 		// 감속/가속 변경함수를 임시로 사용해보자
 		// 반드시 지워져야할 부분이지만 임시로 넣는다
-		{
-			Attribute = "Is Noting";
-			PlayerFSM.InputReader.onSwitching += Switching;
-		}
+		Attribute = "Is Noting";
+		PlayerFSM.InputReader.onSwitching += Switching;
 	}
 
 	public void FixedUpdate()
