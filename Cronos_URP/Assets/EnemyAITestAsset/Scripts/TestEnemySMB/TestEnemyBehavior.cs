@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem.XR;
+using UnityEngine.WSA;
 
+/// <summary>
+/// TestEnemy 의 행동을 정의한다.
+/// </summary>
 [DefaultExecutionOrder(100)]
 public class TestEnemyBehavior : MonoBehaviour
 {
@@ -22,9 +26,9 @@ public class TestEnemyBehavior : MonoBehaviour
     [System.NonSerialized]
     public float attackDistance = 2;
 
-    public EnemyController controller { get { return _controller; } }
     public GameObject target { get { return _target; } }
     public Vector3 originalPosition { get; protected set; }
+    public EnemyController controller { get { return _controller; } }
     public TargetDistributor.TargetFollower followerData { get { return _followerInstance; } }
 
     private TargetScanner playerScanner;
@@ -42,11 +46,7 @@ public class TestEnemyBehavior : MonoBehaviour
 
         playerScanner = new TargetScanner(_controller.player);
 
-        playerScanner.heightOffset = heightOffset;
-        playerScanner.detectionRadius = detectionRadius;
-        playerScanner.detectionAngle = detectionAngle;
-        playerScanner.maxHeightDifference = maxHeightDifference;
-        playerScanner.viewBlockerLayerMask = viewBlockerLayerMask;
+        UpdatePlayerScanner();
 
         originalPosition = transform.position;
 
@@ -63,11 +63,7 @@ public class TestEnemyBehavior : MonoBehaviour
     {
         LookAtTarget();
 
-        playerScanner.heightOffset = heightOffset;
-        playerScanner.detectionRadius = detectionRadius;
-        playerScanner.detectionAngle = detectionAngle;
-        playerScanner.maxHeightDifference = maxHeightDifference;
-        playerScanner.viewBlockerLayerMask = viewBlockerLayerMask;
+        UpdatePlayerScanner();
     }
 
     private void FixedUpdate()
@@ -75,17 +71,27 @@ public class TestEnemyBehavior : MonoBehaviour
         Vector3 toBase = originalPosition - transform.position;
         toBase.y = 0;
 
-        _controller.animator.SetBool(hashNearBase, toBase.sqrMagnitude < 0.1 * 0.1f);
+        SetNearBase(toBase.sqrMagnitude < 0.1 * 0.1f);
+    }
+
+    private void UpdatePlayerScanner()
+    {
+        playerScanner.heightOffset = heightOffset;
+        playerScanner.detectionRadius = detectionRadius;
+        playerScanner.detectionAngle = detectionAngle;
+        playerScanner.maxHeightDifference = maxHeightDifference;
+        playerScanner.viewBlockerLayerMask = viewBlockerLayerMask;
     }
 
     public void FindTarget()
     {
-        //we ignore height difference if the target was already seen
+        // 타겟이 이미 보이는 경우 높이 차이를 무시한다.
         var target = playerScanner.Detect(transform, _target == null);
 
         if (_target == null)
         {
-            //we just saw the player for the first time, pick an empty spot to target around them
+            // 플레이어를 처음 본 경우, 주변의 빈 지점을 선택하여 타겟팅.
+            // (직접 플레이어 위치에 이동하지 않고 플레이어 주변에 군집을 이루도록)
             if (target != null)
             {
                 _target = target;
@@ -98,8 +104,8 @@ public class TestEnemyBehavior : MonoBehaviour
         }
         else
         {
-            //we lost the target. But chomper have a special behaviour : they only loose the player scent if they move past their detection range
-            //and they didn't see the player for a given time. Not if they move out of their detectionAngle. So we check that this is the case before removing the target
+            // 플레이어가 감지 범위를 벗어나고 일정 시간 동안 플레이어가 보이지 않아도
+            // 감지 각도에 벗어난 게 아니면 계속 감지 한다.
             if (target == null)
             {
                 _timerSinceLostTarget += Time.deltaTime;
@@ -113,7 +119,7 @@ public class TestEnemyBehavior : MonoBehaviour
                         if (_followerInstance != null)
                             _followerInstance.distributor.UnregisterFollower(_followerInstance);
 
-                        //the target move out of range, reset the target
+                        // 타겟이 탐지 범위를 벗어나면 타겟을 재설정한다.
                         _target = null;
                     }
                 }
@@ -167,7 +173,7 @@ public class TestEnemyBehavior : MonoBehaviour
             RequestTargetPosition();
         }
 
-        _controller.animator.SetBool(hashInPursuit, true);
+        SetInPursuit(true);
 
         _controller.SetRotationLerpSeedNormal();
     }
@@ -179,9 +185,7 @@ public class TestEnemyBehavior : MonoBehaviour
             _followerInstance.requireSlot = false;
         }
 
-        _controller.animator.SetBool(hashInPursuit, false);
-
-        //StopLookAtTarget();
+        SetInPursuit(false);
     }
 
     public void RequestTargetPosition()
@@ -214,6 +218,16 @@ public class TestEnemyBehavior : MonoBehaviour
     public void TriggerAttack()
     {
         _controller.animator.SetTrigger(hashAttack);
+    }
+
+    public void SetNearBase(bool nearBase)
+    {
+        _controller.animator.SetBool(hashNearBase, nearBase);
+    }
+
+    public void SetInPursuit(bool inPursuit)
+    {
+        _controller.animator.SetBool(hashInPursuit, inPursuit);
     }
 
     private void OnDrawGizmosSelected()
