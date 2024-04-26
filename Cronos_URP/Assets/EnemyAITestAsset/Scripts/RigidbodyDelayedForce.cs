@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// rigidebody에 대한 공통적인 설정을 정의.
+/// </summary>
 public class RigidbodyDelayedForce : MonoBehaviour
 {
     public Vector3 forceToAdd;

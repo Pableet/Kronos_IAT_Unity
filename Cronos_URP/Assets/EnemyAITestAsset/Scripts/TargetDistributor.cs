@@ -2,19 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// This class allow to distribute arc around a target, used for "crowding" by ennemis, so they all
-// come at the player (or any target) from different direction.
+// 해당 클래스를 가진 적의 군집은 대상 주위에 호를 분산시킨다.
+// 적증니 다른 방향에서 플레이어(또는 모든 대상)를 공격하도록 한다.
 [DefaultExecutionOrder(-1)]
 public class TargetDistributor : MonoBehaviour
 {
-    //Use as a mean to communicate between this target and the followers
+    // 같은 타깃을 가진 객체를 팔로워라고 한다.
+    // 이러한 팔로워 간의 커뮤케이션 수단이다.
     public class TargetFollower
     {
-        //target should set that to true when they require the system to give them a position
+        // target은 시스템에서 위치를 제공해야 할 때 이를 true로 설정해야 한다.
         public bool requireSlot;
-        //will be -1 if none is currently assigned
+        // 현재 할당된 위치가 없으면 -1이다.
         public int assignedSlot;
-        //the position the follower want to reach for the target.
+        // 팔로워가 타겟에 도달하고자 하는 위치이다.
         public Vector3 requiredPoint;
 
         public TargetDistributor distributor;
@@ -30,27 +31,27 @@ public class TargetDistributor : MonoBehaviour
 
     public int arcsCount;
 
-    protected Vector3[] m_WorldDirection;
+    protected Vector3[] _worldDirection;
 
-    protected bool[] m_FreeArcs;
-    protected float arcDegree;
+    protected bool[] _freeArcs;
+    protected float _arcDegree;
 
-    protected List<TargetFollower> m_Followers;
+    protected List<TargetFollower> _followers;
 
     public void OnEnable()
     {
-        m_WorldDirection = new Vector3[arcsCount];
-        m_FreeArcs = new bool[arcsCount];
+        _worldDirection = new Vector3[arcsCount];
+        _freeArcs = new bool[arcsCount];
 
-        m_Followers = new List<TargetFollower>();
+        _followers = new List<TargetFollower>();
 
-        arcDegree = 360.0f / arcsCount;
-        Quaternion rotation = Quaternion.Euler(0, -arcDegree, 0);
+        _arcDegree = 360.0f / arcsCount;
+        Quaternion rotation = Quaternion.Euler(0, -_arcDegree, 0);
         Vector3 currentDirection = Vector3.forward;
         for (int i = 0; i < arcsCount; ++i)
         {
-            m_FreeArcs[i] = true;
-            m_WorldDirection[i] = currentDirection;
+            _freeArcs[i] = true;
+            _worldDirection[i] = currentDirection;
             currentDirection = rotation * currentDirection;
         }
     }
@@ -58,7 +59,7 @@ public class TargetDistributor : MonoBehaviour
     public TargetFollower RegisterNewFollower()
     {
         TargetFollower follower = new TargetFollower(this);
-        m_Followers.Add(follower);
+        _followers.Add(follower);
         return follower;
     }
 
@@ -66,26 +67,26 @@ public class TargetDistributor : MonoBehaviour
     {
         if (follower.assignedSlot != -1)
         {
-            m_FreeArcs[follower.assignedSlot] = true;
+            _freeArcs[follower.assignedSlot] = true;
         }
 
 
-        m_Followers.Remove(follower);
+        _followers.Remove(follower);
     }
 
-    //at the end of the frame, we distribute target position to all follower that asked for one.
+    // 프레임이 끝나면 타겟 위치를 필요로하는 모든 팔로워에게 타깃 위치를 공유한다.
     private void LateUpdate()
     {
-        for (int i = 0; i < m_Followers.Count; ++i)
+        for (int i = 0; i < _followers.Count; ++i)
         {
-            var follower = m_Followers[i];
+            var follower = _followers[i];
 
-            //we free whatever arc this follower may already have. 
-            //If it still need it, it will be picked again next lines.
-            //if it changed position the new one will be picked.
+            // 팔로워가 할당된 위치를 갖는다면 해제한다.
+            // 여전히 필요하다면 다음 코드에 다시 할당된다.
+            // 위치가 바뀌면 새로운 위치가 선택된다.
             if (follower.assignedSlot != -1)
             {
-                m_FreeArcs[follower.assignedSlot] = true;
+                _freeArcs[follower.assignedSlot] = true;
             }
 
             if (follower.requireSlot)
@@ -97,7 +98,7 @@ public class TargetDistributor : MonoBehaviour
 
     public Vector3 GetDirection(int index)
     {
-        return m_WorldDirection[index];
+        return _worldDirection[index];
     }
 
     public int GetFreeArcIndex(TargetFollower follower)
@@ -116,15 +117,15 @@ public class TargetDistributor : MonoBehaviour
         if (angle < 0)
             angle = 360 + angle;
 
-        int wantedIndex = Mathf.RoundToInt(angle / arcDegree);
-        if (wantedIndex >= m_WorldDirection.Length)
-            wantedIndex -= m_WorldDirection.Length;
+        int wantedIndex = Mathf.RoundToInt(angle / _arcDegree);
+        if (wantedIndex >= _worldDirection.Length)
+            wantedIndex -= _worldDirection.Length;
 
         int choosenIndex = wantedIndex;
 
         RaycastHit hit;
         if (!Physics.Raycast(rayCastPosition, GetDirection(choosenIndex), out hit, wantedDistance))
-            found = m_FreeArcs[choosenIndex];
+            found = _freeArcs[choosenIndex];
 
         if (!found)
         {//we are going to test left right with increasing offset
@@ -139,7 +140,7 @@ public class TargetDistributor : MonoBehaviour
                 if (rightIndex >= arcsCount) rightIndex -= arcsCount;
 
                 if (!Physics.Raycast(rayCastPosition, GetDirection(leftIndex), wantedDistance) &&
-                    m_FreeArcs[leftIndex])
+                    _freeArcs[leftIndex])
                 {
                     choosenIndex = leftIndex;
                     found = true;
@@ -147,7 +148,7 @@ public class TargetDistributor : MonoBehaviour
                 }
 
                 if (!Physics.Raycast(rayCastPosition, GetDirection(rightIndex), wantedDistance) &&
-                    m_FreeArcs[rightIndex])
+                    _freeArcs[rightIndex])
                 {
                     choosenIndex = rightIndex;
                     found = true;
@@ -159,16 +160,16 @@ public class TargetDistributor : MonoBehaviour
         }
 
         if (!found)
-        {//we couldn't find a free direction, return -1 to tell the caller there is no free space
+        {// 비어있는 방향을 찾을 수 없으므로 -1을 반환하여 호출자에게 여유 공간이 없음을 알림.
             return -1;
         }
 
-        m_FreeArcs[choosenIndex] = false;
+        _freeArcs[choosenIndex] = false;
         return choosenIndex;
     }
 
     public void FreeIndex(int index)
     {
-        m_FreeArcs[index] = true;
+        _freeArcs[index] = true;
     }
 }
