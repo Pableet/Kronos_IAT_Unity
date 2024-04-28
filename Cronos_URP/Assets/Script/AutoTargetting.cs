@@ -12,49 +12,38 @@ public class AutoTargetting : MonoBehaviour
     public float horizontalSpeed = 10.0f; // 수평 회전 속도
     public float verticalSpeed = 5.0f;    // 수직 회전 속도
 
-    public GameObject Cam;
-    public GameObject Target;       // Player가 바라볼 대상
     public GameObject Player;       // 플레이어
-    public GameObject PlayerObject; // 플레이어 오브젝트 
+    public Transform Target;       // Player가 바라볼 대상
+    public Transform PlayerObject; // 플레이어 오브젝트 
+    public Transform maincamTransform;
 
     public float AixsDamp = 0.99f;  // 어느정도까지 따라갈 것인가!
 
-    Camera mainCam;
+    private PlayerStateMachine stateMachine;
 
-    Transform targetTransfrom;
-    Transform PlayerObjectTransfrom;
-    Transform maincamTransform;
-
-    PlayerStateMachine stateMachine;
-
-    float xDotResult;
+    private float xDotResult;
 
     // Start is called before the first frame update
     void Start()
     {
-        mainCam = Camera.main;
         stateMachine = Player.GetComponent<PlayerStateMachine>();
-
-        targetTransfrom = Target.GetComponent<Transform>();
-        PlayerObjectTransfrom = PlayerObject.GetComponent<Transform>();
-        maincamTransform = mainCam.GetComponent<Transform>();
     }
 
     // Update is called once per frame
     void Update()
     {
         // 캐릭터가 바라볼 방향을 정한다.
-        Vector3 direction = targetTransfrom.position - PlayerObjectTransfrom.position;
+        Vector3 direction = Target.position - PlayerObject.position;
         direction.y = 0;    // y축으로는 회전하지 않는다.
 
-        xDotResult = Vector3.Dot(maincamTransform.right, PlayerObjectTransfrom.right);
+        xDotResult = Vector3.Dot(maincamTransform.right, PlayerObject.right);
 
         // 공격이 일어났을때 캐릭터가 몬스터 방향으로 몸을 돌린다.
         if (Input.GetButton("Fire1"))
         {
             stateMachine.transform.rotation = Quaternion.Slerp(stateMachine.transform.rotation, Quaternion.LookRotation(direction.normalized), 1f);
 
-            float targetPos = TransformPosition(maincamTransform, targetTransfrom.position).x;
+            float targetPos = TransformPosition(maincamTransform, Target.position).x;
 
             if (targetPos > 0)
             {

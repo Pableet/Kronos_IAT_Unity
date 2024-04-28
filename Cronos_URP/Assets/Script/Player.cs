@@ -22,13 +22,18 @@ public class Player : MonoBehaviour
 	[SerializeField] private float JumpForce = 10f;
 	[SerializeField] private float LookRotationDampFactor = 10f;
 
-	public float moveSpeed { get { return Speed; } }
+    [Header("Play Option")]
+    [SerializeField] private float HitRange = 5f;
+
+
+
+    public float moveSpeed { get { return Speed; } }
 	public float jumpForce { get { return JumpForce; } }
 	public float lookRotationDampFactor { get { return LookRotationDampFactor; } }
 
 	// chronos in game Option
-	private float CP { get; set; }
-	private float TP { get; set; }
+	private float CP { get ; set; }
+	private float TP { get ; set; }
 
 
 	bool isAccel = false;
