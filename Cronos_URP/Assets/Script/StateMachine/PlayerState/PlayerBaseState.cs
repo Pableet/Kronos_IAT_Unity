@@ -54,7 +54,6 @@ public abstract class PlayerBaseState : State
 
 	/// <summary>
 	/// 중력을 적용한다.
-	/// 좀 잘 모르겠음
 	/// </summary>
 	protected void ApplyGravity()
 	{
