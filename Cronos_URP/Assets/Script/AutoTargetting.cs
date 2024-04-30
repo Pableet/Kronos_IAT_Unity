@@ -5,74 +5,106 @@ using Cinemachine;
 using UnityEngine.Tilemaps;
 using UnityEngine.Rendering.Universal.Internal;
 using System.Data.SqlTypes;
+using UnityEngine.Purchasing.Extension;
 public class AutoTargetting : MonoBehaviour
 {
 
-    public CinemachineFreeLook freeLookCamera;
-    public float horizontalSpeed = 10.0f; // 수평 회전 속도
-    public float verticalSpeed = 5.0f;    // 수직 회전 속도
+	public CinemachineFreeLook freeLookCamera;
+	public float horizontalSpeed = 10.0f; // 수평 회전 속도
+	public float verticalSpeed = 5.0f;    // 수직 회전 속도
 
-    public GameObject Player;       // 플레이어
-    public Transform Target;       // Player가 바라볼 대상
-    public Transform PlayerObject; // 플레이어 오브젝트 
-    public Transform maincamTransform;
+	public GameObject Player;       // 플레이어
+	public Transform Target;       // Player가 바라볼 대상
+	public Transform PlayerObject; // 플레이어 오브젝트 
+	public Transform maincamTransform;
 
-    public float AixsDamp = 0.99f;  // 어느정도까지 따라갈 것인가!
+	public float AixsDamp = 0.99f;  // 어느정도까지 따라갈 것인가!
 
-    private PlayerStateMachine stateMachine;
+	private PlayerStateMachine stateMachine;
+	private MonsterSelector monsterSelector;
 
-    private float xDotResult;
+	private Vector3 direction;
+	private float xDotResult;
+	bool istargetting;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        stateMachine = Player.GetComponent<PlayerStateMachine>();
-    }
+	// Start is called before the first frame update
+	void Start()
+	{
+		stateMachine = Player.GetComponent<PlayerStateMachine>();
 
-    // Update is called once per frame
-    void Update()
-    {
-        // 캐릭터가 바라볼 방향을 정한다.
-        Vector3 direction = Target.position - PlayerObject.position;
-        direction.y = 0;    // y축으로는 회전하지 않는다.
+	}
 
-        xDotResult = Vector3.Dot(maincamTransform.right, PlayerObject.right);
+	// Update is called once per frame
+	void Update()
+	{
+		if (monsterSelector == null)
+		{
+			monsterSelector = GetComponent<MonsterSelector>();
 
-        // 공격이 일어났을때 캐릭터가 몬스터 방향으로 몸을 돌린다.
-        if (Input.GetButton("Fire1"))
-        {
-            stateMachine.transform.rotation = Quaternion.Slerp(stateMachine.transform.rotation, Quaternion.LookRotation(direction.normalized), 1f);
+		}
 
-            float targetPos = TransformPosition(maincamTransform, Target.position).x;
+		// Player가 바라볼 방향을 정한다.
+		direction = Target.position - PlayerObject.position;
+		direction.y = 0;    // y축으로는 회전하지 않는다.
 
-            if (targetPos > 0)
-            {
-                // 카메라가 플레이어 뒤에서 몬스터를 바라본다
-                if (xDotResult < AixsDamp)
-                {
-                    TurnCam(horizontalSpeed * Time.deltaTime);
-                }
-            }
-            else // 오른쪽에 있다면
-            {
-                if (xDotResult < AixsDamp)
-                {
-                    TurnCam(horizontalSpeed * Time.deltaTime * -1f);
-                }
-            }
-        }
-    }
+		xDotResult = Vector3.Dot(maincamTransform.right, PlayerObject.right);
 
-    // 카메라를 돌린다
-    private void TurnCam(float value)
-    {
-        freeLookCamera.m_XAxis.Value += value;
-    }
+		// 공격이 일어났을때 
+		if (Input.GetButton("Fire1"))
+		{
+			istargetting = true;
+			monsterSelector.FindTarget();
+		}
+		if (istargetting)
+		{
+			AutoTarget();
+		}
+	}
 
-    // 카메라위치에서 타겟을 바라본다
-    private Vector3 TransformPosition(Transform transform, Vector3 worldPosition)
-    {
-        return transform.worldToLocalMatrix.MultiplyPoint3x4(worldPosition);
-    }
+	private void AutoTarget()
+	{
+		// Player가 몬스터 방향으로 몸을 돌린다.
+		stateMachine.transform.rotation = Quaternion.Slerp(stateMachine.transform.rotation, Quaternion.LookRotation(direction.normalized), 1f);
+
+		// 타겟이 Player보다 왼쪽에 있는지 오른쪽에 있는지 검사한다.
+		float targetPos = TransformPosition(maincamTransform, Target.position).x;
+
+		// 카메라가 왼쪽에 있다면
+		if (targetPos > 0)
+		{
+			// 카메라는 시계방향으로 돌아간다.
+			if (xDotResult < AixsDamp)
+			{
+				TurnCam(horizontalSpeed * Time.deltaTime);
+			}
+			else
+			{
+				istargetting = false;
+			}
+		}
+		else // 오른쪽에 있다면
+		{
+			if (xDotResult < AixsDamp)
+			{
+				TurnCam(horizontalSpeed * Time.deltaTime * -1f);
+			}
+			else
+			{
+				istargetting = false;
+			}
+		}
+	}
+
+	// 카메라를 돌린다
+	private void TurnCam(float value)
+	{
+		freeLookCamera.m_XAxis.Value += value;
+	}
+
+	// 특정 포지션을 특정 트렌스폼에서 바라본다.
+	private Vector3 TransformPosition(Transform transform, Vector3 worldPosition)
+	{
+		return transform.worldToLocalMatrix.MultiplyPoint3x4(worldPosition);
+	}
 
 }
