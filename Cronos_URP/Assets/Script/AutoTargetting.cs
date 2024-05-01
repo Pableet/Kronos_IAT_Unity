@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 using UnityEngine.Rendering.Universal.Internal;
 using System.Data.SqlTypes;
 using UnityEngine.Purchasing.Extension;
+using Unity.Mathematics;
 public class AutoTargetting : MonoBehaviour
 {
 
@@ -68,30 +69,14 @@ public class AutoTargetting : MonoBehaviour
 
 		// 타겟이 Player보다 왼쪽에 있는지 오른쪽에 있는지 검사한다.
 		float targetPos = TransformPosition(maincamTransform, Target.position).x;
-
-		// 카메라가 왼쪽에 있다면
-		if (targetPos > 0)
+		if (xDotResult < AixsDamp)
 		{
-			// 카메라는 시계방향으로 돌아간다.
-			if (xDotResult < AixsDamp)
-			{
-				TurnCam(horizontalSpeed * Time.deltaTime);
-			}
-			else
-			{
-				istargetting = false;
-			}
+			// targetpos로 좌우를 구분해서 돌린다.
+			TurnCam(horizontalSpeed * Time.deltaTime * (targetPos/math.abs(targetPos)));
 		}
-		else // 오른쪽에 있다면
+		else
 		{
-			if (xDotResult < AixsDamp)
-			{
-				TurnCam(horizontalSpeed * Time.deltaTime * -1f);
-			}
-			else
-			{
-				istargetting = false;
-			}
+			istargetting = false;
 		}
 	}
 
