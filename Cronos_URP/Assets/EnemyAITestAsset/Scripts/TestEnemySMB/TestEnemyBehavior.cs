@@ -31,6 +31,7 @@ public class TestEnemyBehavior : MonoBehaviour
     public EnemyController controller { get { return _controller; } }
     public TargetDistributor.TargetFollower followerData { get { return _followerInstance; } }
 
+    public MeleeWeapon meleeWeapon;
     private TargetScanner playerScanner;
     public float timeToStopPursuit;
 
@@ -40,17 +41,22 @@ public class TestEnemyBehavior : MonoBehaviour
 
     protected float _timerSinceLostTarget = 0.0f;
 
-    void OnEnable()
+    void Awake()
     {
         _controller = GetComponentInChildren<EnemyController>();
 
-        playerScanner = new TargetScanner(_controller.player);
+        meleeWeapon.SetOwner(gameObject);
+    }
 
-        UpdatePlayerScanner();
+    void OnEnable()
+    {
+        SceneLinkedSMB<TestEnemyBehavior>.Initialise(_controller.animator, this);
+
+        playerScanner = new TargetScanner(_controller.player);
 
         originalPosition = transform.position;
 
-        SceneLinkedSMB<TestEnemyBehavior>.Initialise(_controller.animator, this);
+        UpdatePlayerScanner();
     }
 
     protected void OnDisable()
@@ -218,6 +224,15 @@ public class TestEnemyBehavior : MonoBehaviour
     public void TriggerAttack()
     {
         _controller.animator.SetTrigger(hashAttack);
+    }
+    public void AttackBegin()
+    {
+        meleeWeapon.BeginAttack(false);
+    }
+
+    public void AttackEnd()
+    {
+        meleeWeapon.EndAttack();
     }
 
     public void SetNearBase(bool nearBase)
