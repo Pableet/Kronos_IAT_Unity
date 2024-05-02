@@ -2,13 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
+
+/// <summary>
+/// StateMachineBehaviour 를 상속받아 추가 기능성을 더한 클래스.
+/// StateMucine을 가진 객체의 모노비헤이버를 불러올 수 있고,
+/// Enter / Update /  Exit 이벤트 외에도 애니메이션 트랜지션에 대한 업데이트가 추가되었다.
+/// </summary>
+/// <typeparam name="TMonoBehaviour">MonoBehaviour를 상속받은 클래스</typeparam>
 public class SceneLinkedSMB<TMonoBehaviour> : SealedSMB
         where TMonoBehaviour : MonoBehaviour
 {
     protected TMonoBehaviour _monoBehaviour;
 
-    bool m_FirstFrameHappened;
-    bool m_LastFrameHappened;
+    bool _firstFrameHappened;
+    bool _lastFrameHappened;
 
     public static void Initialise(Animator animator, TMonoBehaviour monoBehaviour)
     {
@@ -28,7 +35,7 @@ public class SceneLinkedSMB<TMonoBehaviour> : SealedSMB
 
     public sealed override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller)
     {
-        m_FirstFrameHappened = false;
+        _firstFrameHappened = false;
 
         OnSLStateEnter(animator, stateInfo, layerIndex);
         OnSLStateEnter(animator, stateInfo, layerIndex, controller);
@@ -45,23 +52,23 @@ public class SceneLinkedSMB<TMonoBehaviour> : SealedSMB
             OnSLTransitionToStateUpdate(animator, stateInfo, layerIndex, controller);
         }
 
-        if (!animator.IsInTransition(layerIndex) && m_FirstFrameHappened)
+        if (!animator.IsInTransition(layerIndex) && _firstFrameHappened)
         {
             OnSLStateNoTransitionUpdate(animator, stateInfo, layerIndex);
             OnSLStateNoTransitionUpdate(animator, stateInfo, layerIndex, controller);
         }
 
-        if (animator.IsInTransition(layerIndex) && !m_LastFrameHappened && m_FirstFrameHappened)
+        if (animator.IsInTransition(layerIndex) && !_lastFrameHappened && _firstFrameHappened)
         {
-            m_LastFrameHappened = true;
+            _lastFrameHappened = true;
 
             OnSLStatePreExit(animator, stateInfo, layerIndex);
             OnSLStatePreExit(animator, stateInfo, layerIndex, controller);
         }
 
-        if (!animator.IsInTransition(layerIndex) && !m_FirstFrameHappened)
+        if (!animator.IsInTransition(layerIndex) && !_firstFrameHappened)
         {
-            m_FirstFrameHappened = true;
+            _firstFrameHappened = true;
 
             OnSLStatePostEnter(animator, stateInfo, layerIndex);
             OnSLStatePostEnter(animator, stateInfo, layerIndex, controller);
@@ -76,91 +83,73 @@ public class SceneLinkedSMB<TMonoBehaviour> : SealedSMB
 
     public sealed override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller)
     {
-        m_LastFrameHappened = false;
+        _lastFrameHappened = false;
 
         OnSLStateExit(animator, stateInfo, layerIndex);
         OnSLStateExit(animator, stateInfo, layerIndex, controller);
     }
 
     /// <summary>
-    /// Called by a MonoBehaviour in the scene during its Start function.
+    ///  씬 내 Monobehviour 가 시작 함수를 호출할 때 같이 호출.
     /// </summary>
     public virtual void OnStart(Animator animator) { }
 
+    /// ----------------------------------------------------------------------------------------------------------------------------------------
+    /// 트렌지션 -> 스테이트 
+    /// ----------------------------------------------------------------------------------------------------------------------------------------
+
     /// <summary>
-    /// Called before Updates when execution of the state first starts (on transition to the state).
+    /// 스테이트의 실행이 처음 시작될 때(트랜지션 -> 스테이트 시) Update 이전에 호출.
     /// </summary>
     public virtual void OnSLStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) { }
-
-    /// <summary>
-    /// Called after OnSLStateEnter every frame during transition to the state.
-    /// </summary>
-    public virtual void OnSLTransitionToStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) { }
-
-    /// <summary>
-    /// Called on the first frame after the transition to the state has finished.
-    /// </summary>
-    public virtual void OnSLStatePostEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) { }
-
-    /// <summary>
-    /// Called every frame after PostEnter when the state is not being transitioned to or from.
-    /// </summary>
-    public virtual void OnSLStateNoTransitionUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) { }
-
-    /// <summary>
-    /// Called on the first frame after the transition from the state has started.  Note that if the transition has a duration of less than a frame, this will not be called.
-    /// </summary>
-    public virtual void OnSLStatePreExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) { }
-
-    /// <summary>
-    /// Called after OnSLStatePreExit every frame during transition to the state.
-    /// </summary>
-    public virtual void OnSLTransitionFromStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) { }
-
-    /// <summary>
-    /// Called after Updates when execution of the state first finshes (after transition from the state).
-    /// </summary>
-    public virtual void OnSLStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) { }
-
-    /// <summary>
-    /// Called before Updates when execution of the state first starts (on transition to the state).
-    /// </summary>
     public virtual void OnSLStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller) { }
 
     /// <summary>
-    /// Called after OnSLStateEnter every frame during transition to the state.
+    /// 트렌지션 -> 스테이트 중에 매 프레임마다 호출. OnSLStateEnter 이후에 호출.
     /// </summary>
+    public virtual void OnSLTransitionToStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) { }
     public virtual void OnSLTransitionToStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller) { }
 
     /// <summary>
-    /// Called on the first frame after the transition to the state has finished.
+    /// 트렌지션 -> 스테이트 후 첫 번째 프레임에 호출.
     /// </summary>
+    public virtual void OnSLStatePostEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) { }
     public virtual void OnSLStatePostEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller) { }
 
-    /// <summary>
-    /// Called every frame when the state is not being transitioned to or from.
-    /// </summary>
-    public virtual void OnSLStateNoTransitionUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller) { }
+    /// ----------------------------------------------------------------------------------------------------------------------------------------
+    /// Update
+    /// ----------------------------------------------------------------------------------------------------------------------------------------
 
     /// <summary>
-    /// Called on the first frame after the transition from the state has started.  Note that if the transition has a duration of less than a frame, this will not be called.
+    /// 스테이트가 트렌지션 되지 않을 때(트렌지션 중이 아닐 때) 매 프레임마다 호출됨.
     /// </summary>
+    public virtual void OnSLStateNoTransitionUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) { }
+    public virtual void OnSLStateNoTransitionUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller) { }
+
+    /// ----------------------------------------------------------------------------------------------------------------------------------------
+    /// 스테이트 -> 트렌지션
+    /// ----------------------------------------------------------------------------------------------------------------------------------------
+
+    /// 스테이트 -> 트렌지션이 시작된 첫 번째 프레임에 호출됩. 전환의 지속 시간이 1 프레임보다 짧으면 호출되지 않음.
+    public virtual void OnSLStatePreExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) { }
     public virtual void OnSLStatePreExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller) { }
 
     /// <summary>
-    /// Called after OnSLStatePreExit every frame during transition to the state.
+    /// 스테이트 -> 트렌지션 중에 매 프레임마다 OnSLStatePreExit 이후에 호출.
     /// </summary>
+    public virtual void OnSLTransitionFromStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) { }
     public virtual void OnSLTransitionFromStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller) { }
 
     /// <summary>
     /// Called after Updates when execution of the state first finshes (after transition from the state).
+    /// 현재 스테이트에서 나가는 트렌지션이 완료될 때 호출.
     /// </summary>
+    public virtual void OnSLStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) { }
     public virtual void OnSLStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller) { }
 }
 
-//This class repalce normal StateMachineBehaviour. It add the possibility of having direct reference to the object
-//the state is running on, avoiding the cost of retrienving it through a GetComponent every time.
-//c.f. Documentation for more in depth explainations.
+// 실행 중인 객체에 대한 직접 참조히할 수 있도록 한다.
+// 상태가 실행 중인 객체를 직접 참조할 수 있는 가능성을 추가하여 매번 GetComponent를 통해 가져오는 비용을 피할 수 있다.
 public abstract class SealedSMB : StateMachineBehaviour
 {
     public sealed override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) { }
