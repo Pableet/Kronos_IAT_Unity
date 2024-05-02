@@ -22,7 +22,7 @@ public class TestEnemyBehavior : MonoBehaviour
     public float detectionAngle = 90f;
     public float maxHeightDifference = 1.5f;
     public int viewBlockerLayerMask = 0;
-    
+
     [System.NonSerialized]
     public float attackDistance = 2;
 
@@ -207,7 +207,7 @@ public class TestEnemyBehavior : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision collision)
-	{
+    {
         if (collision.gameObject.CompareTag("Player"))
         {
             print(true);
@@ -232,7 +232,10 @@ public class TestEnemyBehavior : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        playerScanner.EditorGizmo(transform);
+        if (playerScanner != null)
+        {
+            playerScanner.EditorGizmo(transform);
+        }
 
         // 공격 범위
         Gizmos.color = Color.red;
