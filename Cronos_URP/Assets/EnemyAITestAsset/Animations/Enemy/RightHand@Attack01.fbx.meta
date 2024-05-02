@@ -58,7 +58,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.1672355
-        functionName: StartLookAtTarget
+        functionName: StopLookAtTarget
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -79,7 +79,7 @@ ModelImporter:
         intParameter: 0
         messageOptions: 0
       - time: 0.83619416
-        functionName: StopLookAtTarget
+        functionName: StartLookAtTarget
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
