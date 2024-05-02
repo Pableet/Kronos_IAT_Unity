@@ -19,9 +19,19 @@ public class TestEnemySMBIdle : SceneLinkedSMB<TestEnemyBehavior>
         base.OnSLStateNoTransitionUpdate(animator, stateInfo, layerIndex);
 
         _monoBehaviour.FindTarget();
+
         if (_monoBehaviour.target != null)
         {
-            _monoBehaviour.StartPursuit();
+            Vector3 toTarget = _monoBehaviour.target.transform.position - _monoBehaviour.transform.position;
+
+            if (toTarget.sqrMagnitude < _monoBehaviour.attackDistance * _monoBehaviour.attackDistance)
+            {
+                _monoBehaviour.TriggerAttack();
+            }
+            else
+            {
+                _monoBehaviour.StartPursuit();
+            }
         }
     }
 }

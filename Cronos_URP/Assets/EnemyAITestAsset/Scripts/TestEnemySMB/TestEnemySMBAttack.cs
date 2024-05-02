@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public class TestEnemySMBAttack : SceneLinkedSMB<TestEnemyBehavior>
 {
@@ -11,15 +12,16 @@ public class TestEnemySMBAttack : SceneLinkedSMB<TestEnemyBehavior>
         base.OnSLStateEnter(animator, stateInfo, layerIndex);
 
         _monoBehaviour.controller.SetFollowNavmeshAgent(false);
-
-        m_AttackPosition = _monoBehaviour.target.transform.position;
-        Vector3 toTarget = m_AttackPosition - _monoBehaviour.transform.position;
-        toTarget.y = 0;
-
-        _monoBehaviour.transform.forward = toTarget.normalized;
-        _monoBehaviour.controller.SetForward(_monoBehaviour.transform.forward);
-
+        _monoBehaviour.controller.SetRotationLerpSeedFast();
     }
+
+    public override void OnSLTransitionFromStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        base.OnSLTransitionFromStateUpdate(animator, stateInfo, layerIndex);
+
+        _monoBehaviour.StartLookAtTarget();
+    }
+
 
     public override void OnSLStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
