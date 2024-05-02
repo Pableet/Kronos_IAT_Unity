@@ -925,6 +925,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5975322953298514708, guid: 778c47f3e32adda4aa33ea6ac46cea9d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1733157539}
+    - targetCorrespondingSourceObject: {fileID: 5975322953298514708, guid: 778c47f3e32adda4aa33ea6ac46cea9d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1733157544}
   m_SourcePrefab: {fileID: 100100000, guid: 778c47f3e32adda4aa33ea6ac46cea9d, type: 3}
 --- !u!1 &1733157532 stripped
 GameObject:
@@ -960,6 +963,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arcsCount: 2
+--- !u!114 &1733157544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733157532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7c807bc4a94ff6449756000c7ad95cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHitPoints: 3
+  invulnerabiltyTime: 1
+  hitAngle: 360
+  hitForwardRotation: 360
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnReceiveDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHitWhileInvulnerable:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBecomeVulnerable:
+    m_PersistentCalls:
+      m_Calls: []
+  OnResetDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  onDamageMessageReceivers: []
 --- !u!1 &1764214107
 GameObject:
   m_ObjectHideFlags: 0
@@ -1025,6 +1060,17 @@ ReflectionProbe:
   m_UseOcclusionCulling: 1
   m_Importance: 1
   m_CustomBakedTexture: {fileID: 0}
+--- !u!114 &1784874436 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3743238336904529619, guid: 5ee319622ff1152429f9de99628f6bdc, type: 3}
+  m_PrefabInstance: {fileID: 3520892390335114319}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afdff8ec34ffe30418fc71af88bd022b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1847032175 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4907778919030151439, guid: 778c47f3e32adda4aa33ea6ac46cea9d, type: 3}
@@ -1255,7 +1301,7 @@ PrefabInstance:
     - target: {fileID: 6689868275893576054, guid: 5ee319622ff1152429f9de99628f6bdc, type: 3}
       propertyPath: meleeWeapon
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1784874436}
     - target: {fileID: 6689868275893576054, guid: 5ee319622ff1152429f9de99628f6bdc, type: 3}
       propertyPath: detectionRadius
       value: 8
