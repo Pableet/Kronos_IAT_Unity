@@ -10,6 +10,7 @@ public class PlayerPunchState : PlayerBaseState
 	{
 		stateMachine.Animator.Rebind();
 		stateMachine.Animator.CrossFadeInFixedTime(AttackHash, CrossFadeDuration);
+		stateMachine.EffectManager.PlayerSlash();
 	}
 	public override void Tick()
 	{
@@ -17,11 +18,20 @@ public class PlayerPunchState : PlayerBaseState
 		AnimatorStateInfo stateInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
 
 		// 애니메이션이 끝났다면
+		if (stateInfo.IsName("Hook") && stateInfo.normalizedTime >= 0.3)
+		{
+			stateMachine.HitStop.isHit = true;
+			stateMachine.HitStop.StartCoroutine(stateMachine.HitStop.HitStopCoroutine());
+		}
+
+
+		// 애니메이션이 끝났다면
 		if (stateInfo.IsName("Hook") && stateInfo.normalizedTime >= 1.0f && stateInfo.normalizedTime <= 1.1f)
 		{
 			stateMachine.SwitchState(new PlayerMoveState(stateMachine));
 		}
 	}
+
 	public override void Exit()
 	{
 	}

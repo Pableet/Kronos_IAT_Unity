@@ -103,14 +103,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 951cf50ae0af5ec4ba1f24f928283755, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerScanner:
-    heightOffset: 0
-    detectionRadius: 0
-    detectionAngle: 0
-    maxHeightDifference: 0
-    viewBlockerLayerMask:
-      serializedVersion: 2
-      m_Bits: 0
+  heightOffset: 1.6
+  detectionRadius: 4
+  detectionAngle: 90
+  maxHeightDifference: 1.5
+  viewBlockerLayerMask: 0
   timeToStopPursuit: 0
 --- !u!114 &5304896142893553457
 MonoBehaviour:
@@ -160,8 +157,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99106cca51fb2d44f89bbe75254a2679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   interpolateTurning: 0
   applyAnimationRotation: 0
+  rotationLerpSpeed: 0
 --- !u!195 &4003746447211628786
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -2,7 +2,8 @@
 
 public class PlayerJumpState : PlayerBaseState
 {
-	private readonly int JumpHash = Animator.StringToHash("Jump");
+	//private readonly int JumpHash = Animator.StringToHash("Jump");
+	private readonly int JumpHash = Animator.StringToHash("Parry");
 	private const float CrossFadeDuration = 0.3f;
 
 	public PlayerJumpState(PlayerStateMachine stateMachine) : base(stateMachine) { }
