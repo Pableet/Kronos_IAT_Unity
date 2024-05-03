@@ -15,7 +15,8 @@ public class PlayerMoveState : PlayerBaseState
 		stateMachine.Velocity.y = Physics.gravity.y;
 		stateMachine.Animator.CrossFadeInFixedTime(MoveBlendTreeHash, CrossFadeDuration);
 		
-		stateMachine.InputReader.onJumpPerformed += SwitchToJumpState;	// 스테이트에 돌입할때 input에 맞는 함수를 넣어준다
+		//stateMachine.InputReader.onJumpPerformed += SwitchToJumpState;	// 스테이트에 돌입할때 input에 맞는 함수를 넣어준다
+		stateMachine.InputReader.onJumpPerformed += SwitchToParryState;	// 스테이트에 돌입할때 input에 맞는 함수를 넣어준다
 		stateMachine.InputReader.onLAttackPerformed += SwitchToLAttackState;
 		stateMachine.InputReader.onRAttackPerformed += SwitchToRAttackState;
 	}
@@ -49,7 +50,8 @@ public class PlayerMoveState : PlayerBaseState
 	public override void Exit()
 	{
 		// 상태를 탈출할때는 jump의 대한 Action을 제거해준다.
-		stateMachine.InputReader.onJumpPerformed -= SwitchToJumpState;
+		//stateMachine.InputReader.onJumpPerformed -= SwitchToJumpState;
+		stateMachine.InputReader.onJumpPerformed -= SwitchToParryState;
 		stateMachine.InputReader.onLAttackPerformed -= SwitchToLAttackState;
 		stateMachine.InputReader.onRAttackPerformed -= SwitchToRAttackState;
 
@@ -59,6 +61,10 @@ public class PlayerMoveState : PlayerBaseState
 	private void SwitchToJumpState()
 	{
 		stateMachine.SwitchState(new PlayerJumpState(stateMachine));
+	}
+	private void SwitchToParryState()
+	{
+		stateMachine.SwitchState(new PlayerParryState(stateMachine));
 	}
 
 	private void SwitchToLAttackState()
