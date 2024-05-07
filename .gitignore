@@ -4,7 +4,7 @@
 ## For ChronosProject
 # 리소스관리를 위한 ignore
 4_Resources/
-
+.svn/
 
 ### Unity ###
 # This .gitignore file should be placed at the root of your Unity project directory
