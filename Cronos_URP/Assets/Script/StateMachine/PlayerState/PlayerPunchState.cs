@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerPunchState : PlayerBaseState
 {
@@ -8,7 +9,7 @@ public class PlayerPunchState : PlayerBaseState
 	public PlayerPunchState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 	public override void Enter()
 	{
-		stateMachine.Animator.Rebind();
+        stateMachine.Animator.Rebind();
 		stateMachine.Animator.CrossFadeInFixedTime(AttackHash, CrossFadeDuration);
 	}
 	public override void Tick()

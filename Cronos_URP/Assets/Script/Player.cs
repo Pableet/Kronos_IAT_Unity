@@ -35,4 +35,9 @@ public class Player : MonoBehaviour
 		// 성능적인 이슈가 없을거라고생각되지가 않는다
 		CurrentState = PlayerFSM.GetState().GetType().Name;
 	}
+
+	void OnSlashEvent()
+	{
+
+	}
 }
