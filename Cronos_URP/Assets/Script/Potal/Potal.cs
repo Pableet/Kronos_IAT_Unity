@@ -20,13 +20,12 @@ public class Potal : MonoBehaviour
 		cubeTM.Rotate(0f, rotSpeed * Time.deltaTime, 0f);
 	}
 
-	public void OnCollisionEnter(Collision collision)
+	private void OnCollisionEnter(Collision collision)
 	{
 		if (collision.gameObject.CompareTag("Player"))
 		{
 
-			Debug.Log("나 맞았냐");
-		}
 
+		}
 	}
 }
