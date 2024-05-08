@@ -79,17 +79,17 @@ public class EnemyController : MonoBehaviour
 
     public void SetRotationLerpSeedFast()
     {
-        rotationLerpSpeed = 100f;
+        rotationLerpSpeed = 14f;
     }
 
     public void SetRotationLerpSeedNormal()
     {
-        rotationLerpSpeed = 60f;
+        rotationLerpSpeed = 3f;
     }
 
     public void SetRotationLerpSeedSlow()
     {
-        rotationLerpSpeed = 10f;
+        rotationLerpSpeed = 1f;
     }
 
     public void SetRotationLerpSeedZero()
