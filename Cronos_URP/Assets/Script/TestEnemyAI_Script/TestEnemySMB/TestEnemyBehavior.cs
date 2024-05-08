@@ -16,6 +16,10 @@ public class TestEnemyBehavior : MonoBehaviour
     public static readonly int hashInPursuit = Animator.StringToHash("inPursuit");
     public static readonly int hashNearBase = Animator.StringToHash("nearBase");
 
+    public MeleeWeapon meleeWeapon;
+    public TargetScanner playerScanner = new TargetScanner();
+    public float timeToStopPursuit;
+
     [System.NonSerialized]
     public float attackDistance = 2;
 
@@ -23,10 +27,6 @@ public class TestEnemyBehavior : MonoBehaviour
     public Vector3 originalPosition { get; protected set; }
     public EnemyController controller { get { return _controller; } }
     public TargetDistributor.TargetFollower followerData { get { return _followerInstance; } }
-
-    public MeleeWeapon meleeWeapon;
-    public TargetScanner playerScanner = new TargetScanner();
-    public float timeToStopPursuit;
 
     private GameObject _target;
     private EnemyController _controller;
@@ -54,10 +54,6 @@ public class TestEnemyBehavior : MonoBehaviour
     {
         if (_followerInstance != null)
             _followerInstance.distributor.UnregisterFollower(_followerInstance);
-    }
-
-    private void Update()
-    {
     }
 
     private void FixedUpdate()
@@ -225,7 +221,6 @@ public class TestEnemyBehavior : MonoBehaviour
     {
         _controller.animator.SetBool(hashInPursuit, inPursuit);
     }
-
 
     private void OnDrawGizmos()
     {

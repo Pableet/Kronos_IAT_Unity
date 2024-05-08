@@ -9,6 +9,15 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour
     public static readonly int hashInPursuit = Animator.StringToHash("inPursuit");
     public static readonly int hashNearBase = Animator.StringToHash("nearBase");
 
+    public MeleeWeapon meleeWeapon;
+    //public TargetScanner playerScanner = new TargetScanner();
+
+    /// TO-DO
+    ///    인스펙터에서 일일이 넣어주는 게 아니라 
+    ///    외부 다른 매니저가 관리했으면 좋겠다.
+    public CombatZone combatZone;
+    public float timeToStopPursuit;
+
     [System.NonSerialized]
     public float attackDistance = 2;
 
@@ -16,10 +25,6 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour
     public Vector3 originalPosition { get; protected set; }
     public EnemyController controller { get { return _controller; } }
     public TargetDistributor.TargetFollower followerData { get { return _followerInstance; } }
-
-    public MeleeWeapon meleeWeapon;
-    private TargetScanner playerScanner = new TargetScanner();
-    public float timeToStopPursuit;
 
     private GameObject _target;
     private EnemyController _controller;
@@ -38,7 +43,7 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour
     {
         SceneLinkedSMB<TestCombatZoneEnemyBehavior>.Initialise(_controller.animator, this);
 
-        playerScanner.target = _controller.player;
+        combatZone.target = _controller.player;
 
         originalPosition = transform.position;
     }
@@ -61,7 +66,7 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour
     public void FindTarget()
     {
         // 타겟이 이미 보이는 경우 높이 차이를 무시한다.
-        var target = playerScanner.Detect(transform, _target == null);
+        var target = combatZone.Detect(transform, _target == null);
 
         if (_target == null)
         {
@@ -89,7 +94,7 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour
                 {
                     Vector3 toTarget = _target.transform.position - transform.position;
 
-                    if (toTarget.sqrMagnitude > playerScanner.detectionRadius * playerScanner.detectionRadius)
+                    //if (toTarget.sqrMagnitude > playerScanner.detectionRadius * playerScanner.detectionRadius)
                     {
                         if (_followerInstance != null)
                             _followerInstance.distributor.UnregisterFollower(_followerInstance);
@@ -214,6 +219,9 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour
         _controller.animator.SetBool(hashInPursuit, inPursuit);
     }
 
+    private void OnDrawGizmos()
+    {
+    }
 
     private void OnDrawGizmosSelected()
     {

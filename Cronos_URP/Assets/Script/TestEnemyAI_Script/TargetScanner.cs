@@ -4,8 +4,8 @@ using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using static UnityEngine.UIElements.UxmlAttributeDescription;
 
-    // enemy 객체가 플레이를 찾고 추적하는 데 사용된다.
-    [System.Serializable]
+// enemy 객체가 플레이를 찾고 추적하는 데 사용된다.
+[System.Serializable]
 public class TargetScanner
 {
     public float heightOffset;
@@ -16,7 +16,6 @@ public class TargetScanner
     public LayerMask viewBlockerLayerMask;
 
     public GameObject target { private get; set; }
-
 
     /// <summary>
     ///  매개변수에 따라 플레이어가 표시되는지 확인한다.
@@ -35,7 +34,7 @@ public class TargetScanner
         Vector3 toPlayerTop = target.transform.position + Vector3.up * 1.5f - eyePos;
 
         if (useHeightDifference && Mathf.Abs(toPlayer.y + heightOffset) > maxHeightDifference)
-        { 
+        {
             return null;
         }
 
@@ -66,7 +65,6 @@ public class TargetScanner
 
         return null;
     }
-
 
 #if UNITY_EDITOR
 
