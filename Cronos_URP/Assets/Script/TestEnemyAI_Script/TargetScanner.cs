@@ -8,20 +8,15 @@ using static UnityEngine.UIElements.UxmlAttributeDescription;
     [System.Serializable]
 public class TargetScanner
 {
-
-    public TargetScanner(GameObject target)
-    {
-        _target = target;
-    }
-
-    public float heightOffset/* = 0.0f*/;
-    public float detectionRadius/* = 10*/;
+    public float heightOffset;
+    public float detectionRadius;
     [Range(0.0f, 360.0f)]
-    public float detectionAngle/* = 270*/;
-    public float maxHeightDifference/* = 1.0f*/;
+    public float detectionAngle;
+    public float maxHeightDifference;
     public LayerMask viewBlockerLayerMask;
 
-    private GameObject _target;
+    public GameObject target { private get; set; }
+
 
     /// <summary>
     ///  매개변수에 따라 플레이어가 표시되는지 확인한다.
@@ -30,14 +25,14 @@ public class TargetScanner
     /// /// <param name="useHeightDifference">If계산에서 높이 차이를 최대 높이 차이 값과 비교해야 하는지 아니면 무시해야 하는지.</returns>
     public GameObject Detect(Transform detector, bool useHeightDifference = true)
     {
-        if (_target == null)
+        if (target == null)
         {
             return null;
         }
 
         Vector3 eyePos = detector.position + Vector3.up * heightOffset;
-        Vector3 toPlayer = _target.transform.position - eyePos;
-        Vector3 toPlayerTop = _target.transform.position + Vector3.up * 1.5f - eyePos;
+        Vector3 toPlayer = target.transform.position - eyePos;
+        Vector3 toPlayerTop = target.transform.position + Vector3.up * 1.5f - eyePos;
 
         if (useHeightDifference && Mathf.Abs(toPlayer.y + heightOffset) > maxHeightDifference)
         { 
@@ -65,7 +60,7 @@ public class TargetScanner
                     viewBlockerLayerMask, QueryTriggerInteraction.Ignore);
 
                 if (canSee)
-                    return _target;
+                    return target;
             }
         }
 

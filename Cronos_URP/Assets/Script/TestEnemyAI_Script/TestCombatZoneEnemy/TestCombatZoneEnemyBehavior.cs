@@ -1,15 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.InputSystem.XR;
-using UnityEngine.WSA;
 
-/// <summary>
-/// TestEnemy 의 행동을 정의한다.
-/// </summary>
-[DefaultExecutionOrder(100)]
-public class TestEnemyBehavior : MonoBehaviour
+public class TestCombatZoneEnemyBehavior : MonoBehaviour
 {
     // 애니메이터의 파라미터 
     public static readonly int hashAttack = Animator.StringToHash("attack");
@@ -25,7 +18,7 @@ public class TestEnemyBehavior : MonoBehaviour
     public TargetDistributor.TargetFollower followerData { get { return _followerInstance; } }
 
     public MeleeWeapon meleeWeapon;
-    public TargetScanner playerScanner = new TargetScanner();
+    private TargetScanner playerScanner = new TargetScanner();
     public float timeToStopPursuit;
 
     private GameObject _target;
@@ -43,7 +36,7 @@ public class TestEnemyBehavior : MonoBehaviour
 
     void OnEnable()
     {
-        SceneLinkedSMB<TestEnemyBehavior>.Initialise(_controller.animator, this);
+        SceneLinkedSMB<TestCombatZoneEnemyBehavior>.Initialise(_controller.animator, this);
 
         playerScanner.target = _controller.player;
 
@@ -55,11 +48,6 @@ public class TestEnemyBehavior : MonoBehaviour
         if (_followerInstance != null)
             _followerInstance.distributor.UnregisterFollower(_followerInstance);
     }
-
-    private void Update()
-    {
-    }
-
     private void FixedUpdate()
     {
         LookAtTarget();
@@ -227,18 +215,11 @@ public class TestEnemyBehavior : MonoBehaviour
     }
 
 
-    private void OnDrawGizmos()
-    {
-        if (playerScanner != null)
-        {
-            playerScanner.EditorGizmo(transform);
-        }
-    }
-
     private void OnDrawGizmosSelected()
     {
         // 공격 범위
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackDistance);
+
     }
 }
