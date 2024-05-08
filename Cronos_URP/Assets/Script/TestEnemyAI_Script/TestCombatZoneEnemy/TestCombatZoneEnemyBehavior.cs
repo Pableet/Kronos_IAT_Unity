@@ -12,15 +12,12 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour
     public MeleeWeapon meleeWeapon;
     //public TargetScanner playerScanner = new TargetScanner();
 
-    /// TO-DO
-    ///    인스펙터에서 일일이 넣어주는 게 아니라 
-    ///    외부 다른 매니저가 관리했으면 좋겠다.
-    public CombatZone combatZone;
     public float timeToStopPursuit;
 
     [System.NonSerialized]
     public float attackDistance = 2;
 
+    public CombatZone combatZone { private get; set; }
     public GameObject target { get { return _target; } }
     public Vector3 originalPosition { get; protected set; }
     public EnemyController controller { get { return _controller; } }
@@ -43,8 +40,6 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour
     {
         SceneLinkedSMB<TestCombatZoneEnemyBehavior>.Initialise(_controller.animator, this);
 
-        combatZone.target = _controller.player;
-
         originalPosition = transform.position;
     }
 
@@ -60,7 +55,7 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour
         Vector3 toBase = originalPosition - transform.position;
         toBase.y = 0;
 
-        SetNearBase(toBase.sqrMagnitude < 0.1 * 0.1f);
+        SetNearBase(toBase.sqrMagnitude < 1f);
     }
 
     public void FindTarget()

@@ -48,7 +48,7 @@ Animator:
   m_GameObject: {fileID: 6228571436945459400}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 73ffbc06802a247cfb1b26f4ee67eba8, type: 3}
-  m_Controller: {fileID: 9100000, guid: 0606bea67e8cba5469fc80e732a4e70d, type: 2}
+  m_Controller: {fileID: 9100000, guid: 5fe953f8a6ee4a143b03b12ee94eef36, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -71,12 +71,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8e609c67eb07e246ac7d65b344e2603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heightOffset: 1.6
-  detectionRadius: 4
-  detectionAngle: 90
-  maxHeightDifference: 1.5
-  viewBlockerLayerMask: 0
-  meleeWeapon: {fileID: 0}
+  meleeWeapon: {fileID: 5648296741506854101}
   timeToStopPursuit: 0
 --- !u!114 &3591490548627695575
 MonoBehaviour:
