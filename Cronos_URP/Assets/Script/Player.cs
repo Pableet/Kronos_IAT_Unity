@@ -11,7 +11,6 @@ using UnityEngine;
 /// </summary>
 public class Player : MonoBehaviour
 {
-
 	[Header("State")]
 	[SerializeField] private string CurrentState;
 	[SerializeField] private string Attribute;
