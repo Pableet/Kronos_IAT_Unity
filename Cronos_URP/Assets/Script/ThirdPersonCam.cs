@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class ThirdPersonCam : MonoBehaviour
@@ -22,7 +23,7 @@ public class ThirdPersonCam : MonoBehaviour
     public GameObject topDownCam;
 
     Vector3 viewDir;
-
+    Vector3 dirToCombatLookAt;
 
     public CameraStyle currentStyle;
 
@@ -83,11 +84,13 @@ public class ThirdPersonCam : MonoBehaviour
         else if (currentStyle == CameraStyle.Combat)
         {
             // 전투시점 벡터는 카메라에서 combatLookAt오브젝트를 바라본 방향이다.
-            Vector3 dirToCombatLookAt = combatLookAt.position - new Vector3(transform.position.x, combatLookAt.position.y, transform.position.z);
+            dirToCombatLookAt = combatLookAt.position - new Vector3(transform.position.x, combatLookAt.position.y, transform.position.z);
             // 플레이어의 방향은 combatlookat의 방향과 같다.
             orientation.forward = dirToCombatLookAt.normalized;
             // 모델의 전방벡터도 combatlookat의 방향과 같다.
             playerObj.forward = dirToCombatLookAt.normalized;
+            //player.forward = dirToCombatLookAt.normalized;
+
         }
     }
 
@@ -100,6 +103,10 @@ public class ThirdPersonCam : MonoBehaviour
 
         if (newStyle == CameraStyle.Basic)
         {
+            thirdPersonCam.GetComponent<Transform>().position = Camera.main.transform.position;
+            orientation.forward = dirToCombatLookAt.normalized;
+            playerObj.forward = dirToCombatLookAt.normalized;
+            player.forward = dirToCombatLookAt.normalized;
             thirdPersonCam.SetActive(true);
         }
         if (newStyle == CameraStyle.Combat)
