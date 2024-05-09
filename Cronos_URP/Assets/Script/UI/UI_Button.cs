@@ -4,32 +4,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.Rendering;
 
-public class UI_Button : MonoBehaviour
+public class UI_Button : UI
 {
     [SerializeField]
     TextMeshProUGUI text;
 
-    enum Buttons
-    {
-        Button
-    }
-
-    enum Texts
-    {
-        Text,
-        TP
-    }
 
     private void Start()
     {
-        Bind(typeof(Buttons));
-    }
+        Bind<Button>(typeof(Buttons));
+        Bind<TextMeshProUGUI>(typeof(Texts));
+        Bind<GameObject>(typeof(GameObjects));
 
-    void Bind(Type type)
-    {
-
+        GetText((int)Texts.ButtonText).text = "Bind Test";
     }
 
     int tp = 99;
