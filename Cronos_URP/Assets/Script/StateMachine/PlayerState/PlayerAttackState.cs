@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerAttackState : PlayerBaseState
 {
@@ -25,8 +26,6 @@ public class PlayerAttackState : PlayerBaseState
 	{
 		// 현재 애니메이션 정보를 받아온다
 		AnimatorStateInfo stateInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
-
-
 
 		// 애니메이션이 끝났다면
 		if (stateInfo.IsName("Combo_01_1") && stateInfo.normalizedTime >= 1.0f && stateInfo.normalizedTime <= 1.1f)

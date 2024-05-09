@@ -31,8 +31,9 @@ public class PlayerMoveState : PlayerBaseState
 		}
 
 
+		ApplyGravity();
 		CalculateMoveDirection();	// 방향을 계산하고
-		FaceMoveDirection();		// 캐릭터 방향을 바꾸고
+		FaceMoveDirection();        // 캐릭터 방향을 바꾸고
 		Move();						// 이동한다.
 
 		float moveSpeed = 0.5f;

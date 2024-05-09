@@ -8,6 +8,11 @@ public class Respawn : MonoBehaviour
 {
 	GameObject playerObj;
 	Player player;
+
+	private void Awake()
+	{
+		//DontDestroyOnLoad(this.gameObject);
+	}
 	private void Start()
 	{
 		//0. 플레이어가 필요하다.

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+using UnityEngine.SceneManagement;
 
 
 /// <summary>
@@ -13,7 +14,6 @@ using UnityEngine.PlayerLoop;
 /// </summary>
 public class Player : MonoBehaviour
 {
-
 	[Header("State")]
 	[SerializeField] private string CurrentState;
 
@@ -40,6 +40,10 @@ public class Player : MonoBehaviour
 	PlayerData playerData = new PlayerData();
 	Transform playerTransform;
 
+	private void Awake()
+	{
+		//DontDestroyOnLoad(this.gameObject);
+	}
 	private void Start()
 	{
 		// 감속/가속 변경함수를 임시로 사용해보자
@@ -64,6 +68,7 @@ public class Player : MonoBehaviour
 
 	public void SavePlayerData()
 	{
+		playerData.saveScene = SceneManager.GetActiveScene().name; // 현재 씬의 이름을 가져온다
 		playerData.TP = TP;
 		playerData.TP = CP;
 		playerData.RespawnPos = playerTransform.position;
@@ -72,6 +77,10 @@ public class Player : MonoBehaviour
 
 	public void PlayerRespawn()
 	{
+		if(SceneManager.GetActiveScene().name != playerData.saveScene)
+		{
+			SceneManager.LoadScene(playerData.saveScene);
+		}
 		TP = playerData.TP;
 		CP = playerData.CP;
 		playerTransform.position = playerData.RespawnPos;
