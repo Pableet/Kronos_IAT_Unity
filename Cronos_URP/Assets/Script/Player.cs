@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 
 /// <summary>
@@ -14,15 +16,14 @@ public class Player : MonoBehaviour
 
 	[Header("State")]
 	[SerializeField] private string CurrentState;
-	[SerializeField] private string Attribute;
 
 	[Header("Move Option")]
 	[SerializeField] private float Speed = 5f;
 	[SerializeField] private float JumpForce = 10f;
 	[SerializeField] private float LookRotationDampFactor = 10f;
 
-	[Header("Play Option")]
-	[SerializeField] private float HitRange = 5f;
+	//[Header("Play Option")]
+	//[SerializeField] private float HitRange = 5f;
 
 
 	PlayerStateMachine PlayerFSM;
@@ -35,51 +36,51 @@ public class Player : MonoBehaviour
 	private float CP { get; set; }
 	private float TP { get; set; }
 
-
-	bool isAccel = false;
-
-	bool isone = true;
+	// 플레이어 데이터를 저장하고 respawn시 반영하는 데이터
+	PlayerData playerData = new PlayerData();
+	Transform playerTransform;
 
 	private void Start()
 	{
 		// 감속/가속 변경함수를 임시로 사용해보자
 		// 반드시 지워져야할 부분이지만 임시로 넣는다
-		Attribute = "Is Noting";
 		PlayerFSM = GetComponent<PlayerStateMachine>();
+		playerTransform = GetComponent<Transform>();
 
 	}
 
-	public void FixedUpdate()
+	private void Update()
 	{
-		// 현재 상태를 표시하기 위한 무언가
-		// string으로 뽑으면 좀 그럴까? 
-		// 성능적인 이슈가 없을거라고생각되지가 않는다
+
 		CurrentState = PlayerFSM.GetState().GetType().Name;
 
-		if (isone)
+		if (Input.GetKeyDown(KeyCode.I))
 		{
-			// 나도 알아 잘못된거.. 이따 지울게! 
-			PlayerFSM.InputReader.onSwitching += Switching;
-			isone = false;
+			Debug.Log($"저장된 포지션 {playerData.RespawnPos.x}, {playerData.RespawnPos.y}, {playerData.RespawnPos.z}");
 		}
 	}
 
-	// 감속, 가속 변화를 위한 임시함수 
-	private void Switching()
+
+
+	public void SavePlayerData()
 	{
-		isAccel = !isAccel;
+		playerData.TP = TP;
+		playerData.TP = CP;
+		playerData.RespawnPos = playerTransform.position;
+		// 필요한 데이터를 여기 계속 더하자
+	}
 
-		if (isAccel)
-		{
-			Attribute = "가속";
-		}
-		else
-		{
-			Attribute = "감속";
-		}
-
+	public void PlayerRespawn()
+	{
+		TP = playerData.TP;
+		CP = playerData.CP;
+		playerTransform.position = playerData.RespawnPos;
 	}
 
 
-
+	// 플레이어를 죽이자
+	public void PlayerDeath()
+	{
+		TP = 0f;
+	}
 }
