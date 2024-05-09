@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class PlayerAttackState : PlayerBaseState
 {
-	private readonly int AttackHash = Animator.StringToHash("Jab");
+	private readonly int AttackHash = Animator.StringToHash("Combo_01_1");
 	private const float CrossFadeDuration = 0.1f;
 
 	public float startNormalizedTime = 0.5f;    // 시작 지점
@@ -28,7 +28,7 @@ public class PlayerAttackState : PlayerBaseState
 		AnimatorStateInfo stateInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
 
 		// 애니메이션이 끝났다면
-		if (stateInfo.IsName("Jab") && stateInfo.normalizedTime >= 1.0f && stateInfo.normalizedTime <= 1.1f)
+		if (stateInfo.IsName("Combo_01_1") && stateInfo.normalizedTime >= 1.0f && stateInfo.normalizedTime <= 1.1f)
 		{
 			if (nextJab)
 			{

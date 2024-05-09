@@ -1,18 +1,24 @@
 using UnityEditor.Tilemaps;
+using UnityEditorInternal;
+
 using UnityEngine;
 [RequireComponent(typeof(InputReader))]         // 어트리뷰트를 상속받은 
 [RequireComponent(typeof(Animator))]            // 사용지정 어트리뷰트 RequireComponenet
 [RequireComponent(typeof(CharacterController))] // 해당컴포넌트를 추가해준다
-[RequireComponent(typeof(Player))] 
+[RequireComponent(typeof(Player))]
 public class PlayerStateMachine : StateMachine
 {
- 	public Vector3 Velocity;
-	public Player Player {  get; private set; }
+	public Vector3 Velocity;
+	public Player Player { get; private set; }
 	public Transform MainCamera { get; private set; }
 	public InputReader InputReader { get; private set; }
 	public Animator Animator { get; private set; }
-	public CharacterController Controller { get; private set;}
+	public CharacterController Controller { get; private set; }
 	public Transform PlayerTransform { get; private set; }
+
+	// FX를 위한 임시 property
+	public EffectManager EffectManager { get; private set; }
+	public HitStop HitStop { get; private set; }
 
 	private void Start()
 	{
@@ -22,15 +28,19 @@ public class PlayerStateMachine : StateMachine
 
 		InputReader = GetComponent<InputReader>();
 		Animator = GetComponent<Animator>();
-		
+
 		Controller = GetComponent<CharacterController>();
 		PlayerTransform = GetComponent<Transform>();
+		EffectManager = GameObject.Find("EffectManager").GetComponent<EffectManager>();
+		HitStop = GetComponent<HitStop>();
 
 		// 시작 상태를 정해준다.
 		//SwitchState(new PlayerMoveState(this));
 		SwitchState(new PlayerIdleState(this));
 	}
-
-
+	void OnSlashEvent()
+	{
+		EffectManager.PlayerSlash();
+	}
 
 }

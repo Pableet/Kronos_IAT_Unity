@@ -11,21 +11,41 @@ using UnityEngine;
 /// </summary>
 public class Player : MonoBehaviour
 {
-	PlayerStateMachine PlayerFSM;
-	public string CurrentState;
+	[Header("State")]
+	[SerializeField] private string CurrentState;
+	[SerializeField] private string Attribute;
 
-	[Header("Movement")]
+	[Header("Move Option")]
 	[SerializeField] private float Speed = 5f;
 	[SerializeField] private float JumpForce = 10f;
 	[SerializeField] private float LookRotationDampFactor = 10f;
 
-	public float moveSpeed { get { return Speed; }}
+	[Header("Play Option")]
+	[SerializeField] private float HitRange = 5f;
+
+
+	PlayerStateMachine PlayerFSM;
+
+	public float moveSpeed { get { return Speed; } }
 	public float jumpForce { get { return JumpForce; } }
 	public float lookRotationDampFactor { get { return LookRotationDampFactor; } }
 
+	// chronos in game Option
+	private float CP { get; set; }
+	private float TP { get; set; }
+
+
+	bool isAccel = false;
+
+	bool isone = true;
+
 	private void Start()
 	{
+		// 감속/가속 변경함수를 임시로 사용해보자
+		// 반드시 지워져야할 부분이지만 임시로 넣는다
+		Attribute = "Is Noting";
 		PlayerFSM = GetComponent<PlayerStateMachine>();
+
 	}
 
 	public void FixedUpdate()
@@ -34,10 +54,31 @@ public class Player : MonoBehaviour
 		// string으로 뽑으면 좀 그럴까? 
 		// 성능적인 이슈가 없을거라고생각되지가 않는다
 		CurrentState = PlayerFSM.GetState().GetType().Name;
+
+		if (isone)
+		{
+			// 나도 알아 잘못된거.. 이따 지울게! 
+			PlayerFSM.InputReader.onSwitching += Switching;
+			isone = false;
+		}
 	}
 
-	void OnSlashEvent()
+	// 감속, 가속 변화를 위한 임시함수 
+	private void Switching()
 	{
+		isAccel = !isAccel;
+
+		if (isAccel)
+		{
+			Attribute = "가속";
+		}
+		else
+		{
+			Attribute = "감속";
+		}
 
 	}
+
+
+
 }

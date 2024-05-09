@@ -7,7 +7,8 @@ public class HitStop : MonoBehaviour
     public float hitStopTime = 0.0f;
     public float hitStopScale = 0.0f;
     Animator animator;
-    bool isHit;
+    
+	public bool isHit;
 
     private void Awake()
     {
@@ -25,7 +26,8 @@ public class HitStop : MonoBehaviour
         }
     }
 
-    IEnumerator HitStopCoroutine()
+	// 진짜 미안한데 퍼블릭으로 바꿈
+    public IEnumerator HitStopCoroutine()
     {
         animator.speed = hitStopScale;
         yield return new WaitForSecondsRealtime(hitStopTime);
