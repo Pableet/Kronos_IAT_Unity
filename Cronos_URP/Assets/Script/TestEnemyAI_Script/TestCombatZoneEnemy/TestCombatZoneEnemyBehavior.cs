@@ -1,13 +1,15 @@
+using Message;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestCombatZoneEnemyBehavior : MonoBehaviour
+public class TestCombatZoneEnemyBehavior : MonoBehaviour, IMessageReceiver
 {
     // 애니메이터의 파라미터 
     public static readonly int hashAttack = Animator.StringToHash("attack");
     public static readonly int hashInPursuit = Animator.StringToHash("inPursuit");
     public static readonly int hashNearBase = Animator.StringToHash("nearBase");
+    public static readonly int hashDamageBase = Animator.StringToHash("damage");
 
     public MeleeWeapon meleeWeapon;
     //public TargetScanner playerScanner = new TargetScanner();
@@ -26,8 +28,9 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour
     private GameObject _target;
     private EnemyController _controller;
     protected TargetDistributor.TargetFollower _followerInstance;
+	protected Damageable _damageable;
 
-    protected float _timerSinceLostTarget = 0.0f;
+	protected float _timerSinceLostTarget = 0.0f;
 
     void Awake()
     {
@@ -38,17 +41,28 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour
 
     void OnEnable()
     {
-        SceneLinkedSMB<TestCombatZoneEnemyBehavior>.Initialise(_controller.animator, this);
+		_damageable = GetComponent<Damageable>();
+		_damageable.onDamageMessageReceivers.Add(this);
+
+		SceneLinkedSMB<TestCombatZoneEnemyBehavior>.Initialise(_controller.animator, this);
 
         originalPosition = transform.position;
     }
 
     protected void OnDisable()
     {
-        if (_followerInstance != null)
+		_damageable.onDamageMessageReceivers.Remove(this);
+
+		if (_followerInstance != null)
             _followerInstance.distributor.UnregisterFollower(_followerInstance);
     }
-    private void FixedUpdate()
+
+	void Damaged(Damageable.DamageMessage damageMessage)
+	{
+		_controller.animator.SetTrigger(hashDamageBase);
+	}
+
+	private void FixedUpdate()
     {
         LookAtTarget();
 
@@ -58,7 +72,26 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour
         SetNearBase(toBase.sqrMagnitude < 1f);
     }
 
-    public void FindTarget()
+	public void OnReceiveMessage(MessageType type, object sender, object data)
+	{
+		switch (type)
+		{
+			case MessageType.DAMAGED:
+				{
+					Damageable.DamageMessage damageData = (Damageable.DamageMessage)data;
+					Damaged(damageData);
+				}
+				break;
+			case MessageType.DEAD:
+				{
+					Damageable.DamageMessage damageData = (Damageable.DamageMessage)data;
+					Death(damageData);
+				}
+				break;
+		}
+	}
+
+	public void FindTarget()
     {
         // 타겟이 이미 보이는 경우 높이 차이를 무시한다.
         var target = combatZone.Detect(transform, _target == null);
@@ -225,4 +258,16 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, attackDistance);
 
     }
+
+	public void Death(Damageable.DamageMessage msg)
+	{
+		var replacer = GetComponent<ReplaceWithRagdoll>();
+
+		if (replacer != null)
+		{
+			replacer.Replace();
+		}
+
+		//We unparent the hit source, as it would destroy it with the gameobject when it get replaced by the ragdol otherwise
+	}
 }

@@ -30,6 +30,7 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
 	{
 		if(controls != null)
 		{
+			controls.Player.Enable();
 			return;
 		}
 		controls = new Controls();

@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
 	//[Header("Play Option")]
 	//[SerializeField] private float HitRange = 5f;
 
+	MeleeWeapon meleeWeapon;
 
 	PlayerStateMachine PlayerFSM;
 
@@ -42,7 +43,7 @@ public class Player : MonoBehaviour
 
 	private void Awake()
 	{
-		//DontDestroyOnLoad(this.gameObject);
+		DontDestroyOnLoad(this.gameObject);
 	}
 	private void Start()
 	{
@@ -50,6 +51,8 @@ public class Player : MonoBehaviour
 		// 반드시 지워져야할 부분이지만 임시로 넣는다
 		PlayerFSM = GetComponent<PlayerStateMachine>();
 		playerTransform = GetComponent<Transform>();
+		meleeWeapon = GetComponentInChildren<MeleeWeapon>();
+		meleeWeapon.SetOwner(gameObject);
 
 	}
 
@@ -92,4 +95,15 @@ public class Player : MonoBehaviour
 	{
 		TP = 0f;
 	}
+
+	public void AttackStart()
+	{
+		meleeWeapon.BeginAttack(false);
+	}
+	public void AttackEnd() 
+	{
+		meleeWeapon.EndAttack();
+	}
+
+	
 }
