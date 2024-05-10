@@ -105,7 +105,7 @@ public class EffectManager : MonoBehaviour
 
     void UpdateWpos()
     {
-        burst.transform.position = player.transform.position;
+       // burst.transform.position = player.transform.position;
     }
 
 
@@ -113,7 +113,7 @@ public class EffectManager : MonoBehaviour
     {
         if (skull.activeSelf == false)
         {
-            skull.transform.position = player.transform.position + Vector3.up * 2.0f;
+            //skull.transform.position = player.transform.position + Vector3.up * 2.0f;
             return;
         }
 

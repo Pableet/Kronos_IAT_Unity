@@ -1,3 +1,4 @@
+using Message;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,14 +10,16 @@ using UnityEngine.WSA;
 /// TestEnemy 의 행동을 정의한다.
 /// </summary>
 [DefaultExecutionOrder(100)]
-public class TestEnemyBehavior : MonoBehaviour
+public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
 {
     // 애니메이터의 파라미터 
     public static readonly int hashAttack = Animator.StringToHash("attack");
     public static readonly int hashInPursuit = Animator.StringToHash("inPursuit");
     public static readonly int hashNearBase = Animator.StringToHash("nearBase");
+	public static readonly int hashDamageBase = Animator.StringToHash("damage");
 
-    public MeleeWeapon meleeWeapon;
+
+	public MeleeWeapon meleeWeapon;
     public TargetScanner playerScanner = new TargetScanner();
     public float timeToStopPursuit;
 
@@ -31,8 +34,9 @@ public class TestEnemyBehavior : MonoBehaviour
     private GameObject _target;
     private EnemyController _controller;
     protected TargetDistributor.TargetFollower _followerInstance;
+	protected Damageable _damageable;
 
-    protected float _timerSinceLostTarget = 0.0f;
+	protected float _timerSinceLostTarget = 0.0f;
 
     void Awake()
     {
@@ -44,19 +48,25 @@ public class TestEnemyBehavior : MonoBehaviour
     void OnEnable()
     {
         SceneLinkedSMB<TestEnemyBehavior>.Initialise(_controller.animator, this);
-
-        playerScanner.target = _controller.player;
+		_damageable = GetComponent<Damageable>();
+		_damageable.onDamageMessageReceivers.Add(this);
+		playerScanner.target = _controller.player;
 
         originalPosition = transform.position;
     }
 
     protected void OnDisable()
     {
-        if (_followerInstance != null)
+		_damageable.onDamageMessageReceivers.Remove(this);
+		if (_followerInstance != null)
             _followerInstance.distributor.UnregisterFollower(_followerInstance);
     }
+	void Damaged(Damageable.DamageMessage damageMessage)
+	{
+		_controller.animator.SetTrigger(hashDamageBase);
+	}
 
-    private void FixedUpdate()
+	private void FixedUpdate()
     {
         LookAtTarget();
 
@@ -66,7 +76,26 @@ public class TestEnemyBehavior : MonoBehaviour
         SetNearBase(toBase.sqrMagnitude < 0.1 * 0.1f);
     }
 
-    public void FindTarget()
+	public void OnReceiveMessage(MessageType type, object sender, object data)
+	{
+		switch (type)
+		{
+			case MessageType.DAMAGED:
+				{
+					Damageable.DamageMessage damageData = (Damageable.DamageMessage)data;
+					Damaged(damageData);
+				}
+				break;
+			case MessageType.DEAD:
+				{
+					Damageable.DamageMessage damageData = (Damageable.DamageMessage)data;
+					Death(damageData);
+				}
+				break;
+		}
+	}
+
+	public void FindTarget()
     {
         // 타겟이 이미 보이는 경우 높이 차이를 무시한다.
         var target = playerScanner.Detect(transform, _target == null);
@@ -236,4 +265,15 @@ public class TestEnemyBehavior : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackDistance);
     }
+	public void Death(Damageable.DamageMessage msg)
+	{
+		var replacer = GetComponent<ReplaceWithRagdoll>();
+
+		if (replacer != null)
+		{
+			replacer.Replace();
+		}
+
+		//We unparent the hit source, as it would destroy it with the gameobject when it get replaced by the ragdol otherwise
+	}
 }
