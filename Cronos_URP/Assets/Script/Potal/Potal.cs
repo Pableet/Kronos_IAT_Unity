@@ -27,8 +27,9 @@ public class Potal : MonoBehaviour
 	private void OnTriggerEnter(Collider other)
 	{
 		if(other.gameObject.CompareTag("Player"))
-		{
-			SceneManager.LoadScene(NextScene);
+        {
+            //SceneManager.LoadScene(NextScene);
+			GameManager.Instance.SwitchScene(NextScene);
 			Debug.Log("이젠 되겠지");
 		}
 	}
