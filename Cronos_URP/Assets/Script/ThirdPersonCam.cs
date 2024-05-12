@@ -36,8 +36,7 @@ public class ThirdPersonCam : MonoBehaviour
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false; // 마우스 안보이게 하기
+     
         SwitchCameraSytle(currentStyle);
     }
 
