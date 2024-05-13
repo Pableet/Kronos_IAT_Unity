@@ -22,8 +22,8 @@ public class PlayerStateMachine : StateMachine
 
     private void OnEnable()
     {
-        SwitchState(new PlayerMoveState(this));
-
+		Start();
+       // SwitchState(new PlayerMoveState(this));
     }
     public void Start()
     {
@@ -40,8 +40,7 @@ public class PlayerStateMachine : StateMachine
         HitStop = GetComponent<HitStop>();
 
         // 시작 상태를 정해준다.
-        //SwitchState(new PlayerMoveState(this));
-        SwitchState(new PlayerIdleState(this));
+        SwitchState(new PlayerMoveState(this));
     }
 
     void OnSlashEvent()
