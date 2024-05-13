@@ -36,7 +36,9 @@ public class GameManager : MonoBehaviour
         GameObject temp = GameObject.Find("Player");
         temp.SetActive(false);
         temp.SetActive(true);
-        //temp.GetComponent<Player>().StartPlayer();
+        temp.GetComponent<Player>().StartPlayer();
+		temp.GetComponent<PlayerStateMachine>().Start();
+		temp.GetComponent<Transform>().SetPositionAndRotation(new Vector3(0f,7f,0f), Quaternion.identity);
     }
 
     // Start is called before the first frame update
@@ -58,5 +60,16 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false; // 마우스 안보이게 하기
     }
-    
+
+	public IEnumerator SceneTransition(string NextScene)
+	{
+		SceneManager.LoadScene(NextScene);
+		yield return new WaitForEndOfFrame();
+		GameObject temp = GameObject.Find("Player");
+		temp.GetComponent<Player>().StartPlayer();
+		temp.GetComponent<Transform>().SetPositionAndRotation(new Vector3(0f, 7f, 0f), Quaternion.identity);
+		yield break;
+	}
+
+
 }

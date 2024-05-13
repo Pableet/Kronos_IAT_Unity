@@ -23,18 +23,21 @@ public class Player : MonoBehaviour
     [SerializeField] private float JumpForce = 10f;
     [SerializeField] private float LookRotationDampFactor = 10f;
 
+	public float stopTiming = 0.2f;
+
 
     float totalspeed;
     MeleeWeapon meleeWeapon;
     PlayerStateMachine PlayerFSM;
+	
 
     public float moveSpeed { get { return totalspeed; } }
     public float jumpForce { get { return JumpForce; } }
     public float lookRotationDampFactor { get { return LookRotationDampFactor; } }
 
-    // chronos in game Option
-    private float CP { get; set; }
-    private float TP { get; set; }
+	// chronos in game Option
+	public float CP { get; set; } = 100f;
+	public float TP { get; set; } = 100f;
 
     // 플레이어 데이터를 저장하고 respawn시 반영하는 데이터
     PlayerData playerData = new PlayerData();
@@ -44,11 +47,6 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
-    }
-
-    private void OnEnable()
-    {
-        StartPlayer();
     }
 
     private void Start()
@@ -69,12 +67,8 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.I))
         {
-            StartPlayer();
-            //Start();
-            //PlayerFSM.Start();
-            //targetting.Start();
-            //gameObject.transform.position = new Vector3(0f, 7f, 0f);
-            Debug.Log($"저장된 포지션 {playerData.RespawnPos.x}, {playerData.RespawnPos.y}, {playerData.RespawnPos.z}");
+			StartPlayer();
+			Debug.Log($"저장된 포지션 {playerData.RespawnPos.x}, {playerData.RespawnPos.y}, {playerData.RespawnPos.z}");
         }
     }
 
@@ -83,7 +77,7 @@ public class Player : MonoBehaviour
         Start();
         PlayerFSM.Start();
         targetting.Start();
-        gameObject.transform.position = new Vector3(0f, 7f, 0f);
+		gameObject.transform.position = new Vector3(0f, 7f, 0f);
     }
 
     public void SetSpeed(float value)

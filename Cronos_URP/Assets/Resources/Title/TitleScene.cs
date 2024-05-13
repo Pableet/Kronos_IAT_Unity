@@ -8,7 +8,9 @@ public class TitleScene : MonoBehaviour
     public void StartGame()
     {
         //SceneManager.LoadScene("MICScene");
-        SceneManager.LoadScene("OHK_Scene");
+        //SceneManager.LoadScene("OHK_Scene");
+		GameManager.Instance.SwitchScene("OHK_Scene");
+		//GameManager.Instance.SceneTransition("OHK_Scene");
 
         // 빌드 인덱스로 씬을 전환하는 구현
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);

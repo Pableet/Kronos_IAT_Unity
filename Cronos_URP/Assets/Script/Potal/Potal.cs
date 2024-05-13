@@ -30,6 +30,7 @@ public class Potal : MonoBehaviour
         {
             //SceneManager.LoadScene(NextScene);
 			GameManager.Instance.SwitchScene(NextScene);
+			//GameManager.Instance.SceneTransition(NextScene);
 			Debug.Log("이젠 되겠지");
 		}
 	}
