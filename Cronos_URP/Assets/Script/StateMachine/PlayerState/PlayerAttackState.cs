@@ -28,6 +28,21 @@ public class PlayerAttackState : PlayerBaseState
 		AnimatorStateInfo stateInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
 
 		// 애니메이션이 끝났다면
+		if (stateInfo.IsName("Combo_01_1") && stateInfo.normalizedTime >= stateMachine.Player.stopTiming)
+		{
+			stateMachine.HitStop.isHit = true;
+			stateMachine.HitStop.StartCoroutine(stateMachine.HitStop.HitStopCoroutine());
+		}
+
+
+		// 애니메이션이 끝났다면
+		if (stateInfo.IsName("Combo_01_1") && stateInfo.normalizedTime >= 1.0f && stateInfo.normalizedTime <= 1.1f)
+		{
+			stateMachine.SwitchState(new PlayerMoveState(stateMachine));
+		}
+
+
+		// 애니메이션이 끝났다면
 		if (stateInfo.IsName("Combo_01_1") && stateInfo.normalizedTime >= 1.0f && stateInfo.normalizedTime <= 1.1f)
 		{
 			if (nextJab)

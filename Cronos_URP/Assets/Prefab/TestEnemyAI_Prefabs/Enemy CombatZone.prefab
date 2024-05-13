@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8326431505550081144}
   - component: {fileID: 5438650209275555819}
   - component: {fileID: 5550140976753424171}
+  - component: {fileID: 2741745276961179699}
   m_Layer: 8
   m_Name: Enemy CombatZone
   m_TagString: Respawn
@@ -147,6 +148,38 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &2741745276961179699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6228571436945459400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7c807bc4a94ff6449756000c7ad95cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHitPoints: 3
+  invulnerabiltyTime: 0
+  hitAngle: 360
+  hitForwardRotation: 360
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnReceiveDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHitWhileInvulnerable:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBecomeVulnerable:
+    m_PersistentCalls:
+      m_Calls: []
+  OnResetDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  onDamageMessageReceivers: []
 --- !u!1 &8681667568196457524
 GameObject:
   m_ObjectHideFlags: 0
@@ -408,7 +441,7 @@ MonoBehaviour:
   hitParticlePrefab: {fileID: 0}
   targetLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   attackPoints:
   - radius: 0.1
     offset: {x: 0, y: 0.4, z: 0}
