@@ -11,7 +11,6 @@ public class Respawn : MonoBehaviour
 
 	private void Awake()
 	{
-		DontDestroyOnLoad(this.gameObject);
 	}
 	private void Start()
 	{

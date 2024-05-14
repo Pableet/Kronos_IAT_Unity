@@ -25,7 +25,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Awake()
+	//public PlayerData PlayerData { get => playerData; set => playerData = value; }
+
+	private void Awake()
     {
         DontDestroyOnLoad(gameObject);
     }
@@ -60,6 +62,11 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false; // 마우스 안보이게 하기
     }
+
+	void CopyPlayerData(PlayerData value)
+	{
+		//playerData = value;
+	}
 
 	public IEnumerator SceneTransition(string NextScene)
 	{

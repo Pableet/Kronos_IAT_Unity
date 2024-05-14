@@ -46,7 +46,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
@@ -92,8 +92,11 @@ public class Player : MonoBehaviour
         playerData.TP = TP;
         playerData.TP = CP;
         playerData.RespawnPos = playerTransform.position;
-        // 필요한 데이터를 여기 계속 더하자
-    }
+		// 필요한 데이터를 여기 계속 더하자
+
+		//GameManager.Instance._playerData = playerData;
+
+	}
 
     public void PlayerRespawn()
     {
