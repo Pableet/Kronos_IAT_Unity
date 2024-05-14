@@ -16,7 +16,7 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour, IMessageReceiver
 
     public float timeToStopPursuit;
 
-    [System.NonSerialized]
+    //[System.NonSerialized]
     public float attackDistance = 2;
 
     public CombatZone combatZone { private get; set; }
@@ -56,12 +56,6 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour, IMessageReceiver
 		if (_followerInstance != null)
             _followerInstance.distributor.UnregisterFollower(_followerInstance);
     }
-
-	void Damaged(Damageable.DamageMessage damageMessage)
-	{
-		_controller.animator.SetTrigger(hashDamageBase);
-	}
-
 	private void FixedUpdate()
     {
         LookAtTarget();
@@ -90,8 +84,12 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour, IMessageReceiver
 				break;
 		}
 	}
+    void Damaged(Damageable.DamageMessage damageMessage)
+    {
+        _controller.animator.SetTrigger(hashDamageBase);
+    }
 
-	public void FindTarget()
+    public void FindTarget()
     {
         // 타겟이 이미 보이는 경우 높이 차이를 무시한다.
         var target = combatZone.Detect(transform, _target == null);
