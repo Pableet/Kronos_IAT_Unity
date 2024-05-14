@@ -43,6 +43,7 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
 	{
 		// 플레이어의 disable 함수를 호출한다.
 		controls.Player.Disable();
+
 	}
 
 	// 카메라 이동을 담당하는! 
