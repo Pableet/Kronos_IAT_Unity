@@ -4,6 +4,27 @@ using UnityEngine;
 
 public class EffectManager : MonoBehaviour
 {
+    private static EffectManager instance;
+
+    public static EffectManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<EffectManager>();
+                if (instance == null)
+                {
+                    GameObject effectManager = new GameObject(typeof(EffectManager).Name);
+                    instance = effectManager.AddComponent<EffectManager>();
+
+                    DontDestroyOnLoad(effectManager);
+                }
+            }
+            return instance;
+        }
+    }
+
     GameObject player;
     GameObject trail;
     GameObject burst;
@@ -14,8 +35,19 @@ public class EffectManager : MonoBehaviour
     Vector3 EdestPos;
 
     // 이펙트를 로드하는 단계
-    private void Awake()
+    protected void Awake()
     {
+        // 이미 인스턴스가 존재한다면
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad (gameObject);
+        }
+
         Debug.Log("Effect Manager 활성화");
         LoadEffect();
     }

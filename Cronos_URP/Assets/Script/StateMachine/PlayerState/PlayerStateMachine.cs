@@ -20,7 +20,8 @@ public class PlayerStateMachine : StateMachine
 	public EffectManager EffectManager { get; private set; }
 	public HitStop HitStop { get; private set; }
 
-	private void Start()
+
+    private void Start()
 	{
 		MainCamera = Camera.main.transform;
 
