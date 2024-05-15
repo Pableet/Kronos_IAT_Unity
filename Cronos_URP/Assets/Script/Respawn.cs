@@ -24,6 +24,7 @@ public class Respawn : MonoBehaviour
 	{
 		if(Input.GetKeyDown(KeyCode.P))
 		{
+			GameManager.Instance.isRespawn = true;
             RespawnPlayer();
 		}
 	}

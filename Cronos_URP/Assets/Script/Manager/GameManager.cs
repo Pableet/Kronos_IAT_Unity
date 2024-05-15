@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -25,28 +27,29 @@ public class GameManager : MonoBehaviour
         }
     }
 
-	public PlayerData PlayerDT { get;set; }
+    public PlayerData PlayerDT { get; set; }
+    public bool isRespawn { get; set; } = false;
 
-	private void Awake()
+    private void Awake()
     {
         DontDestroyOnLoad(gameObject);
     }
 
     public void SwitchScene(string NextScene)
     {
+        SetCursorInactive();
+        if (NextScene == "TitleScene")
+        {
+            Cursor.visible = true;
+        }
         SceneManager.LoadScene(NextScene);
-        GameObject temp = GameObject.Find("Player");
-        temp.SetActive(false);
-        temp.SetActive(true);
-        temp.GetComponent<Player>().StartPlayer();
-		temp.GetComponent<PlayerStateMachine>().Start();
-		temp.GetComponent<Transform>().SetPositionAndRotation(new Vector3(0f,7f,0f), Quaternion.identity);
     }
+   
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -63,15 +66,15 @@ public class GameManager : MonoBehaviour
         Cursor.visible = false; // 마우스 안보이게 하기
     }
 
-	public IEnumerator SceneTransition(string NextScene)
-	{
-		SceneManager.LoadScene(NextScene);
-		yield return new WaitForEndOfFrame();
-		GameObject temp = GameObject.Find("Player");
-		temp.GetComponent<Player>().StartPlayer();
-		temp.GetComponent<Transform>().SetPositionAndRotation(new Vector3(0f, 7f, 0f), Quaternion.identity);
-		yield break;
-	}
+    public IEnumerator SceneTransition(string NextScene)
+    {
+        SceneManager.LoadScene(NextScene);
+        yield return new WaitForEndOfFrame();
+        GameObject temp = GameObject.Find("Player");
+        temp.GetComponent<Player>().StartPlayer();
+        temp.GetComponent<Transform>().SetPositionAndRotation(new Vector3(0f, 7f, 0f), Quaternion.identity);
+        yield break;
+    }
 
 
 }
