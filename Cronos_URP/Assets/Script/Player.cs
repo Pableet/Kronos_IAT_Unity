@@ -1,7 +1,9 @@
+using Message;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 using UnityEngine.PlayerLoop;
 using UnityEngine.Purchasing;
 using UnityEngine.SceneManagement;
@@ -15,6 +17,8 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class Player : MonoBehaviour
 {
+    public static readonly int hashDamageBase = Animator.StringToHash("hit01");
+
     [Header("State")]
     [SerializeField] private string CurrentState;
 
@@ -23,29 +27,42 @@ public class Player : MonoBehaviour
     [SerializeField] private float JumpForce = 10f;
     [SerializeField] private float LookRotationDampFactor = 10f;
 
-	public float stopTiming = 0.2f;
+    public float stopTiming = 0.2f;
 
 
     float totalspeed;
     MeleeWeapon meleeWeapon;
     PlayerStateMachine PlayerFSM;
-	
+
 
     public float moveSpeed { get { return totalspeed; } }
     public float jumpForce { get { return JumpForce; } }
     public float lookRotationDampFactor { get { return LookRotationDampFactor; } }
 
-	// chronos in game Option
-	public float CP { get; set; } = 100f;
-	public float TP { get; set; } = 100f;
+    // chronos in game Option
+    public float CP { get; set; } = 100f;
+    public float TP { get; set; } = 100f;
 
     // 플레이어 데이터를 저장하고 respawn시 반영하는 데이터
     PlayerData playerData = new PlayerData();
     Transform playerTransform;
     AutoTargetting targetting;
 
+    protected Damageable _damageable;
+
     private void Awake()
     {
+    }
+
+    private void OnEnable()
+    {
+        _damageable = GetComponent<Damageable>();
+        _damageable.onDamageMessageReceivers.Add(this);
+
+    }
+    protected void OnDisable()
+    {
+        _damageable.onDamageMessageReceivers.Remove(this);
     }
 
     private void Start()
@@ -65,15 +82,52 @@ public class Player : MonoBehaviour
         }
     }
 
-        private void Update()
+    public void OnReceiveMessage(MessageType type, object sender, object data)
     {
+        switch (type)
+        {
+            case MessageType.DAMAGED:
+                {
+                    Damageable.DamageMessage damageData = (Damageable.DamageMessage)data;
+                    Damaged(damageData);
+                }
+                break;
+            case MessageType.DEAD:
+                {
+                    Damageable.DamageMessage damageData = (Damageable.DamageMessage)data;
+                    Death(damageData);
+                }
+                break;
+        }
+    }
+    void Damaged(Damageable.DamageMessage damageMessage)
+    {
+        PlayerFSM.Animator.CrossFadeInFixedTime(hashDamageBase,0.1f);
+    }
+    public void Death(Damageable.DamageMessage msg)
+    {
+        Debug.Log("죽었다리");
+        
+        var replacer = GetComponent<ReplaceWithRagdoll>();
+
+        if (replacer != null)
+        {
+            replacer.Replace();
+        }
+
+        //We unparent the hit source, as it would destroy it with the gameobject when it get replaced by the ragdol otherwise
+    }
+    private void Update()
+    {
+
+
         CurrentState = PlayerFSM.GetState().GetType().Name;
 
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-			StartPlayer();
-			Debug.Log($"저장된 포지션 {playerData.RespawnPos.x}, {playerData.RespawnPos.y}, {playerData.RespawnPos.z}");
-        }
+//         if (Input.GetKeyDown(KeyCode.I))
+//         {
+//             StartPlayer();
+//             Debug.Log($"저장된 포지션 {playerData.RespawnPos.x}, {playerData.RespawnPos.y}, {playerData.RespawnPos.z}");
+//         }
     }
 
     public void StartPlayer()
@@ -81,7 +135,7 @@ public class Player : MonoBehaviour
         Start();
         PlayerFSM.Start();
         targetting.Start();
-		gameObject.transform.position = new Vector3(0f, 7f, 0f);
+        gameObject.transform.position = new Vector3(0f, 7f, 0f);
     }
 
     public void SetSpeed(float value)
@@ -97,11 +151,11 @@ public class Player : MonoBehaviour
         playerData.TP = TP;
         playerData.TP = CP;
         playerData.RespawnPos = playerTransform.position;
-		// 필요한 데이터를 여기 계속 더하자
-		GameManager.Instance.PlayerDT = playerData;
-	}
+        // 필요한 데이터를 여기 계속 더하자
+        GameManager.Instance.PlayerDT = playerData;
+    }
 
-    
+
     public void PlayerRespawn()
     {
         if (SceneManager.GetActiveScene().name != GameManager.Instance.PlayerDT.saveScene)
@@ -110,12 +164,12 @@ public class Player : MonoBehaviour
         }
         TP = GameManager.Instance.PlayerDT.TP;
         CP = GameManager.Instance.PlayerDT.CP;
-		if(GameManager.Instance.PlayerDT.RespawnPos.x == 0f 
-			&& GameManager.Instance.PlayerDT.RespawnPos.y == 0f
-			&& GameManager.Instance.PlayerDT.RespawnPos.z == 0f)
-		{
-			GameManager.Instance.PlayerDT.RespawnPos = new Vector3(0f, 7f, 0f);
-		}
+        if (GameManager.Instance.PlayerDT.RespawnPos.x == 0f
+            && GameManager.Instance.PlayerDT.RespawnPos.y == 0f
+            && GameManager.Instance.PlayerDT.RespawnPos.z == 0f)
+        {
+            GameManager.Instance.PlayerDT.RespawnPos = new Vector3(0f, 7f, 0f);
+        }
         playerTransform.position = (Vector3)GameManager.Instance.PlayerDT.RespawnPos;
     }
 

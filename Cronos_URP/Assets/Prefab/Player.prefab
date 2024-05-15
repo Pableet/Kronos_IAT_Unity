@@ -1962,7 +1962,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1982053842736507753}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.050214835, y: -0.0038053815, z: 0.0027556706, w: 0.99872744}
+  m_LocalRotation: {x: 0.05021483, y: -0.0038053836, z: 0.0027556708, w: 0.99872744}
   m_LocalPosition: {x: -0.0000019073486, y: 0.000015258789, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4833,6 +4833,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1342664673048676504}
   - component: {fileID: 8298628228402719184}
+  - component: {fileID: 285082962483455913}
   m_Layer: 9
   m_Name: ThirdPersonCam
   m_TagString: Untagged
@@ -4963,6 +4964,36 @@ MonoBehaviour:
   - {fileID: 2945353766927922212}
   - {fileID: 510662467487385062}
   - {fileID: 1996219024881282893}
+--- !u!114 &285082962483455913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4983232957676619055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e501d18bb52cf8c40b1853ca4904654f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CollideAgainst:
+    serializedVersion: 2
+    m_Bits: 1
+  m_IgnoreTag: 
+  m_TransparentLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_MinimumDistanceFromTarget: 0.1
+  m_AvoidObstacles: 1
+  m_DistanceLimit: 0
+  m_MinimumOcclusionTime: 0
+  m_CameraRadius: 0.1
+  m_Strategy: 1
+  m_MaximumEffort: 4
+  m_SmoothingTime: 0
+  m_Damping: 0
+  m_DampingWhenOccluded: 0
+  m_OptimalTargetDistance: 0
 --- !u!1 &4989302060032968368
 GameObject:
   m_ObjectHideFlags: 0
@@ -5075,6 +5106,8 @@ GameObject:
   - component: {fileID: 3388928344464229781}
   - component: {fileID: 4651650087772529430}
   - component: {fileID: 7867091415844459115}
+  - component: {fileID: 5727460518259777364}
+  - component: {fileID: 1026745802361960729}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -5235,6 +5268,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ParryEffect: {fileID: 6823302871133167919, guid: 1ec7018594813344ab2fca4eb906e23a, type: 3}
   Player: {fileID: 5219923400355672890}
+--- !u!114 &5727460518259777364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5219923400355672890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7c807bc4a94ff6449756000c7ad95cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHitPoints: 3
+  invulnerabiltyTime: 0
+  hitAngle: 360
+  hitForwardRotation: 360
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnReceiveDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHitWhileInvulnerable:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBecomeVulnerable:
+    m_PersistentCalls:
+      m_Calls: []
+  OnResetDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  onDamageMessageReceivers: []
+--- !u!114 &1026745802361960729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5219923400355672890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dc465430e9abb34f90e12b1f516476b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ragdollPrefab: {fileID: 8902862480717848591, guid: 65198d2d24e85d2409ed728a5bfe57f6, type: 3}
 --- !u!1 &5471348209532138059
 GameObject:
   m_ObjectHideFlags: 0
@@ -6673,7 +6751,7 @@ Transform:
   m_GameObject: {fileID: 6776256614355523244}
   serializedVersion: 2
   m_LocalRotation: {x: 0.07346796, y: -0.0037401505, z: 0.0028435742, w: 0.9972865}
-  m_LocalPosition: {x: -0.0000038146973, y: 0.000030517578, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

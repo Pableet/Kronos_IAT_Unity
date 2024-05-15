@@ -42,7 +42,7 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour, IMessageReceiver
     void OnEnable()
     {
 		_damageable = GetComponent<Damageable>();
-		_damageable.onDamageMessageReceivers.Add(this);
+        _damageable.onDamageMessageReceivers.Add(this);
 
 		SceneLinkedSMB<TestCombatZoneEnemyBehavior>.Initialise(_controller.animator, this);
 
