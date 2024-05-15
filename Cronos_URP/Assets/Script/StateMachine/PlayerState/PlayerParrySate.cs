@@ -16,8 +16,10 @@ public class PlayerParryState : PlayerBaseState
 	{
 		AnimatorStateInfo stateInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
 
+        stateMachine.GetComponentInChildren<Transform>().position +=
+    GameObject.Find("PlayerObj").GetComponent<Transform>().forward.normalized * 4 * Time.deltaTime;
 
-		if (stateInfo.IsName("Dodge") && stateInfo.normalizedTime >= 1.0f && stateInfo.normalizedTime <= 1.1f)
+        if (stateInfo.IsName("Dodge") && stateInfo.normalizedTime >= 1.0f && stateInfo.normalizedTime <= 1.1f)
 		{
 			stateMachine.SwitchState(new PlayerMoveState(stateMachine));
 		}

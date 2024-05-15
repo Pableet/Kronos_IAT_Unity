@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-public partial class @Controls: IInputActionCollection2, IDisposable
+public partial class @Controls : IInputActionCollection2, IDisposable
 {
     public InputActionAsset asset { get; }
     public @Controls()
@@ -60,7 +60,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""id"": ""f8520d70-a368-4c63-ba52-da95472c897c"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -352,8 +352,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
             @LAttack.started += instance.OnLAttack;
-            @LAttack.performed += instance.OnLAttack;
-            @LAttack.canceled += instance.OnLAttack;
+            //@LAttack.performed += instance.OnLAttack;
+            //@LAttack.canceled += instance.OnLAttack;
             @RAttack.started += instance.OnRAttack;
             @RAttack.performed += instance.OnRAttack;
             @RAttack.canceled += instance.OnRAttack;
