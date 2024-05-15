@@ -46,7 +46,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        //DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
@@ -94,19 +94,25 @@ public class Player : MonoBehaviour
         playerData.RespawnPos = playerTransform.position;
 		// 필요한 데이터를 여기 계속 더하자
 
-		//GameManager.Instance._playerData = playerData;
+		GameManager.Instance.PlayerDT = playerData;
 
 	}
 
     public void PlayerRespawn()
     {
-        if (SceneManager.GetActiveScene().name != playerData.saveScene)
+        if (SceneManager.GetActiveScene().name != GameManager.Instance.PlayerDT.saveScene)
         {
-            SceneManager.LoadScene(playerData.saveScene);
+            SceneManager.LoadScene(GameManager.Instance.PlayerDT.saveScene);
         }
-        TP = playerData.TP;
-        CP = playerData.CP;
-        playerTransform.position = playerData.RespawnPos;
+        TP = GameManager.Instance.PlayerDT.TP;
+        CP = GameManager.Instance.PlayerDT.CP;
+		if(GameManager.Instance.PlayerDT.RespawnPos.x == 0f 
+			&& GameManager.Instance.PlayerDT.RespawnPos.y == 0f
+			&& GameManager.Instance.PlayerDT.RespawnPos.z == 0f)
+		{
+			GameManager.Instance.PlayerDT.RespawnPos = new Vector3(0f, 7f, 0f);
+		}
+        playerTransform.position = (Vector3)GameManager.Instance.PlayerDT.RespawnPos;
     }
 
 

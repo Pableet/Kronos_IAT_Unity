@@ -12,10 +12,7 @@ public class CombatZone : MonoBehaviour
 
     private void Start()
     {
-        if (target == null)
-        {
-            target = GameObject.FindGameObjectWithTag("Player");
-        }
+
 
         foreach (var enemy in enemyList)
         {
@@ -23,7 +20,16 @@ public class CombatZone : MonoBehaviour
         }
 
     }
-    private void OnTriggerEnter(Collider other)
+
+	private void OnEnable()
+	{
+		if (target == null)
+		{
+			target = GameObject.FindGameObjectWithTag("Player");
+		}
+
+	}
+	private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject == target)
         {
