@@ -46,7 +46,6 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
@@ -59,9 +58,14 @@ public class Player : MonoBehaviour
         meleeWeapon.SetOwner(gameObject);
         targetting = GetComponentInChildren<AutoTargetting>();
         totalspeed = Speed;
+
+        if (GameManager.Instance.isRespawn)
+        {
+            PlayerRespawn();
+        }
     }
 
-    private void Update()
+        private void Update()
     {
         CurrentState = PlayerFSM.GetState().GetType().Name;
 
@@ -86,6 +90,7 @@ public class Player : MonoBehaviour
     }
 
 
+    // 리스폰데이터를 GameManager에 저장하자
     public void SavePlayerData()
     {
         playerData.saveScene = SceneManager.GetActiveScene().name; // 현재 씬의 이름을 가져온다
@@ -93,11 +98,10 @@ public class Player : MonoBehaviour
         playerData.TP = CP;
         playerData.RespawnPos = playerTransform.position;
 		// 필요한 데이터를 여기 계속 더하자
-
 		GameManager.Instance.PlayerDT = playerData;
-
 	}
 
+    
     public void PlayerRespawn()
     {
         if (SceneManager.GetActiveScene().name != GameManager.Instance.PlayerDT.saveScene)
