@@ -17,7 +17,7 @@ public class AutoTargetting : MonoBehaviour
     public GameObject Player;       // 플레이어
     public Transform Target = null;     // Player가 바라볼 대상
     public Transform PlayerObject; // 플레이어 오브젝트 
-    public Transform maincamTransform;
+    /*public */Transform maincamTransform;
 
     public float AixsDamp = 0.99f;  // 어느정도까지 따라갈 것인가!
 
@@ -28,9 +28,10 @@ public class AutoTargetting : MonoBehaviour
     bool istargetting;
 
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         stateMachine = Player.GetComponent<PlayerStateMachine>();
+        maincamTransform = Camera.main.transform;
     }
 
     // Update is called once per frame
@@ -43,7 +44,6 @@ public class AutoTargetting : MonoBehaviour
             direction = Target.position - PlayerObject.position;
             direction.y = 0;    // y축으로는 회전하지 않는다.
         }
-
 
         xDotResult = Vector3.Dot(maincamTransform.right, PlayerObject.right);
 

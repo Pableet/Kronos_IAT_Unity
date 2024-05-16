@@ -31,8 +31,9 @@ public class PlayerMoveState : PlayerBaseState
 		}
 
 
+		ApplyGravity();
 		CalculateMoveDirection();	// 방향을 계산하고
-		FaceMoveDirection();		// 캐릭터 방향을 바꾸고
+		FaceMoveDirection();        // 캐릭터 방향을 바꾸고
 		Move();						// 이동한다.
 
 		float moveSpeed = 0.5f;
@@ -40,11 +41,13 @@ public class PlayerMoveState : PlayerBaseState
 		if(Input.GetButton("Run"))
 		{
 			moveSpeed *= 2;
-		}
+        }
 		else { moveSpeed = 0.5f; }
 
-		// 애니메이터 movespeed의 파라메터의 값을 정한다.
-		stateMachine.Animator.SetFloat(MoveSpeedHash, stateMachine.InputReader.moveComposite.sqrMagnitude > 0f ? moveSpeed : 0f, AnimationDampTime, Time.deltaTime);
+        stateMachine.Player.SetSpeed(moveSpeed);
+
+        // 애니메이터 movespeed의 파라메터의 값을 정한다.
+        stateMachine.Animator.SetFloat(MoveSpeedHash, stateMachine.InputReader.moveComposite.sqrMagnitude > 0f ? moveSpeed : 0f, AnimationDampTime, Time.deltaTime);
 	}
 	
 	public override void Exit()
