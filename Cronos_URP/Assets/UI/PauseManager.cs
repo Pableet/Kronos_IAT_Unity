@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 public class PauseManager : MonoBehaviour
 {
     public static PauseManager pauseManager;
-
     public static PlayerInput playerInput;
 
     public static bool isPaused { get; private set; }
