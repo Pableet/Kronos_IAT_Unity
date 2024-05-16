@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-public partial class @Controls : IInputActionCollection2, IDisposable
+public partial class @Controls: IInputActionCollection2, IDisposable
 {
     public InputActionAsset asset { get; }
     public @Controls()
@@ -351,12 +351,12 @@ public partial class @Controls : IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
-            @LAttack.started += instance.OnLAttack;
-            //@LAttack.performed += instance.OnLAttack;
-            //@LAttack.canceled += instance.OnLAttack;
-            @RAttack.started += instance.OnRAttack;
+            @LAttack.started += instance.OnLAttackDown;
+            @LAttack.performed += instance.OnLAttack;
+            @LAttack.canceled += instance.OnLAttack;
+            @RAttack.started += instance.OnRAttackDown;
             @RAttack.performed += instance.OnRAttack;
-            @RAttack.canceled += instance.OnRAttack;
+            @RAttack.canceled += instance.OnRAttackUp;
             @SwitchingAttribute.started += instance.OnSwitchingAttribute;
             @SwitchingAttribute.performed += instance.OnSwitchingAttribute;
             @SwitchingAttribute.canceled += instance.OnSwitchingAttribute;
@@ -373,12 +373,12 @@ public partial class @Controls : IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
-            @LAttack.started -= instance.OnLAttack;
+            @LAttack.started -= instance.OnLAttackDown;
             @LAttack.performed -= instance.OnLAttack;
             @LAttack.canceled -= instance.OnLAttack;
-            @RAttack.started -= instance.OnRAttack;
+            @RAttack.started -= instance.OnRAttackDown;
             @RAttack.performed -= instance.OnRAttack;
-            @RAttack.canceled -= instance.OnRAttack;
+            @RAttack.canceled -= instance.OnRAttackUp;
             @SwitchingAttribute.started -= instance.OnSwitchingAttribute;
             @SwitchingAttribute.performed -= instance.OnSwitchingAttribute;
             @SwitchingAttribute.canceled -= instance.OnSwitchingAttribute;
@@ -423,7 +423,10 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnLAttack(InputAction.CallbackContext context);
+        void OnLAttackDown(InputAction.CallbackContext context);
+        void OnRAttackDown(InputAction.CallbackContext context);
         void OnRAttack(InputAction.CallbackContext context);
+        void OnRAttackUp(InputAction.CallbackContext context);
         void OnSwitchingAttribute(InputAction.CallbackContext context);
     }
 }

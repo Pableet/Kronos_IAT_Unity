@@ -1,20 +1,57 @@
+using UnityEditor;
 using UnityEngine;
 
-public class PlayerDefenseState : PlayerBaseState
+public class PlayerDefenceState : PlayerBaseState
 {
-	public PlayerDefenseState(PlayerStateMachine stateMachine) : base(stateMachine) { }
+
+	private readonly int DefenceHash = Animator.StringToHash("defence");
+	private const float CrossFadeDuration = 0.1f;
+
+	private bool isdefence = false;
+	public PlayerDefenceState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 	public override void Enter()
 	{
-		throw new System.NotImplementedException();
-	}
+		stateMachine.Animator.Rebind();
+		stateMachine.Animator.CrossFadeInFixedTime(DefenceHash, CrossFadeDuration);
 
-	public override void Exit()
-	{
-		throw new System.NotImplementedException();
+		stateMachine.InputReader.onRAttackPerformed += isDefencing;
+		stateMachine.InputReader.onRAttackCanceled += isNotDefencing;
 	}
 
 	public override void Tick()
 	{
-		throw new System.NotImplementedException();
+		AnimatorStateInfo stateInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
+
+		if(isdefence)
+		{
+			if (stateInfo.normalizedTime >= 0.2f)
+				stateMachine.Animator.speed = 0f;
+		}
+		else if (stateInfo.normalizedTime >= 1.0f && stateInfo.normalizedTime <= 1.1f && !isdefence )
+		{
+			stateMachine.SwitchState(new PlayerMoveState(stateMachine));
+		}
+
 	}
+
+	public override void Exit()
+	{
+		stateMachine.InputReader.onRAttackPerformed -= isDefencing;
+		stateMachine.InputReader.onRAttackCanceled -= isNotDefencing;
+	}
+
+	private void isDefencing()
+	{
+		isdefence = true;
+	}
+
+	private void isNotDefencing()
+	{
+		isdefence = false;
+		stateMachine.Animator.StartPlayback();
+		stateMachine.Animator.speed = 1f;
+	}
+
+
+
 }
