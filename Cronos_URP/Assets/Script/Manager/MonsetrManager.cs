@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
 using UnityEditor.PackageManager;
+using UnityEditor.Timeline.Actions;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -37,9 +38,10 @@ class MonsterManager : MonoBehaviour
     // 몬스터 자료형을 받아야하니까
     // 프리펩을 받을 수 있게 열어놓는 무언가.
     public GameObject monster;
+    public GameObject Player;
     public List<GameObject> list = new List<GameObject>();
 
-    private MonsterManager() { }
+    private MonsterManager() {  }
 
     private void Update()
     {
@@ -52,7 +54,12 @@ class MonsterManager : MonoBehaviour
         {
             DeleteMonster();
         }
-    }
+
+		if (Input.GetKeyUp(KeyCode.Alpha0))
+		{
+			CreatePlayer();
+		}
+	}
 
 
     /// <summary>
@@ -67,10 +74,16 @@ class MonsterManager : MonoBehaviour
         Debug.Log($"현재 몬스터 수 {list.Count}");
     }
 
-    /// <summary>
-    /// 몬스터를 삭제하는 함수
-    /// </summary>
-    public void DeleteMonster()
+	public void CreatePlayer()
+	{
+		// 플레이어를 생성한다
+		Instantiate(Player, new Vector3(0, 10, 5), Quaternion.identity);
+	}
+
+	/// <summary>
+	/// 몬스터를 삭제하는 함수
+	/// </summary>
+	public void DeleteMonster()
     {
         if (list.Count < 1) { return; }
         GameObject temp = list[(list.Count - 1)];

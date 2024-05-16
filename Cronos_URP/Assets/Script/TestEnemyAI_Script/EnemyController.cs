@@ -144,6 +144,13 @@ public class EnemyController : MonoBehaviour
         if (_followNavmeshAgent)
         {
             _navMeshAgent.speed = (_animator.deltaPosition / Time.deltaTime).magnitude;
+
+            /// test¿ë
+            if (_animator.deltaPosition.magnitude <= 0.0f )
+            {
+                _navMeshAgent.speed = 3f;
+            }
+
             transform.position = _navMeshAgent.nextPosition;
         }
         else
