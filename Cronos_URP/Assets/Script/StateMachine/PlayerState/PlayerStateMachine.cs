@@ -16,8 +16,6 @@ public class PlayerStateMachine : StateMachine
     public CharacterController Controller { get; private set; }
     public Transform PlayerTransform { get; private set; }
 
-    // FX를 위한 임시 property
-    public EffectManager EffectManager { get; private set; }
     public HitStop HitStop { get; private set; }
 
     private void OnEnable()
@@ -36,7 +34,6 @@ public class PlayerStateMachine : StateMachine
 
         Controller = GetComponent<CharacterController>();
         PlayerTransform = GetComponent<Transform>();
-        EffectManager = GameObject.Find("EffectManager").GetComponent<EffectManager>();
         HitStop = GetComponent<HitStop>();
 
         // 시작 상태를 정해준다.
@@ -45,7 +42,7 @@ public class PlayerStateMachine : StateMachine
 
     void OnSlashEvent()
     {
-        EffectManager.PlayerSlash();
+        EffectManager.Instance.PlayerSlash();
     }
 
 }
