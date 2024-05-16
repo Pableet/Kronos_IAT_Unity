@@ -40,9 +40,9 @@ public class PlayerAttackState : PlayerBaseState
         stateMachine.Animator.CrossFadeInFixedTime(comboAttack[comboStack], CrossFadeDuration);
         // 현재 애니메이션 정보를 받아온다
 
-        stateMachine.InputReader.onLAttackPerformed += ReadyNextCombo;
-        stateMachine.InputReader.onRAttackPerformed += NextPuch;
-    }
+        stateMachine.InputReader.onLAttackStart += ReadyNextCombo;
+		stateMachine.InputReader.onRAttackStart += SwitchToDefanceState;
+	}
     public override void Tick()
     {
         AnimatorStateInfo stateInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
@@ -83,14 +83,12 @@ public class PlayerAttackState : PlayerBaseState
         {
             stateMachine.SwitchState(new PlayerMoveState(stateMachine));
         }
-        
-
 
     }
     public override void Exit()
     {
-        stateMachine.InputReader.onLAttackPerformed -= NextPuch;
-        stateMachine.InputReader.onLAttackPerformed -= ReadyNextCombo;
+		stateMachine.InputReader.onRAttackStart -= SwitchToDefanceState;
+		stateMachine.InputReader.onLAttackStart -= ReadyNextCombo;
     }
 
 
@@ -142,25 +140,10 @@ public class PlayerAttackState : PlayerBaseState
     }
 
 
-    public void NextJab()
-    {
-        AnimatorStateInfo stateInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
-        if (stateInfo.IsName("Jab") && stateInfo.normalizedTime >= startNormalizedTime && stateInfo.normalizedTime <= endNormalizedTime)
-        {
-            nextJab = true;
-
-        }
-    }
-    public void NextPuch()
-    {
-
-        AnimatorStateInfo stateInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
-        if (stateInfo.IsName("Jab") && stateInfo.normalizedTime >= startNormalizedTime && stateInfo.normalizedTime <= endNormalizedTime)
-        {
-            nextPunch = true;
-
-        }
-    }
+	private void SwitchToDefanceState()
+	{
+		stateMachine.SwitchState(new PlayerDefenceState(stateMachine));
+	}
 
 
 }

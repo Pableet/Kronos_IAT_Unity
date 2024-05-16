@@ -18,17 +18,22 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
 	public Vector2 moveComposite;
 
 	public Action onMove;
-	public Action onJumpPerformed;		// 점프의 대한 액션을 담기 위한 변수
-	public Action onLAttackPerformed;	// 공격의 대한 액션을 담기 위한 변수
-	public Action onRAttackPerformed;	// 공격의 대한 액션을 담기 위한 변수
+	public Action onJumpPerformed;      // 점프의 대한 액션을 담기 위한 변수
 	
+	public Action onLAttackStart;   // 공격의 대한 액션을 담기 위한 변수
+	public Action onLAttackPerformed;   // 공격의 대한 액션을 담기 위한 변수
+	
+	public Action onRAttackStart;   
+	public Action onRAttackPerformed;
+	public Action onRAttackCanceled; 
+
 	public Action onSwitching;
 
 	private Controls controls;
 
 	private void OnEnable()
 	{
-		if(controls != null)
+		if (controls != null)
 		{
 			controls.Player.Enable();
 			return;
@@ -36,7 +41,7 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
 		controls = new Controls();
 		controls.Player.SetCallbacks(this); // InputReader는 IPlayerActions를 상속받았다.
 											// Actions을 세팅한다.
-		controls.Player.Enable();		// 사용가능한 형태로 만든다.
+		controls.Player.Enable();       // 사용가능한 형태로 만든다.
 	}
 
 	public void OnDisable()
@@ -60,7 +65,7 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
 
 	public void OnJump(InputAction.CallbackContext context)
 	{
-		if(!context.performed)
+		if (!context.performed)
 		{
 			return;
 		}
@@ -71,9 +76,23 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
 	{
 		onLAttackPerformed?.Invoke();
 	}
+	public void OnLAttackDown(InputAction.CallbackContext context)
+	{
+		onLAttackStart?.Invoke();
+	}
+	public 
+		void OnRAttackDown(InputAction.CallbackContext context)
+	{
+		onRAttackStart?.Invoke();
+	}
 	public void OnRAttack(InputAction.CallbackContext context)
 	{
 		onRAttackPerformed?.Invoke();
+	}
+
+	public void OnRAttackUp(InputAction.CallbackContext context)
+	{
+		onRAttackCanceled?.Invoke();
 	}
 
 	public void OnSwitchingAttribute(InputAction.CallbackContext context)
