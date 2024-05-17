@@ -72,8 +72,9 @@ public class CombatZone : MonoBehaviour
             {
                 return;
             }
-            isCLear = true;
         }
+
+        isCLear = true;
     }
 
     private void OnDrawGizmos()
