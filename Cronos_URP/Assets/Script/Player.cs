@@ -30,6 +30,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 	public float stopTiming = 0.2f;
 
 	public float tp;
+	public int Damage;
 
 	float totalspeed;
 	MeleeWeapon meleeWeapon;
@@ -50,7 +51,6 @@ public class Player : MonoBehaviour, IMessageReceiver
 	AutoTargetting targetting;
 
 	protected Damageable _damageable;
-	System.Action schedule;
 
 	private void Awake()
 	{
@@ -82,6 +82,24 @@ public class Player : MonoBehaviour, IMessageReceiver
 		{
 			PlayerRespawn();
 		}
+
+		meleeWeapon.damage = Damage;
+		_damageable.currentHitPoints = tp;
+	}
+	private void Update()
+	{
+		CurrentState = PlayerFSM.GetState().GetType().Name;
+
+		// 실시간으로 TP 감소
+		_damageable.currentHitPoints -= Time.deltaTime;
+
+		TP = _damageable.currentHitPoints;
+
+		if(TP <= 0 )
+		{
+			Debug.Log("죽엇당");
+		}
+
 	}
 
 	public void OnReceiveMessage(MessageType type, object sender, object data)
@@ -119,21 +137,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 
 		//We unparent the hit source, as it would destroy it with the gameobject when it get replaced by the ragdol otherwise
 	}
-	private void Update()
-	{
-		CurrentState = PlayerFSM.GetState().GetType().Name;
 
-		// 실시간으로 TP 감소
-		_damageable.currentHitPoints -= Time.deltaTime;
-
-		TP = _damageable.currentHitPoints;
-
-		if (TP <= 0)
-		{
-			schedule += _damageable.OnDeath.Invoke; //This avoid race condition when objects kill each other.
-		}
-
-	}
 
 	public void StartPlayer()
 	{
