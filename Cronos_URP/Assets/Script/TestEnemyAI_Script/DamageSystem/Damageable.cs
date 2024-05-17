@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Message;
+using Sonity.Internal;
 
 public partial class Damageable : MonoBehaviour
 {
@@ -114,6 +115,24 @@ public partial class Damageable : MonoBehaviour
         }
     }
 
+    public void JustDead()
+    {
+        Damageable.DamageMessage data;
+
+        data.amount = 1;
+        data.damager = this;
+        data.direction = new Vector3(0, 0 ,0);
+        data.damageSource = new Vector3(0, 0, 0);
+        data.throwing = false;
+        data.stopCamera = false;
+
+        for (var i = 0; i < onDamageMessageReceivers.Count; ++i)
+        {
+            var receiver = onDamageMessageReceivers[i] as IMessageReceiver;
+            receiver.OnReceiveMessage(MessageType.DEAD, this, data);
+        }
+    }
+
     void LateUpdate()
     {
         if (schedule != null)
@@ -135,7 +154,6 @@ public partial class Damageable : MonoBehaviour
             UnityEditor.Handles.ArrowHandleCap(0, transform.position, Quaternion.LookRotation(forward), 1.0f,
                 EventType.Repaint);
         }
-
 
         UnityEditor.Handles.color = new Color(1.0f, 0.0f, 0.0f, 0.5f);
         forward = Quaternion.AngleAxis(-hitAngle * 0.5f, transform.up) * forward;
