@@ -7,7 +7,7 @@ using Message;
 
 public partial class Damageable : MonoBehaviour
 {
-    public int maxHitPoints;
+    public float maxHitPoints;
     [Tooltip("피해를 받은 후 무적 상태가 되는 시간입니다.")]
     public float invulnerabiltyTime;
 
@@ -21,7 +21,7 @@ public partial class Damageable : MonoBehaviour
     public float hitForwardRotation = 360.0f;
 
     public bool isInvulnerable { get; set; }
-    public int currentHitPoints { get; private set; }
+    public float currentHitPoints { get; set; }
 
     public UnityEvent OnDeath, OnReceiveDamage, OnHitWhileInvulnerable, OnBecomeVulnerable, OnResetDamage;
 
