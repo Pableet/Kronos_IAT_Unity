@@ -29,6 +29,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 
 	public float stopTiming = 0.2f;
 
+	public float tp;
 
 	float totalspeed;
 	MeleeWeapon meleeWeapon;
@@ -40,8 +41,8 @@ public class Player : MonoBehaviour, IMessageReceiver
 	public float lookRotationDampFactor { get { return LookRotationDampFactor; } }
 
 	// chronos in game Option
-	public float CP { get; set; } = 100f;
-	public float TP { get; set; } = 100f;
+	public float CP { get; set; } 
+	public float TP { get { return tp; } set => tp = value; } 
 
 	// 플레이어 데이터를 저장하고 respawn시 반영하는 데이터
 	PlayerData playerData = new PlayerData();
@@ -49,6 +50,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 	AutoTargetting targetting;
 
 	protected Damageable _damageable;
+	System.Action schedule;
 
 	private void Awake()
 	{
@@ -108,26 +110,29 @@ public class Player : MonoBehaviour, IMessageReceiver
 	{
 		Debug.Log("죽었다리");
 		PlayerDeadRespawn();
-		//         var replacer = GetComponent<ReplaceWithRagdoll>();
-		// 
-		//         if (replacer != null)
-		//         {
-		//             replacer.Replace();
-		//         }
+		//var replacer = GetComponent<ReplaceWithRagdoll>();
+		//
+		//if (replacer != null)
+		//{
+		//    replacer.Replace();
+		//}
 
 		//We unparent the hit source, as it would destroy it with the gameobject when it get replaced by the ragdol otherwise
 	}
 	private void Update()
 	{
-
-
 		CurrentState = PlayerFSM.GetState().GetType().Name;
 
-		//         if (Input.GetKeyDown(KeyCode.I))
-		//         {
-		//             StartPlayer();
-		//             Debug.Log($"저장된 포지션 {playerData.RespawnPos.x}, {playerData.RespawnPos.y}, {playerData.RespawnPos.z}");
-		//         }
+		// 실시간으로 TP 감소
+		_damageable.currentHitPoints -= Time.deltaTime;
+
+		TP = _damageable.currentHitPoints;
+
+		if (TP <= 0)
+		{
+			schedule += _damageable.OnDeath.Invoke; //This avoid race condition when objects kill each other.
+		}
+
 	}
 
 	public void StartPlayer()
