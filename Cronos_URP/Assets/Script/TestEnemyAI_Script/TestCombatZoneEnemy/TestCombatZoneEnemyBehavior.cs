@@ -56,7 +56,7 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour, IMessageReceiver
 		if (_followerInstance != null)
             _followerInstance.distributor.UnregisterFollower(_followerInstance);
     }
-	private void FixedUpdate()
+    private void FixedUpdate()
     {
         LookAtTarget();
 
@@ -84,6 +84,7 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour, IMessageReceiver
 				break;
 		}
 	}
+
     void Damaged(Damageable.DamageMessage damageMessage)
     {
         _controller.animator.SetTrigger(hashDamageBase);
