@@ -73,7 +73,7 @@ public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
         Vector3 toBase = originalPosition - transform.position;
         toBase.y = 0;
 
-        SetNearBase(toBase.sqrMagnitude < 0.1 * 0.1f);
+        SetNearBase(toBase.sqrMagnitude < 1f); // 1 은 오차 범위
     }
 
 	public void OnReceiveMessage(MessageType type, object sender, object data)
