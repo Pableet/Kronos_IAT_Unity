@@ -7,6 +7,7 @@ using UnityEngine.InputSystem.XR;
 using UnityEngine.PlayerLoop;
 using UnityEngine.Purchasing;
 using UnityEngine.SceneManagement;
+using static UnityEngine.Rendering.DebugUI;
 
 
 /// <summary>
@@ -29,7 +30,8 @@ public class Player : MonoBehaviour, IMessageReceiver
 
 	public float stopTiming = 0.2f;
 
-	public float tp;
+	public float maxTP;
+	public float currentTP;
 	public int Damage;
 
 	float totalspeed;
@@ -42,8 +44,8 @@ public class Player : MonoBehaviour, IMessageReceiver
 	public float lookRotationDampFactor { get { return LookRotationDampFactor; } }
 
 	// chronos in game Option
-	public float CP { get; set; } 
-	public float TP { get { return tp; } set => tp = value; } 
+	public float CP { get; set; }
+	public float TP { get { return currentTP; } set => currentTP = value; }
 
 	// 플레이어 데이터를 저장하고 respawn시 반영하는 데이터
 	PlayerData playerData = new PlayerData();
@@ -83,8 +85,9 @@ public class Player : MonoBehaviour, IMessageReceiver
 			PlayerRespawn();
 		}
 
-		meleeWeapon.damage = Damage;
-		_damageable.currentHitPoints = tp;
+		AdjustAttackPower(Damage);  // 데미지 설정
+		AdjustTP(currentTP); // TP설정
+
 	}
 	private void Update()
 	{
@@ -95,11 +98,26 @@ public class Player : MonoBehaviour, IMessageReceiver
 
 		TP = _damageable.currentHitPoints;
 
-		if(TP <= 0 )
+		if (TP <= 0)
 		{
-			Debug.Log("죽엇당");
+			//Debug.Log("죽엇당");
+			_damageable.JustDead();
 		}
 
+	}
+
+	public void AdjustTP(float value)
+	{
+		_damageable.currentHitPoints += value;
+	}
+
+	public void AdjustAttackPower(int value)
+	{
+		meleeWeapon.damage += value;
+	}
+	public void AdjustSpeed(float vlaue)
+	{
+		Speed += vlaue;
 	}
 
 	public void OnReceiveMessage(MessageType type, object sender, object data)
@@ -109,6 +127,10 @@ public class Player : MonoBehaviour, IMessageReceiver
 			case MessageType.DAMAGED:
 				{
 					Damageable.DamageMessage damageData = (Damageable.DamageMessage)data;
+					if(true)
+					{
+						damageData.amount = 0;
+					}
 					Damaged(damageData);
 				}
 				break;
@@ -120,13 +142,18 @@ public class Player : MonoBehaviour, IMessageReceiver
 				break;
 		}
 	}
+
+
+
 	void Damaged(Damageable.DamageMessage damageMessage)
 	{
 		PlayerFSM.Animator.CrossFadeInFixedTime(hashDamageBase, 0.1f);
 	}
+
+
 	public void Death(Damageable.DamageMessage msg)
 	{
-		Debug.Log("죽었다리");
+		//Debug.Log("죽었다리");
 		PlayerDeadRespawn();
 		//var replacer = GetComponent<ReplaceWithRagdoll>();
 		//
@@ -166,7 +193,14 @@ public class Player : MonoBehaviour, IMessageReceiver
 
 	public void PlayerDeadRespawn()
 	{
-		SceneManager.LoadScene(GameManager.Instance.PlayerDT.saveScene);
+		if (GameManager.Instance.PlayerDT.saveScene != null)
+		{
+			SceneManager.LoadScene(GameManager.Instance.PlayerDT.saveScene);
+		}
+		else
+		{
+			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+		}
 		TP = GameManager.Instance.PlayerDT.TP;
 		CP = GameManager.Instance.PlayerDT.CP;
 		if (GameManager.Instance.PlayerDT.RespawnPos.x == 0f
