@@ -20,8 +20,6 @@ public class PlayerStateMachine : StateMachine
 
     private void OnEnable()
     {
-		Start();
-       // SwitchState(new PlayerMoveState(this));
     }
     public void Start()
     {
