@@ -27,13 +27,15 @@ public class Player : MonoBehaviour, IMessageReceiver
 	[SerializeField] private float Speed = 5f;
 	[SerializeField] private float JumpForce = 10f;
 	[SerializeField] private float LookRotationDampFactor = 10f;
-	[SerializeField] private float currentDamage;
+	[SerializeField] private float Damage;
+	[SerializeField] private float AttackSpeed = 1f;
 
 	public float stopTiming = 0.2f;
 
 	public float maxTP;
 	public float currentTP;
-	public float Damage;
+	public float currentDamage;
+	public float currentAttackSpeed = 1f;
 
 	float totalspeed;
 	MeleeWeapon meleeWeapon;
@@ -90,7 +92,9 @@ public class Player : MonoBehaviour, IMessageReceiver
 
 		AdjustAttackPower(Damage);  // 데미지 설정
 		AdjustTP(currentTP); // TP설정
-		
+
+		Debug.Log($"{meleeWeapon.damage}");
+
 		GameManager.Instance.PlayerDT = playerData;
 		GameManager.Instance.PlayerDT.saveScene = SceneManager.GetActiveScene().name;
 
@@ -116,13 +120,14 @@ public class Player : MonoBehaviour, IMessageReceiver
 
 	public void AdjustTP(float value)
 	{
+		maxTP += value;
 		_damageable.currentHitPoints += value;
 	}
 
 	public void AdjustAttackPower(float value)
 	{
-		Damage *= value;
-		meleeWeapon.damage = Damage;
+		currentDamage = value;
+		meleeWeapon.damage = currentDamage;
 	}
 	public void AdjustSpeed(float vlaue)
 	{

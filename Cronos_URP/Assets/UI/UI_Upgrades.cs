@@ -33,7 +33,7 @@ public class UI_Upgrades : MonoBehaviour
     public void UpgradeG()
     {
         // 데모 : 공격력 50% 증가
-        float val = player.Damage * 1.5f;
+        float val = player.currentDamage * 1.5f;
         player.AdjustAttackPower(val);
     }
 }
