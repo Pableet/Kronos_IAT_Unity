@@ -1356,7 +1356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afdff8ec34ffe30418fc71af88bd022b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  damage: 30
   hitParticlePrefab: {fileID: 0}
   targetLayers:
     serializedVersion: 2
@@ -1962,7 +1962,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1982053842736507753}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.05021483, y: -0.0038053836, z: 0.0027556708, w: 0.99872744}
+  m_LocalRotation: {x: 0.050214835, y: -0.0038053815, z: 0.0027556706, w: 0.99872744}
   m_LocalPosition: {x: -0.0000019073486, y: 0.000015258789, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5108,6 +5108,7 @@ GameObject:
   - component: {fileID: 7867091415844459115}
   - component: {fileID: 5727460518259777364}
   - component: {fileID: 1026745802361960729}
+  - component: {fileID: 4402606030332162940}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -5152,6 +5153,10 @@ MonoBehaviour:
   JumpForce: 0
   LookRotationDampFactor: 10
   stopTiming: 0.37
+  maxTP: 500
+  currentTP: 500
+  Damage: 0
+  _damageable: {fileID: 0}
 --- !u!114 &8820714775191368240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5280,10 +5285,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c807bc4a94ff6449756000c7ad95cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHitPoints: 3
+  timePoints: 0
   invulnerabiltyTime: 0
   hitAngle: 360
   hitForwardRotation: 360
+  defensible: {fileID: 4402606030332162940}
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -5313,6 +5319,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ragdollPrefab: {fileID: 8902862480717848591, guid: 65198d2d24e85d2409ed728a5bfe57f6, type: 3}
+--- !u!114 &4402606030332162940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5219923400355672890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 017fd2435109984458565bb3d683121e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDefending: 0
+  dampRatio: 10
+  hitAngle: 360
+  hitForwardRotation: 360
 --- !u!1 &5471348209532138059
 GameObject:
   m_ObjectHideFlags: 0

@@ -161,10 +161,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c807bc4a94ff6449756000c7ad95cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHitPoints: 300
+  timePoints: 300
   invulnerabiltyTime: 0
   hitAngle: 360
   hitForwardRotation: 360
+  defensible: {fileID: 0}
   OnDeath:
     m_PersistentCalls:
       m_Calls: []

@@ -27,6 +27,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 	[SerializeField] private float Speed = 5f;
 	[SerializeField] private float JumpForce = 10f;
 	[SerializeField] private float LookRotationDampFactor = 10f;
+	[SerializeField] private float currentDamage;
 
 	public float stopTiming = 0.2f;
 
@@ -53,6 +54,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 	AutoTargetting targetting;
 
 	public Damageable _damageable;
+	public Defensible _defnsible;
 
 	private void Awake()
 	{
@@ -61,6 +63,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 	private void OnEnable()
 	{
 		_damageable = GetComponent<Damageable>();
+		_defnsible = GetComponent<Defensible>();
 		_damageable.onDamageMessageReceivers.Add(this);
 
 	}
@@ -87,6 +90,9 @@ public class Player : MonoBehaviour, IMessageReceiver
 
 		AdjustAttackPower(Damage);  // 데미지 설정
 		AdjustTP(currentTP); // TP설정
+		
+		GameManager.Instance.PlayerDT = playerData;
+		GameManager.Instance.PlayerDT.saveScene = SceneManager.GetActiveScene().name;
 
 	}
 	private void Update()
@@ -104,6 +110,8 @@ public class Player : MonoBehaviour, IMessageReceiver
 			_damageable.JustDead();
 		}
 
+		currentDamage = meleeWeapon.damage;
+
 	}
 
 	public void AdjustTP(float value)
@@ -114,6 +122,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 	public void AdjustAttackPower(float value)
 	{
 		Damage *= value;
+		meleeWeapon.damage = Damage;
 	}
 	public void AdjustSpeed(float vlaue)
 	{
@@ -193,7 +202,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 
 	public void PlayerDeadRespawn()
 	{
-		if (GameManager.Instance.PlayerDT.saveScene != null)
+		if (SceneManager.GetActiveScene().name != GameManager.Instance.PlayerDT.saveScene)
 		{
 			SceneManager.LoadScene(GameManager.Instance.PlayerDT.saveScene);
 		}
@@ -201,7 +210,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 		{
 			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 		}
-		TP = GameManager.Instance.PlayerDT.TP;
+		TP = maxTP;
 		CP = GameManager.Instance.PlayerDT.CP;
 		if (GameManager.Instance.PlayerDT.RespawnPos.x == 0f
 			&& GameManager.Instance.PlayerDT.RespawnPos.y == 0f

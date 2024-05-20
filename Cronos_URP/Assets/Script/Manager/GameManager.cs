@@ -62,8 +62,15 @@ public class GameManager : MonoBehaviour
     }
     void SetCursorInactive()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false; // 마우스 안보이게 하기
+        Cursor.visible = !Cursor.visible; // 마우스 안보이게 하기
+        if(Cursor.visible)
+		{
+			Cursor.lockState = CursorLockMode.None;
+		}
+		else
+		{
+			Cursor.lockState = CursorLockMode.Locked;
+		}
     }
 
     public IEnumerator SceneTransition(string NextScene)

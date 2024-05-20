@@ -11,9 +11,10 @@ public class PlayerDefenceState : PlayerBaseState
 	public PlayerDefenceState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 	public override void Enter()
 	{
+		stateMachine.Player._defnsible.isDefending = true;
 		stateMachine.Animator.Rebind();
 		stateMachine.Animator.CrossFadeInFixedTime(DefenceHash, CrossFadeDuration);
-
+		
 		stateMachine.InputReader.onRAttackPerformed += isDefencing;
 		stateMachine.InputReader.onRAttackCanceled += isNotDefencing;
 	}
@@ -47,6 +48,7 @@ public class PlayerDefenceState : PlayerBaseState
 
 	private void isNotDefencing()
 	{
+		stateMachine.Player._defnsible.isDefending = false;
 		isdefence = false;
 		stateMachine.Animator.StartPlayback();
 		stateMachine.Animator.speed = 1f;

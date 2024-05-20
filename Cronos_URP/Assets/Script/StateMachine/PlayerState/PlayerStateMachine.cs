@@ -6,6 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]            // 사용지정 어트리뷰트 RequireComponenet
 [RequireComponent(typeof(CharacterController))] // 해당컴포넌트를 추가해준다
 [RequireComponent(typeof(Player))]
+
 public class PlayerStateMachine : StateMachine
 {
     public Vector3 Velocity;

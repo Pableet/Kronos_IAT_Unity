@@ -61,8 +61,8 @@ public class EffectManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateWpos();
-        UpdateEpos();
+//         UpdateWpos();
+//         UpdateEpos();
     }
 
     void Initialize()
@@ -135,37 +135,37 @@ public class EffectManager : MonoBehaviour
         }
     }
 
-    void UpdateWpos()
-    {
-        burst.transform.position = player.transform.position;
-    }
-
-
-    void UpdateEpos()
-    {
-        if (skull.activeSelf == false)
-        {
-            skull.transform.position = player.transform.position + Vector3.up * 2.0f;
-            return;
-        }
-
-        Vector3 dir = EdestPos - skull.transform.position;
-        dir.y = 0f;
-        float speed = 15.0f;
-
-        float moveDist = Mathf.Clamp(speed * Time.deltaTime, 0, dir.magnitude);
-
-        if (dir.magnitude < 0.001f)
-        {
-            skull.SetActive(false);
-            skull.transform.position = player.transform.position + Vector3.up * 2.0f;
-        }
-        else
-        {
-            Vector3 newPosition = skull.transform.position + new Vector3(dir.x, 0f, dir.z).normalized * moveDist;
-            skull.transform.position = newPosition;
-        }
-    }
+//     void UpdateWpos()
+//     {
+//         burst.transform.position = player.transform.position;
+//     }
+// 
+// 
+//     void UpdateEpos()
+//     {
+//         if (skull.activeSelf == false)
+//         {
+//             skull.transform.position = player.transform.position + Vector3.up * 2.0f;
+//             return;
+//         }
+// 
+//         Vector3 dir = EdestPos - skull.transform.position;
+//         dir.y = 0f;
+//         float speed = 15.0f;
+// 
+//         float moveDist = Mathf.Clamp(speed * Time.deltaTime, 0, dir.magnitude);
+// 
+//         if (dir.magnitude < 0.001f)
+//         {
+//             skull.SetActive(false);
+//             skull.transform.position = player.transform.position + Vector3.up * 2.0f;
+//         }
+//         else
+//         {
+//             Vector3 newPosition = skull.transform.position + new Vector3(dir.x, 0f, dir.z).normalized * moveDist;
+//             skull.transform.position = newPosition;
+//         }
+//     }
 
     GameObject FindName(string name)
     {
