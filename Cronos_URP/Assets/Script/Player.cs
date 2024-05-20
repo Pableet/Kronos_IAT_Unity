@@ -52,7 +52,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 	Transform playerTransform;
 	AutoTargetting targetting;
 
-	protected Damageable _damageable;
+	public Damageable _damageable;
 
 	private void Awake()
 	{

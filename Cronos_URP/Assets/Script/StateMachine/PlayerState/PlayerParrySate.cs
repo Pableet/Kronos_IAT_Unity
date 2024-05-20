@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.WSA;
 
 public class PlayerParryState : PlayerBaseState
 {
@@ -11,22 +12,24 @@ public class PlayerParryState : PlayerBaseState
 	public override void Enter()
 	{
 		stateMachine.Animator.CrossFadeInFixedTime(JumpHash, CrossFadeDuration);
+		stateMachine.Player._damageable.isInvulnerable = true;
 	}
 	public override void Tick()
 	{
+		
 		AnimatorStateInfo stateInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
 
-        stateMachine.GetComponentInChildren<Transform>().position +=
-    GameObject.Find("PlayerObj").GetComponent<Transform>().forward.normalized * 4 * Time.deltaTime;
+		stateMachine.GetComponentInChildren<Transform>().position +=
+	GameObject.Find("PlayerObj").GetComponent<Transform>().forward.normalized * 4 * Time.deltaTime;
 
-        if (stateInfo.IsName("Dodge") && stateInfo.normalizedTime >= 1.0f && stateInfo.normalizedTime <= 1.1f)
+		if (stateInfo.IsName("Dodge") && stateInfo.normalizedTime >= 1.0f && stateInfo.normalizedTime <= 1.1f)
 		{
 			stateMachine.SwitchState(new PlayerMoveState(stateMachine));
 		}
-		
+
 	}
 	public override void Exit()
 	{
-
+		stateMachine.Player._damageable.isInvulnerable = false;
 	}
 }
