@@ -233,7 +233,7 @@ PrefabInstance:
       addedObject: {fileID: 1054970846}
 =======
       addedObject: {fileID: 1054970853}
->>>>>>> origin/develop
+>>>>>>> origin/feat/defens
   m_SourcePrefab: {fileID: 100100000, guid: 7ae956b4f54394e80818898d8f4d30c6, type: 3}
 --- !u!1001 &476624910
 PrefabInstance:
@@ -984,7 +984,7 @@ Transform:
 --- !u!114 &1054970846
 =======
 --- !u!114 &1054970853
->>>>>>> origin/develop
+>>>>>>> origin/feat/defens
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1013,7 +1013,7 @@ MonoBehaviour:
   isDefending: 1
   hitAngle: 139
   hitForwardRotation: 0
->>>>>>> origin/develop
+>>>>>>> origin/feat/defens
 --- !u!1001 &1218719159
 PrefabInstance:
   m_ObjectHideFlags: 0
