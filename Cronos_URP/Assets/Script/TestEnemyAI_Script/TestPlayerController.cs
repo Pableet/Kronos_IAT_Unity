@@ -24,10 +24,17 @@ public class TestPlayerController : MonoBehaviour, IMessageReceiver
     {
         m_Damageable = GetComponent<Damageable>();
         m_Damageable.onDamageMessageReceivers.Add(this);
+
+        // TEST
+        //GetComponent<MeleeWeapon>().SetOwner(gameObject);
+        //GetComponent<MeleeWeapon>().BeginAttack(false);
     }
 
     void OnDisable()
     {
+        // TEST
+        //GetComponent<MeleeWeapon>().EndAttack();
+
         m_Damageable.onDamageMessageReceivers.Remove(this);
     }
     public void OnReceiveMessage(MessageType type, object sender, object data)

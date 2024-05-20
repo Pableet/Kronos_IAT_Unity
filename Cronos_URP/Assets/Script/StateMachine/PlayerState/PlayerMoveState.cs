@@ -17,8 +17,8 @@ public class PlayerMoveState : PlayerBaseState
 		
 		//stateMachine.InputReader.onJumpPerformed += SwitchToJumpState;	// 스테이트에 돌입할때 input에 맞는 함수를 넣어준다
 		stateMachine.InputReader.onJumpPerformed += SwitchToParryState;	// 스테이트에 돌입할때 input에 맞는 함수를 넣어준다
-		stateMachine.InputReader.onLAttackPerformed += SwitchToLAttackState;
-		stateMachine.InputReader.onRAttackPerformed += SwitchToRAttackState;
+		stateMachine.InputReader.onLAttackStart += SwitchToLAttackState;
+		stateMachine.InputReader.onRAttackStart += SwitchToDefanceState;
 	}
 
 	// state의 update라 볼 수 있지
@@ -55,8 +55,8 @@ public class PlayerMoveState : PlayerBaseState
 		// 상태를 탈출할때는 jump의 대한 Action을 제거해준다.
 		//stateMachine.InputReader.onJumpPerformed -= SwitchToJumpState;
 		stateMachine.InputReader.onJumpPerformed -= SwitchToParryState;
-		stateMachine.InputReader.onLAttackPerformed -= SwitchToLAttackState;
-		stateMachine.InputReader.onRAttackPerformed -= SwitchToRAttackState;
+		stateMachine.InputReader.onLAttackStart -= SwitchToLAttackState;
+		stateMachine.InputReader.onRAttackStart -= SwitchToDefanceState;
 
 	}
 
@@ -77,6 +77,10 @@ public class PlayerMoveState : PlayerBaseState
 	private void SwitchToRAttackState()
 	{
 		stateMachine.SwitchState(new PlayerPunchState(stateMachine));
+	}
+	private void SwitchToDefanceState()
+	{
+		stateMachine.SwitchState(new PlayerDefenceState(stateMachine));
 	}
 }
 
