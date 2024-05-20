@@ -12,6 +12,7 @@ public class UI_UpgradePopup : MonoBehaviour, IPointerDownHandler
     public Button gold;
 
     GameObject confirm;
+    UI_Upgrades upgrades;
 
     UI_UpgradeButton upgradeB;
     UI_UpgradeButton upgradeS;
@@ -38,6 +39,11 @@ public class UI_UpgradePopup : MonoBehaviour, IPointerDownHandler
         silver.onClick.AddListener(() => OnButtonClick(silver));
         gold.onClick.AddListener(() => OnButtonClick(gold));
         confirm.SetActive(false);
+        upgrades = gameObject.GetComponent<UI_Upgrades>();
+        if (upgrades == null)
+        {
+            Debug.Log("업그레이드가 널");
+        }
     }
 
     public void OnButtonClick(Button clickedButton)
@@ -112,6 +118,29 @@ public class UI_UpgradePopup : MonoBehaviour, IPointerDownHandler
     public void DoUpgrade()
     {
         // isSelected에 따른 업데이트 실행 후
+        if (upgradeB.isSelected)
+        {
+            upgrades.UpgradeB();
+            upgradeB.isSelected = false;
+        }
+
+        if (upgradeS.isSelected)
+        {
+            upgrades.UpgradeS();
+            upgradeS.isSelected = false;
+        }
+
+        if (upgradeG.isSelected)
+        {
+            upgrades.UpgradeG();
+            upgradeG.isSelected = false;
+        }
+
+        // 끌 거 다 끄고
+        bronze.transform.localScale = originScale;
+        silver.transform.localScale = originScale;
+        gold.transform.localScale = originScale;
+        confirm.SetActive(false);
 
         // ui 닫기
         UI_PowerUp.StopPowerUp();
