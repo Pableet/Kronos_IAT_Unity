@@ -32,7 +32,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 
 	public float maxTP;
 	public float currentTP;
-	public int Damage;
+	public float Damage;
 
 	float totalspeed;
 	MeleeWeapon meleeWeapon;
@@ -111,9 +111,9 @@ public class Player : MonoBehaviour, IMessageReceiver
 		_damageable.currentHitPoints += value;
 	}
 
-	public void AdjustAttackPower(int value)
+	public void AdjustAttackPower(float value)
 	{
-		meleeWeapon.damage += value;
+		Damage *= value;
 	}
 	public void AdjustSpeed(float vlaue)
 	{

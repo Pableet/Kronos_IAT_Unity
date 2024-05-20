@@ -26,9 +26,14 @@ public class UI_PowerUp : MonoBehaviour
     {
         if (isPowerUp && Input.GetKeyDown(KeyCode.X))
         {
-            ExitPowerUp();
-            isPowerUp = false;
+            StopPowerUp();
         }
+    }
+
+    public static void StopPowerUp()
+    {
+        ExitPowerUp();
+        isPowerUp = false;
     }
 
     public static void PowerUp()
