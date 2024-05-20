@@ -42,7 +42,7 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour, IMessageReceiver
     void OnEnable()
     {
 		_damageable = GetComponent<Damageable>();
-		_damageable.onDamageMessageReceivers.Add(this);
+        _damageable.onDamageMessageReceivers.Add(this);
 
 		SceneLinkedSMB<TestCombatZoneEnemyBehavior>.Initialise(_controller.animator, this);
 
@@ -56,7 +56,7 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour, IMessageReceiver
 		if (_followerInstance != null)
             _followerInstance.distributor.UnregisterFollower(_followerInstance);
     }
-	private void FixedUpdate()
+    private void FixedUpdate()
     {
         LookAtTarget();
 
@@ -84,6 +84,7 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour, IMessageReceiver
 				break;
 		}
 	}
+
     void Damaged(Damageable.DamageMessage damageMessage)
     {
         _controller.animator.SetTrigger(hashDamageBase);

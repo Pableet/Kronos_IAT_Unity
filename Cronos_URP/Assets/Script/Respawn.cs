@@ -11,7 +11,6 @@ public class Respawn : MonoBehaviour
 
 	private void Awake()
 	{
-		DontDestroyOnLoad(this.gameObject);
 	}
 	private void Start()
 	{
@@ -25,6 +24,7 @@ public class Respawn : MonoBehaviour
 	{
 		if(Input.GetKeyDown(KeyCode.P))
 		{
+			GameManager.Instance.isRespawn = true;
             RespawnPlayer();
 		}
 	}

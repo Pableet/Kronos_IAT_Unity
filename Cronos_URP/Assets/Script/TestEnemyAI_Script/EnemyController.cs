@@ -145,7 +145,9 @@ public class EnemyController : MonoBehaviour
         {
             _navMeshAgent.speed = (_animator.deltaPosition / Time.deltaTime).magnitude;
 
-            /// test용
+            /// test용. 
+            /// deltaPosition 값이 없는 보스 걷기 모션을 위한 임시방변.
+            /// TODO - 네브메시에이전트 스피드를 외부에서 설정할 수 있게 해야겠다.
             if (_animator.deltaPosition.magnitude <= 0.0f )
             {
                 _navMeshAgent.speed = 3f;
