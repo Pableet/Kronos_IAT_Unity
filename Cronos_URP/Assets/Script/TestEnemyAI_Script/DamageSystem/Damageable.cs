@@ -8,7 +8,7 @@ using Sonity.Internal;
 
 public partial class Damageable : MonoBehaviour
 {
-    public float timePoints;
+    public float maxHitPoints;
     [Tooltip("피해를 받은 후 무적 상태가 되는 시간입니다.")]
     public float invulnerabiltyTime;
 
@@ -21,14 +21,8 @@ public partial class Damageable : MonoBehaviour
     [FormerlySerializedAs("hitForwardRoation")] //SHAME!
     public float hitForwardRotation = 360.0f;
 
-    public Defensible defensible;
-
     public bool isInvulnerable { get; set; }
-    public float currentHitPoints
-    {
-        get { return timePoints; }
-        set { timePoints = value; }
-    }
+    public float currentHitPoints { get; set; }
 
     public UnityEvent OnDeath, OnReceiveDamage, OnHitWhileInvulnerable, OnBecomeVulnerable, OnResetDamage;
 
@@ -63,7 +57,7 @@ public partial class Damageable : MonoBehaviour
 
     public void ResetDamage()
     {
-        currentHitPoints = timePoints;
+        currentHitPoints = maxHitPoints;
         isInvulnerable = false;
         m_timeSinceLastHit = 0.0f;
         OnResetDamage.Invoke();
@@ -99,11 +93,6 @@ public partial class Damageable : MonoBehaviour
         if (Vector3.Angle(forward, positionToDamager) > hitAngle * 0.5f)
             return;
 
-        if(defensible)
-        {
-            defensible.ApplyDamage(ref data);
-        }
-
         isInvulnerable = true;
         currentHitPoints -= data.amount;
 
@@ -132,7 +121,7 @@ public partial class Damageable : MonoBehaviour
 
         data.amount = 1;
         data.damager = this;
-        data.direction = new Vector3(0, 0, 0);
+        data.direction = new Vector3(0, 0 ,0);
         data.damageSource = new Vector3(0, 0, 0);
         data.throwing = false;
         data.stopCamera = false;
@@ -168,7 +157,7 @@ public partial class Damageable : MonoBehaviour
 
         UnityEditor.Handles.color = new Color(1.0f, 0.0f, 0.0f, 0.5f);
         forward = Quaternion.AngleAxis(-hitAngle * 0.5f, transform.up) * forward;
-        UnityEditor.Handles.DrawSolidArc(transform.position, transform.up, forward, hitAngle, 0.8f);
+        UnityEditor.Handles.DrawSolidArc(transform.position, transform.up, forward, hitAngle, 1.0f);
     }
 #endif
 }
