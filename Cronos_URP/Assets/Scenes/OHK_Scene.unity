@@ -769,7 +769,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1854546f486021d44bb2231787102ef1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _combatZone: {fileID: 0}
+  _combatZone: {fileID: 1700152939}
 --- !u!65 &706321402
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -865,6 +865,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 32277415310417074, guid: 99e3851a68612c54795d68cd96d1edd5, type: 3}
+      propertyPath: timePoints
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 217663813427570013, guid: 99e3851a68612c54795d68cd96d1edd5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.09
@@ -905,6 +909,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1369664902796781197, guid: 99e3851a68612c54795d68cd96d1edd5, type: 3}
+      propertyPath: timePoints
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2981255908043090230, guid: 99e3851a68612c54795d68cd96d1edd5, type: 3}
+      propertyPath: timePoints
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4612900066508551704, guid: 99e3851a68612c54795d68cd96d1edd5, type: 3}
+      propertyPath: timePoints
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5041791374715098380, guid: 99e3851a68612c54795d68cd96d1edd5, type: 3}
+      propertyPath: timePoints
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6303405814328371012, guid: 99e3851a68612c54795d68cd96d1edd5, type: 3}
       propertyPath: m_Name
       value: CombatZone Set (1)
@@ -913,6 +933,14 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 1037165163}
+    - target: {fileID: 7547876800347909072, guid: 99e3851a68612c54795d68cd96d1edd5, type: 3}
+      propertyPath: timePoints
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731822556038679518, guid: 99e3851a68612c54795d68cd96d1edd5, type: 3}
+      propertyPath: timePoints
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -972,7 +1000,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9131941361623302844, guid: 95e6c27bd2a10b84b927845d6b61db73, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1324,6 +1352,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1700152939 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6502126935209643705, guid: 99e3851a68612c54795d68cd96d1edd5, type: 3}
+  m_PrefabInstance: {fileID: 782474126}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da4ff4e4fe177d47b4113ed1765a3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1904080491
 GameObject:
   m_ObjectHideFlags: 0
