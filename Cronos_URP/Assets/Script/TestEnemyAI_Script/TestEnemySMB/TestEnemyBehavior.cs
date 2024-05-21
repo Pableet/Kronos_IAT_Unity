@@ -19,7 +19,7 @@ public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
 	public static readonly int hashDamageBase = Animator.StringToHash("damage");
 
 
-	public MeleeWeapon meleeWeapon;
+	public MeleeTriggerEnterDamager meleeWeapon;
     public TargetScanner playerScanner = new TargetScanner();
     public float timeToStopPursuit;
 
