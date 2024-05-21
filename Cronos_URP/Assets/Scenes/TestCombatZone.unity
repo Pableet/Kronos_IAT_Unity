@@ -220,13 +220,13 @@ PrefabInstance:
       addedObject: {fileID: 1054970838}
     - targetCorrespondingSourceObject: {fileID: 3862277631971027947, guid: 7ae956b4f54394e80818898d8f4d30c6, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1054970836}
-    - targetCorrespondingSourceObject: {fileID: 3862277631971027947, guid: 7ae956b4f54394e80818898d8f4d30c6, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1054970837}
     - targetCorrespondingSourceObject: {fileID: 3862277631971027947, guid: 7ae956b4f54394e80818898d8f4d30c6, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1054970853}
+      addedObject: {fileID: 1054970836}
+    - targetCorrespondingSourceObject: {fileID: 3862277631971027947, guid: 7ae956b4f54394e80818898d8f4d30c6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1054970846}
   m_SourcePrefab: {fileID: 100100000, guid: 7ae956b4f54394e80818898d8f4d30c6, type: 3}
 --- !u!1001 &476624910
 PrefabInstance:
@@ -935,11 +935,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c807bc4a94ff6449756000c7ad95cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timePoints: 1000
+  maxHitPoints: 0
   invulnerabiltyTime: 0
   hitAngle: 360
   hitForwardRotation: 360
-  defensible: {fileID: 1054970853}
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -968,7 +967,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94ff9f3542fd28c44a4f389679585067, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1054970853
+--- !u!4 &1054970845 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1114260476483171701, guid: 7ae956b4f54394e80818898d8f4d30c6, type: 3}
+  m_PrefabInstance: {fileID: 111259170}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1054970846
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -977,12 +981,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1054970827}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 017fd2435109984458565bb3d683121e, type: 3}
+  m_Script: {fileID: 11500000, guid: afdff8ec34ffe30418fc71af88bd022b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDefending: 1
-  hitAngle: 139
-  hitForwardRotation: 0
+  damage: 1
+  hitParticlePrefab: {fileID: 0}
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 256
+  attackPoints:
+  - radius: 1
+    offset: {x: 0, y: 1.19, z: 0}
+    attackRoot: {fileID: 1054970845}
 --- !u!1001 &1218719159
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1147,11 +1157,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c807bc4a94ff6449756000c7ad95cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timePoints: 0
+  maxHitPoints: 10
   invulnerabiltyTime: 0
   hitAngle: 360
   hitForwardRotation: 360
-  defensible: {fileID: 0}
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -1449,10 +1458,6 @@ PrefabInstance:
     - target: {fileID: 1114260476483171701, guid: 5ee319622ff1152429f9de99628f6bdc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3743238336904529619, guid: 5ee319622ff1152429f9de99628f6bdc, type: 3}
-      propertyPath: damage
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3862277631971027947, guid: 5ee319622ff1152429f9de99628f6bdc, type: 3}
       propertyPath: m_Name
