@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CinemachineTarget
   - PlayerFollowCamera
+  - CombatZone
   layers:
   - Default
   - TransparentFX

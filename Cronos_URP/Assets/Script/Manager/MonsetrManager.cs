@@ -40,7 +40,6 @@ class MonsterManager : MonoBehaviour
     public GameObject monster;
     public GameObject Player;
     public List<GameObject> list = new List<GameObject>();
-    public List<TestCombatZoneEnemyBehavior> combatlist = new List<TestCombatZoneEnemyBehavior>();
 
     private MonsterManager() {  }
 

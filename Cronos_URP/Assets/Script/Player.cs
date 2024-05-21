@@ -120,11 +120,9 @@ public class Player : MonoBehaviour, IMessageReceiver
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.CompareTag("CombatZone")) 
-		{
-			MonsterManager.Instance.combatlist.Add(other.GetComponent<CombatZone>().enemyList[0]);
-		}
+
 	}
+
 
 	public void AdjustTP(float value)
 	{

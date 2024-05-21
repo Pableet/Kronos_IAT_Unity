@@ -54,7 +54,7 @@ public class AutoTargetting : MonoBehaviour
 
             if ( Target == null)
             {
-                return; 
+                 return; 
             }
             else
             {
