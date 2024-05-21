@@ -7,6 +7,7 @@ using static Damageable;
 public class Defensible : MonoBehaviour
 {
     public bool isDefending;
+    [Range(1.0f, 100.0f)]
     public float dampRatio = 10.0f;
 
     [Tooltip("대미지를 입힐 수 있는 각도입니다. 항상 월드 XZ 평면에 있으며, 전방은 hitForwardRoation으로 회전합니다.")]
