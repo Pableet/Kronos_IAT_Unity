@@ -11,8 +11,7 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour, IMessageReceiver
     public static readonly int hashNearBase = Animator.StringToHash("nearBase");
     public static readonly int hashDamageBase = Animator.StringToHash("damage");
 
-    public MeleeWeapon meleeWeapon;
-    //public TargetScanner playerScanner = new TargetScanner();
+    public MeleeTriggerEnterDamager meleeWeapon;
 
     public float timeToStopPursuit;
 
@@ -35,7 +34,6 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour, IMessageReceiver
     void Awake()
     {
         _controller = GetComponentInChildren<EnemyController>();
-
         meleeWeapon.SetOwner(gameObject);
     }
 
@@ -244,10 +242,6 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour, IMessageReceiver
     public void SetInPursuit(bool inPursuit)
     {
         _controller.animator.SetBool(hashInPursuit, inPursuit);
-    }
-
-    private void OnDrawGizmos()
-    {
     }
 
     private void OnDrawGizmosSelected()

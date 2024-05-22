@@ -72,7 +72,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8e609c67eb07e246ac7d65b344e2603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meleeWeapon: {fileID: 5648296741506854101}
+  meleeWeapon: {fileID: 2375827858281322030}
   timeToStopPursuit: 0
   attackDistance: 2
 --- !u!114 &3591490548627695575
@@ -420,14 +420,38 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c8b4d97805222ca44aa7f40f8e6c3a67, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5648296741506854101}
+      addedObject: {fileID: 6113876254263159954}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c8b4d97805222ca44aa7f40f8e6c3a67, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2375827858281322030}
   m_SourcePrefab: {fileID: 100100000, guid: c8b4d97805222ca44aa7f40f8e6c3a67, type: 3}
 --- !u!1 &2867394635572637099 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c8b4d97805222ca44aa7f40f8e6c3a67, type: 3}
   m_PrefabInstance: {fileID: 3101398957359091962}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5648296741506854101
+--- !u!65 &6113876254263159954
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2867394635572637099}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.29117993, y: 1.3027447, z: 0.14509305}
+  m_Center: {x: -0.00022498671, y: 0.44038746, z: 0.0000000071726536}
+--- !u!114 &2375827858281322030
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -436,27 +460,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2867394635572637099}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afdff8ec34ffe30418fc71af88bd022b, type: 3}
+  m_Script: {fileID: 11500000, guid: d5cd88515cb5d774d830ef4f9a144cf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 30
-  hitParticlePrefab: {fileID: 0}
+  damageAmount: 1
+  stopCamera: 0
   targetLayers:
     serializedVersion: 2
     m_Bits: 512
-  attackPoints:
-  - radius: 0.1
-    offset: {x: 0, y: 0.4, z: 0}
-    attackRoot: {fileID: 3206801073555289873}
-  - radius: 0.1
-    offset: {x: 0, y: 0.6, z: 0}
-    attackRoot: {fileID: 3206801073555289873}
-  - radius: 0.1
-    offset: {x: 0, y: 0.8, z: 0}
-    attackRoot: {fileID: 3206801073555289873}
-  - radius: 0.1
-    offset: {x: 0, y: 1, z: 0}
-    attackRoot: {fileID: 3206801073555289873}
 --- !u!4 &3206801073555289873 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c8b4d97805222ca44aa7f40f8e6c3a67, type: 3}
