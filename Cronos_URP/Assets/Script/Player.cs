@@ -115,6 +115,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 			else
 			{
 				currentTP = maxTP;
+				_damageable.currentHitPoints = currentTP;
 			}
 
 		}

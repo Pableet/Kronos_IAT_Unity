@@ -12,6 +12,8 @@ public class Door : MonoBehaviour
 
 	public CombatZone _combatZone;
 
+	public bool isLeft;
+
 	void Start()
 	{
 	}
@@ -24,20 +26,28 @@ public class Door : MonoBehaviour
 			isOpening = true;
 		}
 
-		OpenTheDoor(isOpening);
-
-		if(Mathf.Abs(angle) >= 80f)
+		if (Mathf.Abs(angle) >= 80f)
 		{
-			isOpening=false;
+			isOpening = false;
 		}
+
+		OpenTheDoor(isOpening);
 
 	}
 	void OpenTheDoor(bool value)
 	{
 		if (isOpening)
 		{
-			angle += Time.deltaTime * speed ;
-			GetComponent<Transform>().Rotate(new Vector3(0f, 1f, 0f), Time.deltaTime*speed);
+			if (isLeft)
+			{
+				angle += Time.deltaTime * speed;
+			GetComponent<Transform>().Rotate(new Vector3(0f, 1f, 0f), Time.deltaTime * speed);
+			}
+			else
+			{
+				angle -= Time.deltaTime * speed;
+			GetComponent<Transform>().Rotate(new Vector3(0f, 1f, 0f), Time.deltaTime * -speed);
+			}
 		}
 	}
 }
