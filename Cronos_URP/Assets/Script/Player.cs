@@ -38,9 +38,8 @@ public class Player : MonoBehaviour, IMessageReceiver
 	public float currentAttackSpeed = 1f;
 
 	float totalspeed;
-	MeleeWeapon meleeWeapon;
+	MeleeTriggerEnterDamager meleeWeapon;
 	PlayerStateMachine PlayerFSM;
-
 
 	public float moveSpeed { get { return totalspeed; } }
 	public float jumpForce { get { return JumpForce; } }
@@ -80,7 +79,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 		// 반드시 지워져야할 부분이지만 임시로 넣는다
 		PlayerFSM = GetComponent<PlayerStateMachine>();
 		playerTransform = GetComponent<Transform>();
-		meleeWeapon = GetComponentInChildren<MeleeWeapon>();
+		meleeWeapon = GetComponentInChildren<MeleeTriggerEnterDamager>();
 		meleeWeapon.SetOwner(gameObject);
 		targetting = GetComponentInChildren<AutoTargetting>();
 		totalspeed = Speed;
@@ -91,9 +90,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 		}
 
 		AdjustAttackPower(Damage);  // 데미지 설정
-		AdjustTP(currentTP); // TP설정
-
-		Debug.Log($"{meleeWeapon.damage}");
+		_damageable.currentHitPoints += maxTP;
 
 		GameManager.Instance.PlayerDT = playerData;
 		GameManager.Instance.PlayerDT.saveScene = SceneManager.GetActiveScene().name;
@@ -108,13 +105,27 @@ public class Player : MonoBehaviour, IMessageReceiver
 
 		TP = _damageable.currentHitPoints;
 
+		if (Input.GetKeyDown(KeyCode.UpArrow))
+		{
+			if (currentTP + 100f < maxTP)
+			{
+				currentTP = currentTP + 100;
+				_damageable.currentHitPoints = currentTP;
+			}
+			else
+			{
+				currentTP = maxTP;
+			}
+
+		}
+
 		if (TP <= 0)
 		{
 			//Debug.Log("죽엇당");
 			_damageable.JustDead();
 		}
 
-		currentDamage = meleeWeapon.damage;
+		currentDamage = meleeWeapon.damageAmount;
 
 	}
 
@@ -133,7 +144,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 	public void AdjustAttackPower(float value)
 	{
 		currentDamage = value;
-		meleeWeapon.damage = currentDamage;
+		meleeWeapon.damageAmount = currentDamage;
 	}
 	public void AdjustSpeed(float vlaue)
 	{
@@ -147,7 +158,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 			case MessageType.DAMAGED:
 				{
 					Damageable.DamageMessage damageData = (Damageable.DamageMessage)data;
-					if(true)
+					if (true)
 					{
 						damageData.amount = 0;
 					}

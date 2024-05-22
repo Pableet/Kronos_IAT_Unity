@@ -1248,7 +1248,7 @@ GameObject:
   - component: {fileID: 8191469109414887562}
   - component: {fileID: 1018768451309690035}
   - component: {fileID: 6777229823474926342}
-  - component: {fileID: 7564480972204143413}
+  - component: {fileID: 126384401917102472}
   m_Layer: 9
   m_Name: Sword
   m_TagString: Untagged
@@ -1336,15 +1336,15 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
+  m_Radius: 2.86
+  m_Height: 10.41
   m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &7564480972204143413
+  m_Center: {x: 0.000000059604645, y: 3.62, z: -0.00000008940697}
+--- !u!114 &126384401917102472
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1353,24 +1353,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1228565267523077688}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afdff8ec34ffe30418fc71af88bd022b, type: 3}
+  m_Script: {fileID: 11500000, guid: d5cd88515cb5d774d830ef4f9a144cf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 30
-  hitParticlePrefab: {fileID: 0}
+  damageAmount: 30
+  stopCamera: 0
   targetLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
-  attackPoints:
-  - radius: 0.1
-    offset: {x: 0, y: 0.78, z: 0}
-    attackRoot: {fileID: 5660720003771104385}
-  - radius: 0.1
-    offset: {x: 0, y: -0.32, z: 0}
-    attackRoot: {fileID: 5660720003771104385}
-  - radius: 0.1
-    offset: {x: 0, y: 0.24, z: 0}
-    attackRoot: {fileID: 5660720003771104385}
+    m_Bits: 256
 --- !u!1 &1254585094744151492
 GameObject:
   m_ObjectHideFlags: 0
@@ -1962,7 +1952,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1982053842736507753}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.050214835, y: -0.0038053815, z: 0.0027556706, w: 0.99872744}
+  m_LocalRotation: {x: 0.05021483, y: -0.0038053782, z: 0.0027556703, w: 0.99872744}
   m_LocalPosition: {x: -0.0000019073486, y: 0.000015258789, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5152,11 +5142,15 @@ MonoBehaviour:
   Speed: 5
   JumpForce: 0
   LookRotationDampFactor: 10
+  Damage: 0
+  AttackSpeed: 1
   stopTiming: 0.37
   maxTP: 500
   currentTP: 500
-  Damage: 0
+  currentDamage: 0
+  currentAttackSpeed: 1
   _damageable: {fileID: 0}
+  _defnsible: {fileID: 0}
 --- !u!114 &8820714775191368240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6773,7 +6767,7 @@ Transform:
   m_GameObject: {fileID: 6776256614355523244}
   serializedVersion: 2
   m_LocalRotation: {x: 0.07346796, y: -0.0037401505, z: 0.0028435742, w: 0.9972865}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.0000038146973, y: 0.000030517578, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

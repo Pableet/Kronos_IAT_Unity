@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class MeleeTriggerEnterDamager : MonoBehaviour
 {
-    public int damageAmount = 1;
+    public float damageAmount = 1;
     public bool stopCamera = false;
 
     public LayerMask targetLayers;
