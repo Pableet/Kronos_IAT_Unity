@@ -12,6 +12,7 @@ public class UI_UpgradePopup : MonoBehaviour, IPointerDownHandler
     public Button gold;
 
     GameObject confirm;
+    GameObject powerUp;
     UI_Upgrades upgrades;
 
     UI_UpgradeButton upgradeB;
@@ -31,6 +32,7 @@ public class UI_UpgradePopup : MonoBehaviour, IPointerDownHandler
         upgradeS = silver.GetComponent<UI_UpgradeButton>();
         upgradeG = gold.GetComponent<UI_UpgradeButton>();
         confirm = GameObject.Find("Confirm");
+        powerUp = GameObject.Find("DemoPowerUp");
     }
 
     void Start()
@@ -144,5 +146,8 @@ public class UI_UpgradePopup : MonoBehaviour, IPointerDownHandler
 
         // ui 닫기
         UI_PowerUp.StopPowerUp();
+
+        // 강화 오브젝트 디졸브하기
+        powerUp.GetComponent<Dissolve>().DoVanish();
     }
 }
