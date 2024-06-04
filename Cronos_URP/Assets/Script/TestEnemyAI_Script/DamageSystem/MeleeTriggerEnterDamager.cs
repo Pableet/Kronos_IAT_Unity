@@ -25,6 +25,7 @@ public class MeleeTriggerEnterDamager : MonoBehaviour
 
     public void EndAttack()
     {
+        Debug.Log("°ø°Ý ³¡");
         m_inAttack = false;
     }
 
