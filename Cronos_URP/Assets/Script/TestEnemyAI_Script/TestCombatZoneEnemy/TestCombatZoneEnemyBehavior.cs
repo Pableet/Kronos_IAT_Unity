@@ -27,31 +27,37 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour, IMessageReceiver
     private GameObject _target;
     private EnemyController _controller;
     protected TargetDistributor.TargetFollower _followerInstance;
-	protected Damageable _damageable;
+    protected Damageable _damageable;
 
-	protected float _timerSinceLostTarget = 0.0f;
+    protected float _timerSinceLostTarget = 0.0f;
 
     void Awake()
     {
         _controller = GetComponentInChildren<EnemyController>();
+
+        if (meleeWeapon == null)
+        {
+            meleeWeapon = GetComponentInChildren<MeleeTriggerEnterDamager>();
+        }
+
         meleeWeapon.SetOwner(gameObject);
     }
 
     void OnEnable()
     {
-		_damageable = GetComponent<Damageable>();
+        _damageable = GetComponent<Damageable>();
         _damageable.onDamageMessageReceivers.Add(this);
 
-		SceneLinkedSMB<TestCombatZoneEnemyBehavior>.Initialise(_controller.animator, this);
+        SceneLinkedSMB<TestCombatZoneEnemyBehavior>.Initialise(_controller.animator, this);
 
         originalPosition = transform.position;
     }
 
     protected void OnDisable()
     {
-		_damageable.onDamageMessageReceivers.Remove(this);
+        _damageable.onDamageMessageReceivers.Remove(this);
 
-		if (_followerInstance != null)
+        if (_followerInstance != null)
             _followerInstance.distributor.UnregisterFollower(_followerInstance);
     }
     private void FixedUpdate()
@@ -64,24 +70,24 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour, IMessageReceiver
         SetNearBase(toBase.sqrMagnitude < 1f);
     }
 
-	public void OnReceiveMessage(MessageType type, object sender, object data)
-	{
-		switch (type)
-		{
-			case MessageType.DAMAGED:
-				{
-					Damageable.DamageMessage damageData = (Damageable.DamageMessage)data;
-					Damaged(damageData);
-				}
-				break;
-			case MessageType.DEAD:
-				{
-					Damageable.DamageMessage damageData = (Damageable.DamageMessage)data;
-					Death(damageData);
-				}
-				break;
-		}
-	}
+    public void OnReceiveMessage(MessageType type, object sender, object data)
+    {
+        switch (type)
+        {
+            case MessageType.DAMAGED:
+                {
+                    Damageable.DamageMessage damageData = (Damageable.DamageMessage)data;
+                    Damaged(damageData);
+                }
+                break;
+            case MessageType.DEAD:
+                {
+                    Damageable.DamageMessage damageData = (Damageable.DamageMessage)data;
+                    Death(damageData);
+                }
+                break;
+        }
+    }
 
     void Damaged(Damageable.DamageMessage damageMessage)
     {
@@ -154,7 +160,10 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour, IMessageReceiver
 
     public void LookAtTarget()
     {
-        if (_target == null) return;
+        if (_target == null)
+        {
+            return;
+        }
 
         _controller.SetForwardToTarget(_target.transform.position);
 
@@ -176,9 +185,9 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour, IMessageReceiver
         {
             _followerInstance.requireSlot = true;
             RequestTargetPosition();
+            SetInPursuit(true);
         }
 
-        SetInPursuit(true);
 
         _controller.SetRotationLerpSeedNormal();
     }
@@ -188,9 +197,9 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour, IMessageReceiver
         if (_followerInstance != null)
         {
             _followerInstance.requireSlot = false;
+            SetInPursuit(false);
         }
 
-        SetInPursuit(false);
     }
 
     public void RequestTargetPosition()
@@ -252,15 +261,15 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour, IMessageReceiver
 
     }
 
-	public void Death(Damageable.DamageMessage msg)
-	{
-		var replacer = GetComponent<ReplaceWithRagdoll>();
+    public void Death(Damageable.DamageMessage msg)
+    {
+        var replacer = GetComponent<ReplaceWithRagdoll>();
 
-		if (replacer != null)
-		{
-			replacer.Replace();
-		}
+        if (replacer != null)
+        {
+            replacer.Replace();
+        }
 
-		//We unparent the hit source, as it would destroy it with the gameobject when it get replaced by the ragdol otherwise
-	}
+        //We unparent the hit source, as it would destroy it with the gameobject when it get replaced by the ragdol otherwise
+    }
 }
