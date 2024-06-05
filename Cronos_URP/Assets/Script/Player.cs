@@ -2,10 +2,12 @@ using Message;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Transactions;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
 using UnityEngine.PlayerLoop;
 using UnityEngine.Purchasing;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using static UnityEngine.Rendering.DebugUI;
 
@@ -25,34 +27,45 @@ public class Player : MonoBehaviour, IMessageReceiver
 
 	[Header("Move Option")]
 	[SerializeField] private float Speed = 5f;
-	[SerializeField] private float JumpForce = 10f;
+	/*[SerializeField] */private float JumpForce = 10f; // 점프 만들면 쓰지뭐
 	[SerializeField] private float LookRotationDampFactor = 10f;
-	[SerializeField] private float Damage;
-	[SerializeField] private float AttackSpeed = 1f;
+	//[SerializeField] private float Damage;
+	[SerializeField] private float attackCoefficient = 0.1f;
+	[SerializeField] private float moveCoefficient = 0.1f;
 
-	public float stopTiming = 0.2f;
+	public float stopTiming = 0.2f; // 히트스탑은 이런식으로 작동하는게 아닐것이다. 스탑 시간정도로 바꿔서 쓰는게 좋을듯
+	[SerializeField] private float maxTP;
+	[SerializeField] private float maxCP;
 
-	public float maxTP;
-	public float currentTP;
-	public float currentDamage;
-	public float currentAttackSpeed = 1f;
+	[SerializeField] private float currentDamage;
 
-	float totalspeed;
-	MeleeTriggerEnterDamager meleeWeapon;
-	PlayerStateMachine PlayerFSM;
+	[SerializeField] private float currentTP;
+	[SerializeField] private float currentCP;
+	[SerializeField] private float chargingCP = 10f;
 
+
+	// Property
+	private float totalspeed;
 	public float moveSpeed { get { return totalspeed; } }
 	public float jumpForce { get { return JumpForce; } }
 	public float lookRotationDampFactor { get { return LookRotationDampFactor; } }
-
+	public float AttackCoefficient { get { return attackCoefficient; } set { attackCoefficient = value; } }
+	public float MoveCoefficient { get { return moveCoefficient; } set { moveCoefficient = value; } }
 	// chronos in game Option
-	public float CP { get; set; }
-	public float TP { get { return currentTP; } set => currentTP = value; }
+	public float MaxCP { get { return maxCP; } set { maxCP = value; } }
+	public float MaxTP { get { return maxTP; } set { maxTP = value; } }// => currentTP = value; }
+	public float CP { get { return currentCP; } set { currentCP = value; } }
+	public float TP { get { return currentTP; } set { currentTP = value; } }// => currentTP = value; }
+	public float CurrentDamage { get { return currentDamage; } set { currentDamage = value; } }// => currentTP = value; }
+	public bool IsDecreaseCP { get; set; }
 
 	// 플레이어 데이터를 저장하고 respawn시 반영하는 데이터
 	PlayerData playerData = new PlayerData();
 	Transform playerTransform;
 	AutoTargetting targetting;
+
+	MeleeTriggerEnterDamager meleeWeapon;
+	PlayerStateMachine PlayerFSM;
 
 	public Damageable _damageable;
 	public Defensible _defnsible;
@@ -61,26 +74,26 @@ public class Player : MonoBehaviour, IMessageReceiver
 	{
 	}
 
+	protected void OnDisable()
+	{
+		_damageable.onDamageMessageReceivers.Remove(this);
+	}
+
 	private void OnEnable()
 	{
 		_damageable = GetComponent<Damageable>();
 		_defnsible = GetComponent<Defensible>();
 		_damageable.onDamageMessageReceivers.Add(this);
 
-	}
-	protected void OnDisable()
-	{
-		_damageable.onDamageMessageReceivers.Remove(this);
-	}
-
-	private void Start()
-	{
 		// 감속/가속 변경함수를 임시로 사용해보자
 		// 반드시 지워져야할 부분이지만 임시로 넣는다
 		PlayerFSM = GetComponent<PlayerStateMachine>();
 		playerTransform = GetComponent<Transform>();
+
 		meleeWeapon = GetComponentInChildren<MeleeTriggerEnterDamager>();
 		meleeWeapon.SetOwner(gameObject);
+		meleeWeapon.OnTriggerEnterEvent += ChargeCP;
+
 		targetting = GetComponentInChildren<AutoTargetting>();
 		totalspeed = Speed;
 
@@ -89,19 +102,48 @@ public class Player : MonoBehaviour, IMessageReceiver
 			PlayerRespawn();
 		}
 
-		AdjustAttackPower(Damage);  // 데미지 설정
+		//AdjustAttackPower(Damage);  // 데미지 설정
 		_damageable.currentHitPoints += maxTP;
 
 		GameManager.Instance.PlayerDT = playerData;
 		GameManager.Instance.PlayerDT.saveScene = SceneManager.GetActiveScene().name;
 
 	}
+	private void ChargeCP(Collider other)
+	{
+		if (other.CompareTag("Respawn"))
+		{
+			Debug.Log("cp를 회복한다.");
+			if (CP < maxCP)
+			{
+				CP += chargingCP;
+
+				if (CP > maxCP) 
+				{
+					CP = maxCP;
+				}
+			}
+		}
+	}
+
 	private void Update()
 	{
 		CurrentState = PlayerFSM.GetState().GetType().Name;
 
 		// 실시간으로 TP 감소
 		_damageable.currentHitPoints -= Time.deltaTime;
+		// 실시간으로 CP감소
+		if (IsDecreaseCP && CP > 0)
+		{
+			CP -= Time.deltaTime;
+			if (CP <= 0)
+			{
+				IsDecreaseCP = false;
+				CP = 0;
+				Debug.Log("몬스터들의 속도가 원래대로 돌아온다.");
+			}
+		}
+
 
 		TP = _damageable.currentHitPoints;
 
@@ -122,11 +164,15 @@ public class Player : MonoBehaviour, IMessageReceiver
 
 		if (TP <= 0)
 		{
-			//Debug.Log("죽엇당");
 			_damageable.JustDead();
 		}
 
 		currentDamage = meleeWeapon.damageAmount;
+
+	}
+
+	private void LateUpdate()
+	{
 
 	}
 
@@ -185,24 +231,12 @@ public class Player : MonoBehaviour, IMessageReceiver
 
 	public void Death(Damageable.DamageMessage msg)
 	{
-		//Debug.Log("죽었다리");
 		PlayerDeadRespawn();
-		//var replacer = GetComponent<ReplaceWithRagdoll>();
-		//
-		//if (replacer != null)
-		//{
-		//    replacer.Replace();
-		//}
-
-		//We unparent the hit source, as it would destroy it with the gameobject when it get replaced by the ragdol otherwise
 	}
 
 
 	public void StartPlayer()
 	{
-		Start();
-		PlayerFSM.Start();
-		targetting.Start();
 		gameObject.transform.position = new Vector3(0f, 7f, 0f);
 	}
 
@@ -265,7 +299,6 @@ public class Player : MonoBehaviour, IMessageReceiver
 		}
 		else
 		{
-
 			playerTransform.position = (Vector3)GameManager.Instance.PlayerDT.RespawnPos;
 		}
 	}

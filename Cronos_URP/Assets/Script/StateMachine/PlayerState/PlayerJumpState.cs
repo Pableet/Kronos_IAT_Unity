@@ -21,6 +21,13 @@ public class PlayerJumpState : PlayerBaseState
 			stateMachine.SwitchState(new PlayerFallState(stateMachine));
 		}
 	}
+	public override void FixedTick()
+	{
+	}
+	public override void LateTick()
+	{
+	}
+
 	public override void Exit()
 	{
 		

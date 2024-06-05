@@ -27,7 +27,9 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
 	public Action onRAttackPerformed;
 	public Action onRAttackCanceled; 
 
-	public Action onSwitching;
+	public Action onSwitchingStart;
+	public Action onSwitchingPerformed;
+	public Action onSwitchingCanceled;
 
 	private Controls controls;
 
@@ -95,9 +97,17 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
 		onRAttackCanceled?.Invoke();
 	}
 
-	public void OnSwitchingAttribute(InputAction.CallbackContext context)
+	public void OnSwitchingDown(InputAction.CallbackContext context)
 	{
-		onSwitching?.Invoke();
+		onSwitchingStart?.Invoke();
+	}
+	public void OnSwitching(InputAction.CallbackContext context)
+	{
+		onSwitchingPerformed?.Invoke();
+	}
+	public void OnSwitchingUp(InputAction.CallbackContext context)
+	{
+		onSwitchingCanceled?.Invoke();
 	}
 
 

@@ -28,6 +28,12 @@ public class PlayerFallState : PlayerBaseState
 			stateMachine.SwitchState(new PlayerMoveState(stateMachine));
 		}
 	}
+	public override void FixedTick()
+	{
+	}
+	public override void LateTick()
+	{
+	}
 	public override void Exit()
 	{
 
