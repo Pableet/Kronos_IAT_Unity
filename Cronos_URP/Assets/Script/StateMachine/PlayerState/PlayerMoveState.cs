@@ -84,6 +84,7 @@ public class PlayerMoveState : PlayerBaseState
 		if (stateMachine.Player.CP >= 10)
 		{
 			Debug.Log("몬스터들이 느려진다");
+			BulletTime.Instance.DecelerateSpeed();
 			stateMachine.Player.IsDecreaseCP = true;
 		}
 

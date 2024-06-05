@@ -141,6 +141,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 				IsDecreaseCP = false;
 				CP = 0;
 				Debug.Log("몬스터들의 속도가 원래대로 돌아온다.");
+				BulletTime.Instance.SetNormalSpeed();
 			}
 		}
 
