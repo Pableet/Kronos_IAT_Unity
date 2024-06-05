@@ -38,6 +38,8 @@ public class EnemyController : MonoBehaviour
     protected bool _grounded;
     protected Rigidbody _rigidbody;
 
+    protected bool _bulletTimeScaled = true;
+
     const float _groundedRayDistance = .8f;
 
     void OnEnable()
@@ -102,7 +104,7 @@ public class EnemyController : MonoBehaviour
         Vector3 direction = targetPostion - transform.position;
         direction.y = 0f;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
-        this.transform.rotation = Quaternion.Lerp(this.transform.rotation, lookRotation, rotationLerpSpeed * Time.deltaTime);
+        this.transform.rotation = Quaternion.Lerp(this.transform.rotation, lookRotation, rotationLerpSpeed * Time.deltaTime * BulletTime.Instance.GetCurrentSpeed());
     }
 
     // 지면 위에 있는지 검사한다.
@@ -134,23 +136,33 @@ public class EnemyController : MonoBehaviour
         _navMeshAgent.Warp(_rigidbody.position);
     }
 
+
     private void OnAnimatorMove()
     {
         // 외부 압력이 있을 경우 애니메이션이 재생되어서는 안된다.
         if (_underExternalForce)
             return;
 
+        if (_bulletTimeScaled != false)
+        {
+            _animator.speed = BulletTime.Instance.GetCurrentSpeed();
+        }
+        else
+        {
+            _animator.speed = 1;
+        }
+
         // 현재 프레임에서 이동한 거리와 시간 단위로 값을 속도로 지정한다.
         if (_followNavmeshAgent)
         {
-            _navMeshAgent.speed = (_animator.deltaPosition / Time.deltaTime).magnitude;
+            _navMeshAgent.speed = (_animator.deltaPosition / Time.deltaTime).magnitude * BulletTime.Instance.GetCurrentSpeed();
 
             /// test용. 
             /// deltaPosition 값이 없는 보스 걷기 모션을 위한 임시방변.
             /// TODO - 네브메시에이전트 스피드를 외부에서 설정할 수 있게 해야겠다.
-            if (_animator.deltaPosition.magnitude <= 0.0f )
+            if (_animator.deltaPosition.magnitude <= 0.0f)
             {
-                _navMeshAgent.speed = 3f;
+                _navMeshAgent.speed = 3f * BulletTime.Instance.GetCurrentSpeed(); ;
             }
 
             transform.position = _navMeshAgent.nextPosition;
@@ -223,5 +235,10 @@ public class EnemyController : MonoBehaviour
     public bool SetTarget(Vector3 position)
     {
         return _navMeshAgent.SetDestination(position);
+    }
+
+    public void SetBulletTime(bool useBulletTimeScale)
+    {
+        _bulletTimeScaled = useBulletTimeScale;
     }
 }
