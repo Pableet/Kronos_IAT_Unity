@@ -92,6 +92,7 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour, IMessageReceiver
     void Damaged(Damageable.DamageMessage damageMessage)
     {
         _controller.animator.SetTrigger(hashDamageBase);
+        _controller.SetBulletTime(false);
     }
 
     public void FindTarget()

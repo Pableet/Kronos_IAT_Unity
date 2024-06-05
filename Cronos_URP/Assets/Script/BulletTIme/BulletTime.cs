@@ -8,7 +8,7 @@ public class BulletTime : MonoBehaviour
     [SerializeField]
     private float currentSpeed = 0f;
 
-    public float maxSpeed = 1f;
+    public float targetSpeed = 1f;
     public float acceleration = 1f;
     public float deceleration = 1f;
 
@@ -52,26 +52,31 @@ public class BulletTime : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (currentSpeed < maxSpeed)
+        if (currentSpeed < targetSpeed)
         {
             currentSpeed += acceleration * Time.deltaTime;
-            currentSpeed = Mathf.Min(currentSpeed, maxSpeed); // 최대 속도 초과 방지
+            currentSpeed = Mathf.Min(currentSpeed, targetSpeed); // 최대 속도 초과 방지
 
         }
-        else if (currentSpeed > maxSpeed)
+        else if (currentSpeed > targetSpeed)
         {
-            currentSpeed *= (1 - Time.deltaTime * deceleration);
-            currentSpeed = Mathf.Max(currentSpeed, maxSpeed); // 최소 속도 미만 방지
+            currentSpeed *= (1f - Time.deltaTime * deceleration);
+            if (currentSpeed < 0.01f)
+            {
+                currentSpeed = 0.01f;
+            }
+            //currentSpeed = Mathf.Max(currentSpeed, maxSpeed); // 최소 속도 미만 방지
         }
+
     }
     public void DecelerateSpeed()
     {
-        maxSpeed = 0;
+        targetSpeed = 0.01f;
     }
 
     public void SetNormalSpeed()
     {
-        maxSpeed = 1f;
+        targetSpeed = 1f;
     }
 
     public float GetCurrentSpeed()
