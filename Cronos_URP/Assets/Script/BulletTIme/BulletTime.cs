@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class BulletTime : MonoBehaviour
 {
@@ -11,7 +12,26 @@ public class BulletTime : MonoBehaviour
     public float acceleration = 1f;
     public float deceleration = 1f;
 
-    public static BulletTime Instance { get; private set; }
+    private static BulletTime _instance;
+
+    public static BulletTime Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<BulletTime>();
+                if (_instance == null)
+                {
+                    GameObject effectManager = new GameObject(typeof(BulletTime).Name);
+                    _instance = effectManager.AddComponent<BulletTime>();
+
+                    DontDestroyOnLoad(effectManager);
+                }
+            }
+            return _instance;
+        }
+    }
 
     private void Start()
     {
@@ -20,13 +40,13 @@ public class BulletTime : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (_instance != null && _instance != this)
         {
-            Destroy(Instance);
+            Destroy(_instance);
         }
         else
         {
-            Instance = this;
+            _instance = this;
         }
     }
 
