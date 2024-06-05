@@ -35,6 +35,12 @@ public class PlayerIdleState : PlayerBaseState
 			SwitchToMoveState();
 		}
 	}
+	public override void FixedTick()
+	{
+	}
+	public override void LateTick()
+	{
+	}
 	public override void Exit()
 	{
 		stateMachine.InputReader.onMove -= IsMove;

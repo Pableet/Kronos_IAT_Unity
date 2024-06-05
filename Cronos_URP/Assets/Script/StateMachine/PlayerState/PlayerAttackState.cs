@@ -45,14 +45,20 @@ public class PlayerAttackState : PlayerBaseState
 	}
     public override void Tick()
     {
-        AnimatorStateInfo stateInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
+
+		// 플레이어의 cp 를 공격속도에 반영한다.
+		stateMachine.Animator.speed = stateMachine.Player.CP * stateMachine.Player.AttackCoefficient + 1f;
+
+		AnimatorStateInfo stateInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
         // 히트스탑 타이밍
         if (stateInfo.normalizedTime >= stateMachine.Player.stopTiming)
         {
             stateMachine.HitStop.isHit = true;
             stateMachine.HitStop.StartCoroutine(stateMachine.HitStop.HitStopCoroutine());
         }
+
         float testtime = 0.99f;
+
         switch (comboStack)
         {
             case 1:
@@ -77,7 +83,7 @@ public class PlayerAttackState : PlayerBaseState
                 NextCombo();
 
             }
-        }
+        } 
         // 애니메이션이 종료되고
         if (stateInfo.normalizedTime >= 1.0f && stateInfo.normalizedTime <= 1.1f)
         {
@@ -85,7 +91,15 @@ public class PlayerAttackState : PlayerBaseState
         }
 
     }
-    public override void Exit()
+
+	public override void FixedTick()
+	{
+	}
+	public override void LateTick()
+	{
+	}
+
+	public override void Exit()
     {
 		stateMachine.InputReader.onRAttackStart -= SwitchToDefanceState;
 		stateMachine.InputReader.onLAttackStart -= ReadyNextCombo;

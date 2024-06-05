@@ -28,7 +28,7 @@ public class UI_PointText : UI_TPCP
 
     private void Update()
     {
-        tp = player.currentTP;
+        tp = player.TP;
         cp = player.CP;
         textTP.text = "TP:" + tp.ToString("0000");
         textCP.text = "CP:" + cp.ToString("0000");

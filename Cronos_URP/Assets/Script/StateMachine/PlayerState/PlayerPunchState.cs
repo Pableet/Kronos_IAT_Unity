@@ -32,6 +32,12 @@ public class PlayerPunchState : PlayerBaseState
 			stateMachine.SwitchState(new PlayerMoveState(stateMachine));
 		}
 	}
+	public override void FixedTick()
+	{
+	}
+	public override void LateTick()
+	{
+	}
 
 	public override void Exit()
 	{

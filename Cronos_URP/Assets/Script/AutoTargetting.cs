@@ -28,7 +28,7 @@ public class AutoTargetting : MonoBehaviour
     bool istargetting;
 
     // Start is called before the first frame update
-    public void Start()
+    public void OnEnable()
     {
         stateMachine = Player.GetComponent<PlayerStateMachine>();
         maincamTransform = Camera.main.transform;
