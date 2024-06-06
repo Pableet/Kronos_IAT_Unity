@@ -20,14 +20,13 @@ using static UnityEngine.Rendering.DebugUI;
 /// </summary>
 public class Player : MonoBehaviour, IMessageReceiver
 {
-	public static readonly int hashDamageBase = Animator.StringToHash("hit01");
-
 	[Header("State")]
 	[SerializeField] private string CurrentState;
 
 	[Header("Move Option")]
 	[SerializeField] private float Speed = 5f;
-	/*[SerializeField] */private float JumpForce = 10f; // 점프 만들면 쓰지뭐
+	/*[SerializeField] */
+	private float JumpForce = 10f; // 점프 만들면 쓰지뭐
 	[SerializeField] private float LookRotationDampFactor = 10f;
 	//[SerializeField] private float Damage;
 	[SerializeField] private float attackCoefficient = 0.1f;
@@ -82,8 +81,9 @@ public class Player : MonoBehaviour, IMessageReceiver
 	private void OnEnable()
 	{
 		_damageable = GetComponent<Damageable>();
-		_defnsible = GetComponent<Defensible>();
 		_damageable.onDamageMessageReceivers.Add(this);
+
+		_defnsible = GetComponent<Defensible>();
 
 		// 감속/가속 변경함수를 임시로 사용해보자
 		// 반드시 지워져야할 부분이지만 임시로 넣는다
@@ -102,7 +102,6 @@ public class Player : MonoBehaviour, IMessageReceiver
 			PlayerRespawn();
 		}
 
-		//AdjustAttackPower(Damage);  // 데미지 설정
 		_damageable.currentHitPoints += maxTP;
 
 		GameManager.Instance.PlayerDT = playerData;
@@ -114,11 +113,11 @@ public class Player : MonoBehaviour, IMessageReceiver
 		if (other.CompareTag("Respawn"))
 		{
 			Debug.Log("cp를 회복한다.");
-			if (CP < maxCP)
+			if (CP < maxCP && !IsDecreaseCP)
 			{
 				CP += chargingCP;
 
-				if (CP > maxCP) 
+				if (CP > maxCP)
 				{
 					CP = maxCP;
 				}
@@ -226,9 +225,12 @@ public class Player : MonoBehaviour, IMessageReceiver
 
 	void Damaged(Damageable.DamageMessage damageMessage)
 	{
-		PlayerFSM.Animator.CrossFadeInFixedTime(hashDamageBase, 0.1f);
+		//  방어상태가 아닐때만 하자
+		if (PlayerFSM.GetState().ToString() != "PlayerDefenceState")
+		{
+			PlayerFSM.SwitchState(new PlayerDamagedState(PlayerFSM));
+		}
 	}
-
 
 	public void Death(Damageable.DamageMessage msg)
 	{

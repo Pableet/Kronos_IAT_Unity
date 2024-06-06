@@ -14,11 +14,11 @@ public class PlayerFallState : PlayerBaseState
 	}
 	public override void Tick()
 	{
-		AnimatorStateInfo stateInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
-		if (stateInfo.normalizedTime > 0.3)
-		{
-			stateMachine.Animator.speed = 0f;
-		}
+// 		AnimatorStateInfo stateInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
+// 		if (stateInfo.normalizedTime > 0.3)
+// 		{
+// 			stateMachine.Animator.speed = 0.0001f;
+// 		}
 
 		ApplyGravity();
 		Move();
