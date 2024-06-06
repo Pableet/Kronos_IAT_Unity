@@ -61,10 +61,12 @@ public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
 		if (_followerInstance != null)
             _followerInstance.distributor.UnregisterFollower(_followerInstance);
     }
+
 	void Damaged(Damageable.DamageMessage damageMessage)
 	{
 		_controller.animator.SetTrigger(hashDamageBase);
-	}
+        _controller.SetBulletTime(false);
+    }
 
 	private void FixedUpdate()
     {

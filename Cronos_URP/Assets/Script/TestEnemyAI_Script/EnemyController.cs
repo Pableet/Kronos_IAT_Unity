@@ -149,7 +149,7 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-            _animator.speed = 1;
+            _animator.speed = 0.8f;
         }
 
         // 현재 프레임에서 이동한 거리와 시간 단위로 값을 속도로 지정한다.

@@ -45,7 +45,7 @@ public class EffectManager : MonoBehaviour
         else
         {
             instance = this;
-            DontDestroyOnLoad (gameObject);
+            DontDestroyOnLoad(gameObject);
         }
 
         Debug.Log("Effect Manager 활성화");
@@ -61,8 +61,8 @@ public class EffectManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-//         UpdateWpos();
-//         UpdateEpos();
+        //         UpdateWpos();
+        //         UpdateEpos();
     }
 
     void Initialize()
@@ -90,6 +90,11 @@ public class EffectManager : MonoBehaviour
 
     public void PlayerSlash()
     {
+        if (trail == null)
+        { 
+            return; 
+        }
+
         Debug.Log("FX 매니저의 훅 슬래시");
         GameObject playerArm = FindChild(player, "Character1_RightArm");
         trail.transform.position = playerArm.transform.TransformPoint(Vector3.zero);
@@ -135,41 +140,41 @@ public class EffectManager : MonoBehaviour
         }
     }
 
-//     void UpdateWpos()
-//     {
-//         burst.transform.position = player.transform.position;
-//     }
-// 
-// 
-//     void UpdateEpos()
-//     {
-//         if (skull.activeSelf == false)
-//         {
-//             skull.transform.position = player.transform.position + Vector3.up * 2.0f;
-//             return;
-//         }
-// 
-//         Vector3 dir = EdestPos - skull.transform.position;
-//         dir.y = 0f;
-//         float speed = 15.0f;
-// 
-//         float moveDist = Mathf.Clamp(speed * Time.deltaTime, 0, dir.magnitude);
-// 
-//         if (dir.magnitude < 0.001f)
-//         {
-//             skull.SetActive(false);
-//             skull.transform.position = player.transform.position + Vector3.up * 2.0f;
-//         }
-//         else
-//         {
-//             Vector3 newPosition = skull.transform.position + new Vector3(dir.x, 0f, dir.z).normalized * moveDist;
-//             skull.transform.position = newPosition;
-//         }
-//     }
+    //     void UpdateWpos()
+    //     {
+    //         burst.transform.position = player.transform.position;
+    //     }
+    // 
+    // 
+    //     void UpdateEpos()
+    //     {
+    //         if (skull.activeSelf == false)
+    //         {
+    //             skull.transform.position = player.transform.position + Vector3.up * 2.0f;
+    //             return;
+    //         }
+    // 
+    //         Vector3 dir = EdestPos - skull.transform.position;
+    //         dir.y = 0f;
+    //         float speed = 15.0f;
+    // 
+    //         float moveDist = Mathf.Clamp(speed * Time.deltaTime, 0, dir.magnitude);
+    // 
+    //         if (dir.magnitude < 0.001f)
+    //         {
+    //             skull.SetActive(false);
+    //             skull.transform.position = player.transform.position + Vector3.up * 2.0f;
+    //         }
+    //         else
+    //         {
+    //             Vector3 newPosition = skull.transform.position + new Vector3(dir.x, 0f, dir.z).normalized * moveDist;
+    //             skull.transform.position = newPosition;
+    //         }
+    //     }
 
     GameObject FindName(string name)
     {
-        foreach(GameObject effect in effects)
+        foreach (GameObject effect in effects)
         {
             if (effect.name == name)
                 return effect;
@@ -182,7 +187,7 @@ public class EffectManager : MonoBehaviour
         GameObject result = GameObject.Find(name);
         if (result != null)
             return result;
-        foreach(GameObject gameObject in parent.GetComponentsInChildren<GameObject>())
+        foreach (GameObject gameObject in parent.GetComponentsInChildren<GameObject>())
         {
             result = FindChild(gameObject, name);
             if (result != null)
