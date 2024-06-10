@@ -885,9 +885,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
 			@RAttack.started += instance.OnRAttackDown;
 			@RAttack.performed += instance.OnRAttack;
 			@RAttack.canceled += instance.OnRAttackUp;
-			@SwitchingAttribute.started += instance.OnSwitchingAttribute;
-			@SwitchingAttribute.performed += instance.OnSwitchingAttribute;
-			@SwitchingAttribute.canceled += instance.OnSwitchingAttribute;
+			@SwitchingAttribute.started += instance.OnSwitchingDown;
+			@SwitchingAttribute.performed += instance.OnSwitching;
+			@SwitchingAttribute.canceled += instance.OnSwitchingUp;
 		}
 
 		private void UnregisterCallbacks(IPlayerActions instance)
@@ -907,9 +907,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
 			@RAttack.started -= instance.OnRAttackDown;
 			@RAttack.performed -= instance.OnRAttack;
 			@RAttack.canceled -= instance.OnRAttackUp;
-			@SwitchingAttribute.started -= instance.OnSwitchingAttribute;
-			@SwitchingAttribute.performed -= instance.OnSwitchingAttribute;
-			@SwitchingAttribute.canceled -= instance.OnSwitchingAttribute;
+			@SwitchingAttribute.started -= instance.OnSwitchingDown;
+			@SwitchingAttribute.performed -= instance.OnSwitching;
+			@SwitchingAttribute.canceled -= instance.OnSwitchingUp;
 		}
 
 		public void RemoveCallbacks(IPlayerActions instance)
@@ -1073,7 +1073,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
 		void OnRAttackDown(InputAction.CallbackContext context);
 		void OnRAttack(InputAction.CallbackContext context);
 		void OnRAttackUp(InputAction.CallbackContext context);
-		void OnSwitchingAttribute(InputAction.CallbackContext context);
+		void OnSwitchingDown(InputAction.CallbackContext context);
+		void OnSwitching(InputAction.CallbackContext context);
+		void OnSwitchingUp(InputAction.CallbackContext context);
 	}
 	public interface IUIActions
 	{

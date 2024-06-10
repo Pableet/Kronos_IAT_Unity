@@ -231,32 +231,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2334455334565215423}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afdff8ec34ffe30418fc71af88bd022b, type: 3}
+  m_Script: {fileID: 11500000, guid: d5cd88515cb5d774d830ef4f9a144cf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
-  hitParticlePrefab: {fileID: 0}
+  damageAmount: 1
+  stopCamera: 0
   targetLayers:
     serializedVersion: 2
-    m_Bits: 512
-  attackPoints:
-  - radius: 0.2
-    offset: {x: 0, y: 2, z: 0}
-    attackRoot: {fileID: 4865910655272323581}
-  - radius: 0.2
-    offset: {x: 0, y: 1.6, z: 0}
-    attackRoot: {fileID: 4865910655272323581}
-  - radius: 0.2
-    offset: {x: 0, y: 1.2, z: 0}
-    attackRoot: {fileID: 4865910655272323581}
-  - radius: 0.2
-    offset: {x: 0, y: 0.8, z: 0}
-    attackRoot: {fileID: 4865910655272323581}
---- !u!4 &4865910655272323581 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1109505529623244685, guid: 20fde7363ca9197468a3ba517e28310a, type: 3}
-  m_PrefabInstance: {fileID: 5540252808052074096}
-  m_PrefabAsset: {fileID: 0}
+    m_Bits: 0
 --- !u!4 &5938543134382198259 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2200887026912488323, guid: 20fde7363ca9197468a3ba517e28310a, type: 3}
@@ -352,10 +334,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c807bc4a94ff6449756000c7ad95cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHitPoints: 10
+  timePoints: 0
   invulnerabiltyTime: 0
   hitAngle: 360
   hitForwardRotation: 360
+  defensible: {fileID: 0}
   OnDeath:
     m_PersistentCalls:
       m_Calls: []

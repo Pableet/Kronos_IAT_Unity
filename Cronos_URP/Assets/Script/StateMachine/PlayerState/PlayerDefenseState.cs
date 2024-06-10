@@ -34,6 +34,12 @@ public class PlayerDefenceState : PlayerBaseState
 		}
 
 	}
+	public override void FixedTick()
+	{
+	}
+	public override void LateTick()
+	{
+	}
 
 	public override void Exit()
 	{

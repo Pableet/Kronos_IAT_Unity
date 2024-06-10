@@ -1,4 +1,7 @@
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.RenderGraphModule;
+using UnityEngine.InputSystem.Interactions;
+using UnityEngine.Rendering.Universal;
 
 // 플레이어 기본상태를 상속받은 movestate
 public class PlayerMoveState : PlayerBaseState
@@ -14,16 +17,25 @@ public class PlayerMoveState : PlayerBaseState
 	{
 		stateMachine.Velocity.y = Physics.gravity.y;
 		stateMachine.Animator.CrossFadeInFixedTime(MoveBlendTreeHash, CrossFadeDuration);
-		
+
 		//stateMachine.InputReader.onJumpPerformed += SwitchToJumpState;	// 스테이트에 돌입할때 input에 맞는 함수를 넣어준다
-		stateMachine.InputReader.onJumpPerformed += SwitchToParryState;	// 스테이트에 돌입할때 input에 맞는 함수를 넣어준다
+		stateMachine.InputReader.onJumpPerformed += SwitchToParryState; // 스테이트에 돌입할때 input에 맞는 함수를 넣어준다
 		stateMachine.InputReader.onLAttackStart += SwitchToLAttackState;
 		stateMachine.InputReader.onRAttackStart += SwitchToDefanceState;
+		stateMachine.InputReader.onSwitchingStart += Deceleration;
 	}
 
 	// state의 update라 볼 수 있지
 	public override void Tick()
 	{
+		if(Input.GetKeyDown(KeyCode.V))
+		{
+			stateMachine.Player.CP += 1f;
+        }
+
+		// 플레이어의 cp 를 이동속도에 반영한다.
+		stateMachine.Animator.speed = stateMachine.Player.CP * stateMachine.Player.MoveCoefficient + 1f;
+
 		// playerComponent기준으로 땅에 닿아있지 않다면
 		if (!stateMachine.Controller.isGrounded)
 		{
@@ -32,24 +44,30 @@ public class PlayerMoveState : PlayerBaseState
 
 
 		ApplyGravity();
-		CalculateMoveDirection();	// 방향을 계산하고
+		CalculateMoveDirection();   // 방향을 계산하고
 		FaceMoveDirection();        // 캐릭터 방향을 바꾸고
-		Move();						// 이동한다.
+		Move();                     // 이동한다.
 
 		float moveSpeed = 0.5f;
 
-		if(Input.GetButton("Run"))
+		if (Input.GetButton("Run"))
 		{
 			moveSpeed *= 2;
-        }
+		}
 		else { moveSpeed = 0.5f; }
 
-        stateMachine.Player.SetSpeed(moveSpeed);
+		stateMachine.Player.SetSpeed(moveSpeed);
 
-        // 애니메이터 movespeed의 파라메터의 값을 정한다.
-        stateMachine.Animator.SetFloat(MoveSpeedHash, stateMachine.InputReader.moveComposite.sqrMagnitude > 0f ? moveSpeed : 0f, AnimationDampTime, Time.deltaTime);
+		// 애니메이터 movespeed의 파라메터의 값을 정한다.
+		stateMachine.Animator.SetFloat(MoveSpeedHash, stateMachine.InputReader.moveComposite.sqrMagnitude > 0f ? moveSpeed : 0f, AnimationDampTime, Time.deltaTime);
 	}
-	
+	public override void FixedTick()
+	{
+	}
+	public override void LateTick()
+	{
+	}
+
 	public override void Exit()
 	{
 		// 상태를 탈출할때는 jump의 대한 Action을 제거해준다.
@@ -57,6 +75,18 @@ public class PlayerMoveState : PlayerBaseState
 		stateMachine.InputReader.onJumpPerformed -= SwitchToParryState;
 		stateMachine.InputReader.onLAttackStart -= SwitchToLAttackState;
 		stateMachine.InputReader.onRAttackStart -= SwitchToDefanceState;
+		stateMachine.InputReader.onSwitchingStart -= Deceleration;
+
+	}
+
+	private void Deceleration()
+	{
+		if (stateMachine.Player.CP >= 10)
+		{
+			Debug.Log("몬스터들이 느려진다");
+			BulletTime.Instance.DecelerateSpeed();
+			stateMachine.Player.IsDecreaseCP = true;
+		}
 
 	}
 
@@ -85,5 +115,5 @@ public class PlayerMoveState : PlayerBaseState
 }
 
 
-	
+
 

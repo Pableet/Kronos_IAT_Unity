@@ -27,6 +27,14 @@ public abstract class StateMachine : MonoBehaviour
         // 현재 상태를 점검한다.
         currentState?.Tick();
     }
+	private void FixedUpdate()
+	{
+		currentState?.FixedTick();
+	}
+	private void LateUpdate()
+	{
+		currentState?.LateTick();
+	}
 
 	public State GetState()	// 현재상태를 반환해준다
 	{

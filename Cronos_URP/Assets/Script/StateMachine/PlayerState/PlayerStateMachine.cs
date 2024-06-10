@@ -16,13 +16,9 @@ public class PlayerStateMachine : StateMachine
     public Animator Animator { get; private set; }
     public CharacterController Controller { get; private set; }
     public Transform PlayerTransform { get; private set; }
-
     public HitStop HitStop { get; private set; }
 
-    private void OnEnable()
-    {
-    }
-    public void Start()
+    public void OnEnable()
     {
         MainCamera = Camera.main.transform;
 

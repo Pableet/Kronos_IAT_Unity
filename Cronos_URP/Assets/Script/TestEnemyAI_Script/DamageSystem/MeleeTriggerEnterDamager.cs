@@ -1,72 +1,79 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
 public class MeleeTriggerEnterDamager : MonoBehaviour
 {
-    public float damageAmount = 1;
-    public bool stopCamera = false;
+	public float damageAmount = 1;
+	public bool stopCamera = false;
 
-    public LayerMask targetLayers;
+	public LayerMask targetLayers;
 
-    protected GameObject m_owner;
-    protected bool m_inAttack = false;
+	protected GameObject m_owner;
+	protected bool m_inAttack = false;
 
-    public void SetOwner(GameObject owner)
-    {
-        m_owner = owner;
-    }
+	public delegate void TriggerEnterAction(Collider other);
+	public event TriggerEnterAction OnTriggerEnterEvent;
 
-    public void BeginAttack(bool thowingAttack)
-    {
-        m_inAttack = true;
-    }
+	public void SetOwner(GameObject owner)
+	{
+		m_owner = owner;
+	}
 
-    public void EndAttack()
-    {
-        Debug.Log("°ø°Ý ³¡");
-        m_inAttack = false;
-    }
+	public void BeginAttack(bool thowingAttack)
+	{
+		m_inAttack = true;
+	}
 
-    private void Reset()
-    {
-        GetComponent<Rigidbody>().isKinematic = true;
-        GetComponent<Collider>().isTrigger = true;
-    }
+	public void EndAttack()
+	{
+		m_inAttack = false;
+	}
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!m_inAttack)
-        {
-            return;
-        }
+	private void Reset()
+	{
+		GetComponent<Rigidbody>().isKinematic = true;
+		GetComponent<Collider>().isTrigger = true;
+	}
 
-        var d = other.GetComponent<Damageable>();
+	private void OnTriggerEnter(Collider other)
+	{
+		if (!m_inAttack)
+		{
+			return;
+		}
 
-        if (d == null)
-        {
-            return;
-        }
+		if (this.CompareTag("Player"))
+		{
+			OnTriggerEnterEvent(other);
+		}
+		var d = other.GetComponent<Damageable>();
 
-        if (d.gameObject == m_owner)
-        {
-            return;
-        }
+		if (d == null)
+		{
+			return;
+		}
 
-        if ((targetLayers.value & (1 << other.gameObject.layer)) == 0)
-        {
-            return;
-        }
+		if (d.gameObject == m_owner)
+		{
+			return;
+		}
 
-        var msg = new Damageable.DamageMessage()
-        {
-            amount = damageAmount,
-            damager = this,
-            direction = Vector3.up,
-            stopCamera = stopCamera
-        };
+		if ((targetLayers.value & (1 << other.gameObject.layer)) == 0)
+		{
+			return;
+		}
 
-        d.ApplyDamage(msg);
-    }
+		var msg = new Damageable.DamageMessage()
+		{
+			amount = damageAmount,
+			damager = this,
+			direction = Vector3.up,
+			stopCamera = stopCamera
+		};
+
+		d.ApplyDamage(msg);
+	}
 }
