@@ -42,12 +42,6 @@ public class PlayerMoveState : PlayerBaseState
 			stateMachine.SwitchState(new PlayerFallState(stateMachine)); // 상태를 생성해서 접근한다.
 		}
 
-
-		ApplyGravity();
-		CalculateMoveDirection();   // 방향을 계산하고
-		FaceMoveDirection();        // 캐릭터 방향을 바꾸고
-		Move();                     // 이동한다.
-
 		float moveSpeed = 0.5f;
 
 		if (Input.GetButton("Run"))
@@ -60,6 +54,12 @@ public class PlayerMoveState : PlayerBaseState
 
 		// 애니메이터 movespeed의 파라메터의 값을 정한다.
 		stateMachine.Animator.SetFloat(MoveSpeedHash, stateMachine.InputReader.moveComposite.sqrMagnitude > 0f ? moveSpeed : 0f, AnimationDampTime, Time.deltaTime);
+
+		ApplyGravity();
+		CalculateMoveDirection();   // 방향을 계산하고
+		FaceMoveDirection();        // 캐릭터 방향을 바꾸고
+		Move();                     // 이동한다.
+
 	}
 	public override void FixedTick()
 	{

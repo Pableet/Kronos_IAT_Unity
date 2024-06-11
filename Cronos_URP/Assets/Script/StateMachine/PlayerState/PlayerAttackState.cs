@@ -47,7 +47,7 @@ public class PlayerAttackState : PlayerBaseState
     {
 
 		// 플레이어의 cp 를 공격속도에 반영한다.
-		stateMachine.Animator.speed = stateMachine.Player.CP * stateMachine.Player.AttackCoefficient + 1f;
+		stateMachine.Animator.speed = (stateMachine.Player.CP * stateMachine.Player.AttackCoefficient + 1f);// * stateMachine.Player.AttackSpeed;
 
 		AnimatorStateInfo stateInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
         // 히트스탑 타이밍

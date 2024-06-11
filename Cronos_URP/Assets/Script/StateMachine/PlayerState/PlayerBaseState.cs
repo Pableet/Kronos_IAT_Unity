@@ -73,7 +73,7 @@ public abstract class PlayerBaseState : State
 	protected void Move()
 	{
 		// CharacterController컴포넌트를 이용해서 캐릭터를 이동시킨다.
-		stateMachine.Controller.Move(stateMachine.Velocity * Time.deltaTime * stateMachine.Animator.speed);
+		stateMachine.Controller.Move(Time.deltaTime * stateMachine.Animator.speed * stateMachine.Velocity);
 	}
 
 

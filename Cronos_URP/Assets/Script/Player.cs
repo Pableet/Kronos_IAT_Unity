@@ -37,6 +37,8 @@ public class Player : MonoBehaviour, IMessageReceiver
 	[SerializeField] private float maxCP;
 
 	[SerializeField] private float currentDamage;
+	[SerializeField] private float attackSpeed;
+
 
 	[SerializeField] private float currentTP;
 	[SerializeField] private float currentCP;
@@ -52,10 +54,12 @@ public class Player : MonoBehaviour, IMessageReceiver
 	public float MoveCoefficient { get { return moveCoefficient; } set { moveCoefficient = value; } }
 	// chronos in game Option
 	public float MaxCP { get { return maxCP; } set { maxCP = value; } }
-	public float MaxTP { get { return maxTP; } set { maxTP = value; } }// => currentTP = value; }
+	public float MaxTP { get { return maxTP; } set { maxTP = value; } }
 	public float CP { get { return currentCP; } set { currentCP = value; } }
-	public float TP { get { return currentTP; } set { currentTP = value; } }// => currentTP = value; }
-	public float CurrentDamage { get { return currentDamage; } set { currentDamage = value; } }// => currentTP = value; }
+	public float TP { get { return currentTP; } set { currentTP = value; } }
+	public float ChargingCP { get { return chargingCP; } set { chargingCP = value; } }
+	public float CurrentDamage { get { return currentDamage; } set { currentDamage = value; } }
+	public float AttackSpeed { get { return attackSpeed; } set { attackSpeed = value; } }
 	public bool IsDecreaseCP { get; set; }
 
 	// 플레이어 데이터를 저장하고 respawn시 반영하는 데이터
@@ -106,7 +110,8 @@ public class Player : MonoBehaviour, IMessageReceiver
 
 		GameManager.Instance.PlayerDT = playerData;
 		GameManager.Instance.PlayerDT.saveScene = SceneManager.GetActiveScene().name;
-
+		
+		currentDamage = meleeWeapon.damageAmount;
 	}
 	private void ChargeCP(Collider other)
 	{
@@ -131,6 +136,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 
 		// 실시간으로 TP 감소
 		_damageable.currentHitPoints -= Time.deltaTime;
+
 		// 실시간으로 CP감소
 		if (IsDecreaseCP && CP > 0)
 		{
@@ -144,30 +150,29 @@ public class Player : MonoBehaviour, IMessageReceiver
 			}
 		}
 
-
-		TP = _damageable.currentHitPoints;
-
-		if (Input.GetKeyDown(KeyCode.UpArrow))
-		{
-			if (currentTP + 100f < maxTP)
-			{
-				currentTP = currentTP + 100;
-				_damageable.currentHitPoints = currentTP;
-			}
-			else
-			{
-				currentTP = maxTP;
-				_damageable.currentHitPoints = currentTP;
-			}
-
-		}
+ 		TP = _damageable.currentHitPoints;
+// 
+// 		if (Input.GetKeyDown(KeyCode.UpArrow))
+// 		{
+// 			if (currentTP + 100f < maxTP)
+// 			{
+// 				currentTP = currentTP + 100;
+// 				_damageable.currentHitPoints = currentTP;
+// 			}
+// 			else
+// 			{
+// 				currentTP = maxTP;
+// 				_damageable.currentHitPoints = currentTP;
+// 			}
+// 
+// 		}
 
 		if (TP <= 0)
 		{
 			_damageable.JustDead();
 		}
 
-		currentDamage = meleeWeapon.damageAmount;
+		
 
 	}
 
@@ -181,7 +186,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 
 	}
 
-
+	/// 증강
 	public void AdjustTP(float value)
 	{
 		maxTP += value;
@@ -197,6 +202,24 @@ public class Player : MonoBehaviour, IMessageReceiver
 	{
 		Speed += vlaue;
 	}
+	public void AdjustAttackSpeed(float value)
+	{
+		AttackSpeed = value;
+	}
+	public void AdjustChargingCP(float value)
+	{
+		chargingCP = value;
+	}
+
+	public void AdjustAttackCoefficient(float value)
+	{
+		attackCoefficient = value;
+	}
+	public void AdjustMoveCoefficient(float value)
+	{
+		moveCoefficient = value;
+	}
+
 
 	public void OnReceiveMessage(MessageType type, object sender, object data)
 	{

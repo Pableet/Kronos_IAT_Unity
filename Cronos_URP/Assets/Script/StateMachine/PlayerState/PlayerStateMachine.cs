@@ -17,8 +17,10 @@ public class PlayerStateMachine : StateMachine
     public CharacterController Controller { get; private set; }
     public Transform PlayerTransform { get; private set; }
     public HitStop HitStop { get; private set; }
+	public Rigidbody Rigidbody { get; private set; }
 
-    public void OnEnable()
+
+	public void OnEnable()
     {
         MainCamera = Camera.main.transform;
 
@@ -27,12 +29,15 @@ public class PlayerStateMachine : StateMachine
         InputReader = GetComponent<InputReader>();
         Animator = GetComponent<Animator>();
 
+		Rigidbody = GetComponent<Rigidbody>();
+
         Controller = GetComponent<CharacterController>();
         PlayerTransform = GetComponent<Transform>();
         HitStop = GetComponent<HitStop>();
 
-        // 시작 상태를 정해준다.
-        SwitchState(new PlayerMoveState(this));
+
+		// 시작 상태를 정해준다.
+		SwitchState(new PlayerMoveState(this));
     }
 
     void OnSlashEvent()
