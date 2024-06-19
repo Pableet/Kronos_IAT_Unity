@@ -15,14 +15,14 @@ MonoBehaviour:
   internals:
     data:
       previewAudioMixerGroup: {fileID: 0}
-      expandSoundContainers: 1
-      expandTimeline: 1
-      expandPreview: 0
-      expandSettings: 0
+      expandSoundContainers: 0
+      expandTimeline: 0
+      expandPreview: 1
+      expandSettings: 1
       expandTriggerOnPlay: 0
       expandTriggerOnStop: 0
       expandTriggerOnTail: 0
-      expandAllSoundTag: 0
+      expandAllSoundTag: 1
       timelineSoundContainerData:
       - delay: 0
         volumeRatio: 1
