@@ -42,6 +42,11 @@ public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
     {
         _controller = GetComponentInChildren<EnemyController>();
 
+        if (meleeWeapon == null)
+        {
+            meleeWeapon = GetComponentInChildren<MeleeTriggerEnterDamager>();
+        }
+
         meleeWeapon.SetOwner(gameObject);
     }
 
