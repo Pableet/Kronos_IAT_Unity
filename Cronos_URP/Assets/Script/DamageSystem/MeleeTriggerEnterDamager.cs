@@ -49,14 +49,15 @@ public class MeleeTriggerEnterDamager : MonoBehaviour
 		{
 			OnTriggerEnterEvent(other);
 		}
-		var d = other.GetComponent<Damageable>();
 
-		if (d == null)
+		var damageable = other.GetComponent<Damageable>();
+
+		if (damageable == null)
 		{
 			return;
 		}
 
-		if (d.gameObject == m_owner)
+		if (damageable.gameObject == m_owner)
 		{
 			return;
 		}
@@ -74,6 +75,6 @@ public class MeleeTriggerEnterDamager : MonoBehaviour
 			stopCamera = stopCamera
 		};
 
-		d.ApplyDamage(msg);
+		damageable.ApplyDamage(msg);
 	}
 }
