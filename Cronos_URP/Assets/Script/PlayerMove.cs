@@ -19,13 +19,6 @@ public class PlayerMove : MonoBehaviour
 
 	float dTime;
 
-//     /// 이펙트를 위한 테스트용 코드
-//     void OnSlashEvent()
-//     {
-// 		EffectManager effectManager = GameObject.Find("EffectManager").GetComponent<EffectManager>();
-// 		effectManager.PlayerSlash();
-//     }
-
     void Start()
 	{
 		anim = GetComponentInChildren<Animator>();

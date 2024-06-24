@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Resources;
 using UnityEngine;
 
@@ -14,22 +15,18 @@ public class PlayerFallState : PlayerBaseState
 	}
 	public override void Tick()
 	{
-// 		AnimatorStateInfo stateInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
-// 		if (stateInfo.normalizedTime > 0.3)
-// 		{
-// 			stateMachine.Animator.speed = 0.0001f;
-// 		}
+		Debug.Log($"{stateMachine.Rigidbody.velocity.y}");
 
-		ApplyGravity();
-		Move();
-		if (stateMachine.Controller.isGrounded)
+		if (IsGrounded())
 		{
 			stateMachine.Animator.speed = 1f;
 			stateMachine.SwitchState(new PlayerMoveState(stateMachine));
 		}
+
 	}
 	public override void FixedTick()
 	{
+		Move();
 	}
 	public override void LateTick()
 	{

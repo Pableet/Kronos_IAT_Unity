@@ -1,3 +1,4 @@
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.RenderGraphModule;
 using UnityEngine.InputSystem.Interactions;
@@ -11,14 +12,13 @@ public class PlayerMoveState : PlayerBaseState
 	private const float AnimationDampTime = 0.1f;
 	private const float CrossFadeDuration = 0.1f;
 
+
 	public PlayerMoveState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
 	public override void Enter()
 	{
-		stateMachine.Velocity.y = Physics.gravity.y;
 		stateMachine.Animator.CrossFadeInFixedTime(MoveBlendTreeHash, CrossFadeDuration);
 
-		//stateMachine.InputReader.onJumpPerformed += SwitchToJumpState;	// 스테이트에 돌입할때 input에 맞는 함수를 넣어준다
 		stateMachine.InputReader.onJumpPerformed += SwitchToParryState; // 스테이트에 돌입할때 input에 맞는 함수를 넣어준다
 		stateMachine.InputReader.onLAttackStart += SwitchToLAttackState;
 		stateMachine.InputReader.onRAttackStart += SwitchToDefanceState;
@@ -28,16 +28,16 @@ public class PlayerMoveState : PlayerBaseState
 	// state의 update라 볼 수 있지
 	public override void Tick()
 	{
-		if(Input.GetKeyDown(KeyCode.V))
+		if (Input.GetKeyDown(KeyCode.V))
 		{
 			stateMachine.Player.CP += 1f;
-        }
+		}
 
 		// 플레이어의 cp 를 이동속도에 반영한다.
 		stateMachine.Animator.speed = stateMachine.Player.CP * stateMachine.Player.MoveCoefficient + 1f;
 
 		// playerComponent기준으로 땅에 닿아있지 않다면
-		if (!stateMachine.Controller.isGrounded)
+		if (!IsGrounded())
 		{
 			stateMachine.SwitchState(new PlayerFallState(stateMachine)); // 상태를 생성해서 접근한다.
 		}
@@ -55,15 +55,15 @@ public class PlayerMoveState : PlayerBaseState
 		// 애니메이터 movespeed의 파라메터의 값을 정한다.
 		stateMachine.Animator.SetFloat(MoveSpeedHash, stateMachine.InputReader.moveComposite.sqrMagnitude > 0f ? moveSpeed : 0f, AnimationDampTime, Time.deltaTime);
 
-		ApplyGravity();
 		CalculateMoveDirection();   // 방향을 계산하고
-		FaceMoveDirection();        // 캐릭터 방향을 바꾸고
-		Move();                     // 이동한다.
 
 	}
 	public override void FixedTick()
 	{
+		FaceMoveDirection();        // 캐릭터 방향을 바꾸고
+		Move();                     // 이동한다.	
 	}
+
 	public override void LateTick()
 	{
 	}
@@ -97,12 +97,21 @@ public class PlayerMoveState : PlayerBaseState
 	}
 	private void SwitchToParryState()
 	{
+		Debug.Log("구른다");
 		stateMachine.SwitchState(new PlayerParryState(stateMachine));
 	}
 
 	private void SwitchToLAttackState()
 	{
-		stateMachine.SwitchState(new PlayerAttackState(stateMachine));
+		Debug.Log("공격전환");
+		if (stateMachine.Player.IsEnforced)
+		{
+			stateMachine.SwitchState(new PlayerEnforcedAttackState(stateMachine));
+		}
+		else
+		{
+			stateMachine.SwitchState(new PlayerAttackState(stateMachine));
+		}
 	}
 	private void SwitchToRAttackState()
 	{

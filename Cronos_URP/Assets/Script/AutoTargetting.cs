@@ -7,10 +7,13 @@ using UnityEngine.Rendering.Universal.Internal;
 using System.Data.SqlTypes;
 using UnityEngine.Purchasing.Extension;
 using Unity.Mathematics;
+using System.Security;
 public class AutoTargetting : MonoBehaviour
 {
 
-    public CinemachineFreeLook freeLookCamera;
+    //public CinemachineFreeLook freeLookCamera;
+    public CinemachineVirtualCamera PlayerCamera;
+	public CinemachinePOV CinemachinePOV;
     public float horizontalSpeed = 10.0f; // 수평 회전 속도
     public float verticalSpeed = 5.0f;    // 수직 회전 속도
 
@@ -25,6 +28,7 @@ public class AutoTargetting : MonoBehaviour
 
     private Vector3 direction;
     private float xDotResult;
+    private float yDotResult;
     bool istargetting;
 
 
@@ -43,7 +47,8 @@ public class AutoTargetting : MonoBehaviour
     {
         stateMachine = Player.GetComponent<PlayerStateMachine>();
         maincamTransform = Camera.main.transform;
-    }
+		CinemachinePOV = PlayerCamera.GetCinemachineComponent<CinemachinePOV>();
+	}
 
 	private void OnTriggerEnter(Collider other)
 	{
@@ -75,10 +80,11 @@ public class AutoTargetting : MonoBehaviour
         if (Target != null)
         {
             direction = Target.position - PlayerObject.position;
-            direction.y = 0;    // y축으로는 회전하지 않는다.
+            //direction.y = 0;    // y축으로는 회전하지 않는다.
         }
 
         xDotResult = Vector3.Dot(maincamTransform.right, PlayerObject.right);
+		yDotResult = Vector3.Dot(maincamTransform.up, Vector3.Cross(direction.normalized, Vector3.right)); //PlayerObject.up);
 
         /// 공격이 일어났을때 
 		/// 제대로 쓸거면 inputsystem을 사용하는 방식으로 고치자
@@ -105,21 +111,31 @@ public class AutoTargetting : MonoBehaviour
     private void AutoTarget()
     {
         // Player가 몬스터 방향으로 몸을 돌린다.
-        stateMachine.transform.rotation = Quaternion.Slerp(stateMachine.transform.rotation, Quaternion.LookRotation(direction.normalized), 1f);
+        stateMachine.Rigidbody.rotation = Quaternion.Slerp(stateMachine.transform.rotation, Quaternion.LookRotation(direction.normalized), 0.1f);
 
         // 타겟이 Player보다 왼쪽에 있는지 오른쪽에 있는지 검사한다.
 		if(Target != null)
 		{
-			float targetPos = TransformPosition(maincamTransform, Target.position).x;
+			Vector3 targetPos = TransformPosition(maincamTransform, Target.position);
+			if (yDotResult < AixsDamp)
+			{
+				TurnCamy((verticalSpeed * Time.deltaTime * (targetPos.y / math.abs(targetPos.y))));
+			}
 			if (xDotResult < AixsDamp)
 			{
 				// targetpos로 좌우를 구분해서 돌린다.
-				TurnCam(horizontalSpeed * Time.deltaTime * (targetPos / math.abs(targetPos)));
+				TurnCam(horizontalSpeed * Time.deltaTime * (targetPos.x / math.abs(targetPos.x)));
+
+// 				if(yDotResult < AixsDamp)
+// 				{
+// 					TurnCamy(verticalSpeed * Time.deltaTime * (targetPos.y / math.abs(targetPos.y)));
+// 				}
 			}
 			else
 			{
 				istargetting = false;
 			}
+
 		}
      
     }
@@ -127,11 +143,17 @@ public class AutoTargetting : MonoBehaviour
     // 카메라를 돌린다
     private void TurnCam(float value)
     {
-        freeLookCamera.m_XAxis.Value += value;
-    }
+		CinemachinePOV.m_HorizontalAxis.Value += value;
 
-    // 특정 포지션을 특정 트렌스폼에서 바라본다.
-    private Vector3 TransformPosition(Transform transform, Vector3 worldPosition)
+	}
+	private void TurnCamy(float value)
+	{
+		CinemachinePOV.m_VerticalAxis.Value += value;
+
+	}
+
+	// 특정 포지션을 특정 트렌스폼에서 바라본다.
+	private Vector3 TransformPosition(Transform transform, Vector3 worldPosition)
     {
         return transform.worldToLocalMatrix.MultiplyPoint3x4(worldPosition);
     }

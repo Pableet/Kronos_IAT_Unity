@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Cinemachine;
+using UnityEngine;
 
 public class PlayerJumpState : PlayerBaseState
 {
@@ -11,6 +12,14 @@ public class PlayerJumpState : PlayerBaseState
 	{
 		stateMachine.Velocity = new Vector3(stateMachine.Velocity.x, stateMachine.Player.jumpForce, stateMachine.Velocity.z);
 		stateMachine.Animator.CrossFadeInFixedTime(JumpHash, CrossFadeDuration);
+
+		CinemachineBrain cinemachineBrain = Camera.main.GetComponent<CinemachineBrain>();
+		if (cinemachineBrain != null)
+		{
+			cinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.LateUpdate;
+		}
+
+
 	}
 	public override void Tick()
 	{
@@ -30,6 +39,11 @@ public class PlayerJumpState : PlayerBaseState
 
 	public override void Exit()
 	{
-		
+		CinemachineBrain cinemachineBrain = Camera.main.GetComponent<CinemachineBrain>();
+		if (cinemachineBrain != null)
+		{
+			cinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.FixedUpdate;
+		}
+
 	}
 }

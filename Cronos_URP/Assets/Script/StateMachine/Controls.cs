@@ -80,6 +80,15 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""e29b0cc0-cb3c-4c38-9861-c3acca015c84"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": ""Clamp(min=-0.1,max=0.1),Invert"",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -184,6 +193,17 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""a387855a-f4a8-405c-a29b-6b2d2c400c25"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""14418a03-8850-4255-a893-cbf39744e456"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
@@ -212,6 +232,17 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""SwitchingAttribute"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8d2ae9a0-2fe9-4bed-ba73-8c988888e2de"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -772,6 +803,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
 		m_Player_LAttack = m_Player.FindAction("L.Attack", throwIfNotFound: true);
 		m_Player_RAttack = m_Player.FindAction("R.Attack", throwIfNotFound: true);
 		m_Player_SwitchingAttribute = m_Player.FindAction("SwitchingAttribute", throwIfNotFound: true);
+		m_Player_Zoom = m_Player.FindAction("Zoom", throwIfNotFound: true);
 		// UI
 		m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
 		m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -851,6 +883,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
 	private readonly InputAction m_Player_LAttack;
 	private readonly InputAction m_Player_RAttack;
 	private readonly InputAction m_Player_SwitchingAttribute;
+	private readonly InputAction m_Player_Zoom;
 	public struct PlayerActions
 	{
 		private @Controls m_Wrapper;
@@ -861,6 +894,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
 		public InputAction @LAttack => m_Wrapper.m_Player_LAttack;
 		public InputAction @RAttack => m_Wrapper.m_Player_RAttack;
 		public InputAction @SwitchingAttribute => m_Wrapper.m_Player_SwitchingAttribute;
+		public InputAction @Zoom => m_Wrapper.m_Player_Zoom;
 		public InputActionMap Get() { return m_Wrapper.m_Player; }
 		public void Enable() { Get().Enable(); }
 		public void Disable() { Get().Disable(); }
@@ -873,21 +907,30 @@ public partial class @Controls : IInputActionCollection2, IDisposable
 			@Look.started += instance.OnLook;
 			@Look.performed += instance.OnLook;
 			@Look.canceled += instance.OnLook;
+
 			@Move.started += instance.OnMove;
 			@Move.performed += instance.OnMove;
 			@Move.canceled += instance.OnMove;
-			@Jump.started += instance.OnJump;
+
+			@Jump.started += instance.OnJumpDown;
 			@Jump.performed += instance.OnJump;
-			@Jump.canceled += instance.OnJump;
+			@Jump.canceled += instance.OnJumpUp;
+
 			@LAttack.started += instance.OnLAttackDown;
 			@LAttack.performed += instance.OnLAttack;
-			@LAttack.canceled += instance.OnLAttack;
+			@LAttack.canceled += instance.OnLAttackUp;
+
 			@RAttack.started += instance.OnRAttackDown;
 			@RAttack.performed += instance.OnRAttack;
 			@RAttack.canceled += instance.OnRAttackUp;
+
 			@SwitchingAttribute.started += instance.OnSwitchingDown;
 			@SwitchingAttribute.performed += instance.OnSwitching;
 			@SwitchingAttribute.canceled += instance.OnSwitchingUp;
+
+			@Zoom.started += instance.OnZoom;
+			@Zoom.performed += instance.OnZoom;
+			@Zoom.canceled += instance.OnZoom;
 		}
 
 		private void UnregisterCallbacks(IPlayerActions instance)
@@ -895,21 +938,30 @@ public partial class @Controls : IInputActionCollection2, IDisposable
 			@Look.started -= instance.OnLook;
 			@Look.performed -= instance.OnLook;
 			@Look.canceled -= instance.OnLook;
+
 			@Move.started -= instance.OnMove;
 			@Move.performed -= instance.OnMove;
 			@Move.canceled -= instance.OnMove;
-			@Jump.started -= instance.OnJump;
+
+			@Jump.started -= instance.OnJumpDown;
 			@Jump.performed -= instance.OnJump;
-			@Jump.canceled -= instance.OnJump;
+			@Jump.canceled -= instance.OnJumpUp;
+
 			@LAttack.started -= instance.OnLAttackDown;
 			@LAttack.performed -= instance.OnLAttack;
-			@LAttack.canceled -= instance.OnLAttack;
+			@LAttack.canceled -= instance.OnLAttackUp;
+
 			@RAttack.started -= instance.OnRAttackDown;
 			@RAttack.performed -= instance.OnRAttack;
 			@RAttack.canceled -= instance.OnRAttackUp;
+
 			@SwitchingAttribute.started -= instance.OnSwitchingDown;
 			@SwitchingAttribute.performed -= instance.OnSwitching;
 			@SwitchingAttribute.canceled -= instance.OnSwitchingUp;
+
+			@Zoom.started -= instance.OnZoom;
+			@Zoom.performed -= instance.OnZoom;
+			@Zoom.canceled -= instance.OnZoom;
 		}
 
 		public void RemoveCallbacks(IPlayerActions instance)
@@ -1067,15 +1119,19 @@ public partial class @Controls : IInputActionCollection2, IDisposable
 	{
 		void OnLook(InputAction.CallbackContext context);
 		void OnMove(InputAction.CallbackContext context);
+		void OnJumpDown(InputAction.CallbackContext context);
 		void OnJump(InputAction.CallbackContext context);
-		void OnLAttack(InputAction.CallbackContext context);
+		void OnJumpUp(InputAction.CallbackContext context);
 		void OnLAttackDown(InputAction.CallbackContext context);
+		void OnLAttack(InputAction.CallbackContext context);
+		void OnLAttackUp(InputAction.CallbackContext context);
 		void OnRAttackDown(InputAction.CallbackContext context);
 		void OnRAttack(InputAction.CallbackContext context);
 		void OnRAttackUp(InputAction.CallbackContext context);
 		void OnSwitchingDown(InputAction.CallbackContext context);
 		void OnSwitching(InputAction.CallbackContext context);
 		void OnSwitchingUp(InputAction.CallbackContext context);
+		void OnZoom(InputAction.CallbackContext context);
 	}
 	public interface IUIActions
 	{

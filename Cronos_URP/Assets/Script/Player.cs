@@ -1,8 +1,10 @@
+using Cinemachine;
 using Message;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Transactions;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
 using UnityEngine.PlayerLoop;
@@ -45,6 +47,10 @@ public class Player : MonoBehaviour, IMessageReceiver
 	[SerializeField] private float chargingCP = 10f;
 
 
+	[SerializeField] private bool isEnforced = false;
+
+
+
 	// Property
 	private float totalspeed;
 	public float moveSpeed { get { return totalspeed; } }
@@ -61,6 +67,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 	public float CurrentDamage { get { return currentDamage; } set { currentDamage = value; } }
 	public float AttackSpeed { get { return attackSpeed; } set { attackSpeed = value; } }
 	public bool IsDecreaseCP { get; set; }
+	public bool IsEnforced { get { return isEnforced; } set { isEnforced = value; } }	// 강화상태를 위한 프로퍼티
 
 	// 플레이어 데이터를 저장하고 respawn시 반영하는 데이터
 	PlayerData playerData = new PlayerData();
@@ -73,9 +80,9 @@ public class Player : MonoBehaviour, IMessageReceiver
 	public Damageable _damageable;
 	public Defensible _defnsible;
 
-	private void Awake()
-	{
-	}
+	/// 안돼는데 안돼
+	private Vector3 lastPosition;
+	private Quaternion lastRotation;
 
 	protected void OnDisable()
 	{
@@ -84,6 +91,10 @@ public class Player : MonoBehaviour, IMessageReceiver
 
 	private void OnEnable()
 	{
+		/// 안돼는데 안돼
+		lastPosition = transform.position;
+		lastRotation = transform.rotation;
+
 		_damageable = GetComponent<Damageable>();
 		_damageable.onDamageMessageReceivers.Add(this);
 
@@ -92,6 +103,8 @@ public class Player : MonoBehaviour, IMessageReceiver
 		// 감속/가속 변경함수를 임시로 사용해보자
 		// 반드시 지워져야할 부분이지만 임시로 넣는다
 		PlayerFSM = GetComponent<PlayerStateMachine>();
+		///안돼
+		PlayerFSM.Animator.applyRootMotion = true;
 		playerTransform = GetComponent<Transform>();
 
 		meleeWeapon = GetComponentInChildren<MeleeTriggerEnterDamager>();
@@ -172,18 +185,37 @@ public class Player : MonoBehaviour, IMessageReceiver
 			_damageable.JustDead();
 		}
 
-		
+
+		//MoveTest();
+
+	}
+	private void FixedUpdate()
+	{
 
 	}
 
+	private void OnAnimatorMove()
+	{
+// 		Vector3 deltaPosition = PlayerFSM.Animator.deltaPosition;
+// 		Quaternion deltaRotation = PlayerFSM.Animator.deltaRotation;
+// 
+// 		transform.position += deltaPosition;
+// 		transform.rotation = deltaRotation * transform.rotation;
+// 
+// 		// 위치와 회전을 저장하여 애니메이션이 끝난 후에도 적용
+// 		lastPosition = transform.position;
+// 		lastRotation = transform.rotation;
+	}
 	private void LateUpdate()
 	{
-
-	}
-
+// 		if (!PlayerFSM.Animator.GetCurrentAnimatorStateInfo(0).loop && PlayerFSM.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+// 		{
+// 			PlayerFSM.transform.position = lastPosition;
+// 			PlayerFSM.transform.rotation = lastRotation;
+// 		}
+ 	}
 	private void OnTriggerEnter(Collider other)
 	{
-
 	}
 
 	/// 증강
@@ -192,7 +224,6 @@ public class Player : MonoBehaviour, IMessageReceiver
 		maxTP += value;
 		_damageable.currentHitPoints += value;
 	}
-
 	public void AdjustAttackPower(float value)
 	{
 		currentDamage = value;
@@ -344,6 +375,19 @@ public class Player : MonoBehaviour, IMessageReceiver
 	{
 		meleeWeapon.EndAttack();
 	}
+
+// 	void MoveTest()
+// 	{
+// 		float animationSpeed = PlayerFSM.Animator.deltaPosition.magnitude;
+// 
+// 		// test
+// 		Vector3 direction = PlayerFSM.transform.forward.normalized;
+// 
+// 		// 새로운 벡터 계산
+// 		Vector3 newDeltaPosition = direction * animationSpeed;
+// 
+// 		PlayerFSM.transform.Translate(newDeltaPosition);
+// 	}
 
 
 }

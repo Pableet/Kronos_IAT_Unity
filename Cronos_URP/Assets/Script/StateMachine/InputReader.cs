@@ -18,10 +18,14 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
 	public Vector2 moveComposite;
 
 	public Action onMove;
+
+	public Action onJumpStart;      // 점프의 대한 액션을 담기 위한 변수
 	public Action onJumpPerformed;      // 점프의 대한 액션을 담기 위한 변수
+	public Action onJumpCanceled;      // 점프의 대한 액션을 담기 위한 변수
 	
 	public Action onLAttackStart;   // 공격의 대한 액션을 담기 위한 변수
 	public Action onLAttackPerformed;   // 공격의 대한 액션을 담기 위한 변수
+	public Action onLAttackCanceled;   // 공격의 대한 액션을 담기 위한 변수
 	
 	public Action onRAttackStart;   
 	public Action onRAttackPerformed;
@@ -30,6 +34,11 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
 	public Action onSwitchingStart;
 	public Action onSwitchingPerformed;
 	public Action onSwitchingCanceled;
+
+	public Action onZoom;
+
+	public bool IsLAttackPressed {  get;  set; } = false;
+	public bool IsRAttackPressed {  get; private set; } = false;
 
 	private Controls controls;
 
@@ -54,17 +63,14 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
 	}
 
 	// 카메라 이동을 담당하는! 
-	public void OnLook(InputAction.CallbackContext context)
-	{
-		mouseDelta = context.ReadValue<Vector2>();
-	}
-
+	public void OnLook(InputAction.CallbackContext context) { mouseDelta = context.ReadValue<Vector2>(); }
 	public void OnMove(InputAction.CallbackContext context)
 	{
 		moveComposite = context.ReadValue<Vector2>();
 		onMove?.Invoke(); // 이동 발생여부를 검증한다.
 	}
 
+	public void OnJumpDown(InputAction.CallbackContext context) { onJumpStart?.Invoke(); }
 	public void OnJump(InputAction.CallbackContext context)
 	{
 		if (!context.performed)
@@ -74,41 +80,36 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
 
 		onJumpPerformed?.Invoke();// onJump가 null 이 아니라면 실행한다.
 	}
-	public void OnLAttack(InputAction.CallbackContext context)
+	public void OnJumpUp(InputAction.CallbackContext context) { onJumpCanceled?.Invoke(); } // onJump가 null 이 아니라면 실행한다.
+	// 좌클릭
+	public void OnLAttackDown(InputAction.CallbackContext context) { onLAttackStart?.Invoke(); }
+	public void OnLAttack(InputAction.CallbackContext context) 
 	{
-		onLAttackPerformed?.Invoke();
+		IsLAttackPressed = true;
+		onLAttackPerformed?.Invoke(); 
 	}
-	public void OnLAttackDown(InputAction.CallbackContext context)
+	public void OnLAttackUp(InputAction.CallbackContext context) 
 	{
-		onLAttackStart?.Invoke();
+		IsLAttackPressed = false ;
+		onLAttackCanceled?.Invoke(); 
 	}
-	public 
-		void OnRAttackDown(InputAction.CallbackContext context)
+	// 우클릭
+	public void OnRAttackDown(InputAction.CallbackContext context) { onRAttackStart?.Invoke(); }
+	public void OnRAttack(InputAction.CallbackContext context) 
 	{
-		onRAttackStart?.Invoke();
+		IsRAttackPressed = true;
+		onRAttackPerformed?.Invoke(); 
 	}
-	public void OnRAttack(InputAction.CallbackContext context)
+	public void OnRAttackUp(InputAction.CallbackContext context) 
 	{
-		onRAttackPerformed?.Invoke();
+		IsRAttackPressed = false;
+		onRAttackCanceled?.Invoke(); 
 	}
-
-	public void OnRAttackUp(InputAction.CallbackContext context)
-	{
-		onRAttackCanceled?.Invoke();
-	}
-
-	public void OnSwitchingDown(InputAction.CallbackContext context)
-	{
-		onSwitchingStart?.Invoke();
-	}
-	public void OnSwitching(InputAction.CallbackContext context)
-	{
-		onSwitchingPerformed?.Invoke();
-	}
-	public void OnSwitchingUp(InputAction.CallbackContext context)
-	{
-		onSwitchingCanceled?.Invoke();
-	}
-
-
+	// Q
+	public void OnSwitchingDown(InputAction.CallbackContext context) { onSwitchingStart?.Invoke(); }
+	public void OnSwitching(InputAction.CallbackContext context) { onSwitchingPerformed?.Invoke(); }
+	public void OnSwitchingUp(InputAction.CallbackContext context) { onSwitchingCanceled?.Invoke(); }
+	
+	// 휠
+	public void OnZoom(InputAction.CallbackContext context) { onZoom?.Invoke(); }
 }
