@@ -98,7 +98,7 @@ public class EffectManager : MonoBehaviour
         Debug.Log("FX 매니저의 훅 슬래시");
         GameObject playerArm = FindChild(player, "Character1_RightArm");
         trail.transform.position = playerArm.transform.TransformPoint(Vector3.zero);
-        trail.transform.rotation = Quaternion.Euler(0f, playerArm.transform.rotation.eulerAngles.y - 50.0f, 0f);
+        trail.transform.rotation = Quaternion.Euler(0f, playerArm.transform.rotation.eulerAngles.y - 120.0f, 0f);
         trail.SetActive(true);
         Invoke("DestroyQ", 1.0f);
     }

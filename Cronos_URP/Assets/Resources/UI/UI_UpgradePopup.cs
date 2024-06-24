@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Purchasing;
 using UnityEngine.UI;
+using Sonity;
 
 public class UI_UpgradePopup : MonoBehaviour, IPointerDownHandler
 {
@@ -24,12 +25,29 @@ public class UI_UpgradePopup : MonoBehaviour, IPointerDownHandler
     Vector3 originScale;
     Vector3 shrinkScale;
 
+    // UI의 트랜스폼은 너무 멀어서 소니티에서 재생이 안되므로
+    // 메인 카메라의 트랜스폼을 여기다 받아주도록 하자.
+    public Transform UItransform;
+
     public RawImage bHide;
     public RawImage sHide;
     public RawImage gHide;
 
+    public SoundEvent soundEventSelect;
+    public SoundEvent soundEventConfirm;
+
     Color oldCol = new Color(1, 1, 1, 0);
     Color transCol = new Color(1, 1, 1, 0.2f);
+
+    void SoundSelect()
+    {
+        soundEventSelect.Play(UItransform);
+    }
+
+    void SoundConfirm()
+    {
+        soundEventConfirm.Play(UItransform);
+    }
 
     private void Awake()
     {
@@ -70,6 +88,7 @@ public class UI_UpgradePopup : MonoBehaviour, IPointerDownHandler
             bHide.color = oldCol;
             sHide.color = transCol;
             gHide.color = transCol;
+            SoundSelect();
         }
 
         if (clickedButton == silver)
@@ -80,6 +99,7 @@ public class UI_UpgradePopup : MonoBehaviour, IPointerDownHandler
             bHide.color = transCol;
             sHide.color = oldCol;
             gHide.color = transCol;
+            SoundSelect();
         }
 
         if (clickedButton == gold)
@@ -90,6 +110,7 @@ public class UI_UpgradePopup : MonoBehaviour, IPointerDownHandler
             bHide.color = transCol;
             sHide.color = transCol;
             gHide.color = oldCol;
+            SoundSelect();
         }
     }
 
@@ -114,6 +135,7 @@ public class UI_UpgradePopup : MonoBehaviour, IPointerDownHandler
         confirm.SetActive(false);
     }
 
+    // isSelected bool을 체크해주는 함수
     void SetSelect(Button clickedButton)
     {
         if (clickedButton == bronze)
@@ -140,6 +162,8 @@ public class UI_UpgradePopup : MonoBehaviour, IPointerDownHandler
 
     public void DoUpgrade()
     {
+        SoundConfirm();
+
         // isSelected에 따른 업데이트 실행 후
         if (upgradeB.isSelected)
         {

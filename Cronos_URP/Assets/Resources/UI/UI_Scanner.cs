@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.UI;
 using UnityEngine;
-
+using Sonity;
 
 public class UI_Scanner : MonoBehaviour
 {
@@ -10,6 +9,9 @@ public class UI_Scanner : MonoBehaviour
     GameObject interText;
     bool isPopup;
     bool isInteracting;
+
+    public SoundEvent soundEventInteract;
+    public Transform UItransform;
 
     private void Awake()
     {
@@ -54,11 +56,17 @@ public class UI_Scanner : MonoBehaviour
     {
         if (isPopup && Input.GetKeyDown(KeyCode.E) && !isInteracting)
         {
+            SoundInteract();
             Debug.Log("Player Interact");
             UI_PowerUp.PowerUp();
             //Destroy(gameObject);
             interText.SetActive(false);
             isInteracting = true;
         }
+    }
+
+    void SoundInteract()
+    {
+        soundEventInteract.Play(UItransform);
     }
 }

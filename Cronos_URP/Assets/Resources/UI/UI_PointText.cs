@@ -7,13 +7,13 @@ using TMPro;
 
 public class UI_PointText : UI_TPCP
 {
-    //[SerializeField]
-    public TextMeshProUGUI textTP;
-    public TextMeshProUGUI textCP;
+    [SerializeField]
+    TextMeshProUGUI textTP;
+    //public TextMeshProUGUI textCP;
 
     Player player;
     float tp;
-    float cp;
+    //float cp;
 
     private void Start()
     {
@@ -29,8 +29,8 @@ public class UI_PointText : UI_TPCP
     private void Update()
     {
         tp = player.TP;
-        cp = player.CP;
-        textTP.text = "TP:" + tp.ToString("0000");
-        textCP.text = "CP:" + cp.ToString("0000");
+        //cp = player.CP;
+        textTP.text = tp.ToString("000");
+        //textCP.text = "CP:" + cp.ToString("0000");
     }
 }
