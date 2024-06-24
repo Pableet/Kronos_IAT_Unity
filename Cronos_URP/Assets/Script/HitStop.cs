@@ -18,7 +18,7 @@ public class HitStop : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && isHit == false)
+        if (Input.GetKeyDown(KeyCode.H) && isHit == false)
         {
             isHit = true;
             Debug.Log("Testing HitStop");

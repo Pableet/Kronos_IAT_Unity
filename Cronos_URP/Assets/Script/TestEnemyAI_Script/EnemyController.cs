@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 /// 모든 Enmy 객체들이 공동적으로 가지는 컴포넌트 및 변수를 정의한 클래스
 /// 객체의 물리, 네브메시, 
 /// </summary>
-[DefaultExecutionOrder(-1)] // 다른 스키립트보다 먼저 실행(실행 주문 값이 낮을 수록 먼저 실행)
+[DefaultExecutionOrder(-1)] // 다른 스크립트보다 먼저 실행(실행 주문 값이 낮을 수록 먼저 실행)
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyController : MonoBehaviour
 {
