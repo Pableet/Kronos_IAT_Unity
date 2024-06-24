@@ -13,7 +13,7 @@ public class UI_TPCP : MonoBehaviour
     protected enum Texts
     {
         UI_TP,
-        UI_CP
+        //UI_CP
     }
 
     public GameObject FindChild(GameObject go, string name = null, bool recursive = false)
