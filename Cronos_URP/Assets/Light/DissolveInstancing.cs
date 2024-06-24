@@ -1,50 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 
-public class Dissolve1 : MonoBehaviour
+public class DissolveInstancing : MonoBehaviour
 {
-    [SerializeField]
-    private float dissolveTime = 0.75f;
+    public float delaySec = 2.0f;
 
-    new Renderer renderer;
-    Material material;
+    [SerializeField]
+    private float dissolveTime = 0f;
+
+    public Material mat;
     int dissolveAmount = Shader.PropertyToID("_DissolveAmount");
 
     private void Start()
     {
-        renderer = GetComponent<Renderer>();
-        material = renderer.material;
-        if (material == null)
-        {
-            Debug.Log("no mat");
-        }
+        mat = gameObject.GetComponent<Renderer>().material;
+        DoVanish();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.X))
-            DoVanish();
+
     }
 
     public void DoVanish()
     {
-        StartCoroutine(Vanish());
+        StartCoroutine(Vanish(delaySec));
     }
 
-    IEnumerator Vanish()
+    IEnumerator Vanish(float delay)
     {
+        yield return new WaitForSeconds(delay);
+
         float elapsedTime = 0.0f;
         while (elapsedTime < dissolveTime)
         {
             elapsedTime += Time.deltaTime;
 
             float lerpDissolve = Mathf.Lerp(0, 1.1f, (elapsedTime / dissolveTime));
-            material.SetFloat(dissolveAmount, lerpDissolve);
+            mat.SetFloat(dissolveAmount, lerpDissolve);
+            Debug.Log("마테리얼 디졻므");
 
             yield return null;
         }
 
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
 }
