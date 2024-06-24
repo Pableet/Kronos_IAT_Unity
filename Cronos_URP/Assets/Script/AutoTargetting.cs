@@ -102,13 +102,17 @@ public class AutoTargetting : MonoBehaviour
             }
         }
 
-        if (istargetting)
-        {
-            AutoTarget();
-        }
     }
 
-    private void AutoTarget()
+	private void FixedUpdate()
+	{
+		if (istargetting)
+		{
+			AutoTarget();
+		}
+	}
+
+	private void AutoTarget()
     {
         // Player가 몬스터 방향으로 몸을 돌린다.
         stateMachine.Rigidbody.rotation = Quaternion.Slerp(stateMachine.transform.rotation, Quaternion.LookRotation(direction.normalized), 0.1f);
