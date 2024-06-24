@@ -42,6 +42,11 @@ public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
     {
         _controller = GetComponentInChildren<EnemyController>();
 
+        if (meleeWeapon == null)
+        {
+            meleeWeapon = GetComponentInChildren<MeleeTriggerEnterDamager>();
+        }
+
         meleeWeapon.SetOwner(gameObject);
     }
 
@@ -68,10 +73,13 @@ public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
         _controller.SetBulletTime(false);
     }
 
-	private void FixedUpdate()
+    private void Update() 
     {
         LookAtTarget();
+    }
 
+	private void FixedUpdate()
+    {
         Vector3 toBase = originalPosition - transform.position;
         toBase.y = 0;
 
@@ -248,7 +256,7 @@ public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
         _controller.animator.SetBool(hashNearBase, nearBase);
     }
 
-    public void SetInPursuit(bool inPursuit)
+    private void SetInPursuit(bool inPursuit)
     {
         _controller.animator.SetBool(hashInPursuit, inPursuit);
     }
@@ -278,4 +286,14 @@ public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
 
 		//We unparent the hit source, as it would destroy it with the gameobject when it get replaced by the ragdol otherwise
 	}
+
+    public void SetVulnerable()
+    {
+        _damageable.SetVulnerability(true);
+    }
+
+    public void SetUnvulnerable()
+    {
+        _damageable.SetVulnerability(false);
+    }
 }

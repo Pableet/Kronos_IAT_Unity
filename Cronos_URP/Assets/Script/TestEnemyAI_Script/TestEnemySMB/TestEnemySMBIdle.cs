@@ -7,18 +7,10 @@ public class TestEnemySMBIdle : SceneLinkedSMB<TestEnemyBehavior>
     public float minimumIdleGruntTime = 2.0f;
     public float maximumIdleGruntTime = 5.0f;
 
-    public override void OnStateMachineEnter(Animator animator, int stateMachinePathHash)
+    public override void OnSLStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (minimumIdleGruntTime > maximumIdleGruntTime)
             minimumIdleGruntTime = maximumIdleGruntTime;
-
-    }
-
-    public override void OnSLStateNoTransitionUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        base.OnSLStateNoTransitionUpdate(animator, stateInfo, layerIndex);
-
-        _monoBehaviour.FindTarget();
 
         if (_monoBehaviour.target != null)
         {
@@ -27,11 +19,35 @@ public class TestEnemySMBIdle : SceneLinkedSMB<TestEnemyBehavior>
             if (toTarget.sqrMagnitude < _monoBehaviour.attackDistance * _monoBehaviour.attackDistance)
             {
                 _monoBehaviour.TriggerAttack();
+                _monoBehaviour.StopPursuit();
             }
             else
             {
                 _monoBehaviour.StartPursuit();
             }
         }
+
+    }
+
+    public override void OnSLStateNoTransitionUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        base.OnSLStateNoTransitionUpdate(animator, stateInfo, layerIndex);
+
+        if (_monoBehaviour.target != null)
+        {
+            Vector3 toTarget = _monoBehaviour.target.transform.position - _monoBehaviour.transform.position;
+
+            if (toTarget.sqrMagnitude < _monoBehaviour.attackDistance * _monoBehaviour.attackDistance)
+            {
+                _monoBehaviour.TriggerAttack();
+                _monoBehaviour.StopPursuit();
+            }
+            else
+            {
+                _monoBehaviour.StartPursuit();
+            }
+        }
+
+        _monoBehaviour.FindTarget();
     }
 }

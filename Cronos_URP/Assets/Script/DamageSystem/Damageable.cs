@@ -24,6 +24,8 @@ public partial class Damageable : MonoBehaviour
     public Defensible defensible;
 
     public bool isInvulnerable { get; set; }
+    private bool isVulnerable { get; set; }
+
     public float currentHitPoints
     {
         get { return timePoints; }
@@ -69,6 +71,11 @@ public partial class Damageable : MonoBehaviour
         OnResetDamage.Invoke();
     }
 
+    public void SetVulnerability(bool isVulnerable)
+    {
+        this.isVulnerable = isVulnerable;
+    }
+
     public void SetColliderState(bool enabled)
     {
         m_Collider.enabled = enabled;
@@ -99,7 +106,7 @@ public partial class Damageable : MonoBehaviour
         if (Vector3.Angle(forward, positionToDamager) > hitAngle * 0.5f)
             return;
 
-        if(defensible)
+        if (defensible)
         {
             defensible.ApplyDamage(ref data);
         }
@@ -169,6 +176,18 @@ public partial class Damageable : MonoBehaviour
         UnityEditor.Handles.color = new Color(1.0f, 0.0f, 0.0f, 0.5f);
         forward = Quaternion.AngleAxis(-hitAngle * 0.5f, transform.up) * forward;
         UnityEditor.Handles.DrawSolidArc(transform.position, transform.up, forward, hitAngle, 0.8f);
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (isVulnerable)
+        {
+            var drawPos = transform.position;
+            drawPos.y += 1.2f;
+
+            Gizmos.color = new Color(1.0f, 0.9f, 0.0f, 0.5f);
+            Gizmos.DrawSphere(drawPos, 0.5f);
+        }
     }
 #endif
 }
