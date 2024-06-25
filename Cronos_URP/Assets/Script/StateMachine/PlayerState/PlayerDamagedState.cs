@@ -8,6 +8,10 @@ public class PlayerDamagedState : PlayerBaseState
 	public static readonly int hashDamageBase = Animator.StringToHash("hit01");
 	public override void Enter()
 	{
+		// TPCPHUD 인스턴스 받아와서 색/크기 변경
+		UI_TPCPHUD hud = UI_TPCPHUD.GetInstance();
+		hud.ChangeRed();
+
 		stateMachine.Animator.Rebind();
 		stateMachine.Animator.CrossFadeInFixedTime(hashDamageBase, 0.1f);
 	}

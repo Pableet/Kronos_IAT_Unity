@@ -8,6 +8,10 @@ using UnityEngine.UI;
 
 public class UI_TPCPHUD : UI_TPCP
 {
+    // 싱글벙글턴
+    static UI_TPCPHUD instance;
+    public static UI_TPCPHUD GetInstance() { return instance; }
+
     [SerializeField]
     TextMeshProUGUI textTP;
     [SerializeField]
@@ -33,8 +37,8 @@ public class UI_TPCPHUD : UI_TPCP
     Player player;
     float tp;
     float cp;
-    float MaxTp = 300.0f;
-    float MaxCp = 100.0f;
+    float MaxTp;
+    float MaxCp;
 
     Transform parentTrans;
     ParticleSystem ps;
@@ -51,6 +55,8 @@ public class UI_TPCPHUD : UI_TPCP
 
     private void Start()
     {
+        instance = this;
+
         Bind<TextMeshProUGUI>(typeof(Texts));
         player = GameObject.Find("Player").GetComponent<Player>();
 
@@ -69,6 +75,7 @@ public class UI_TPCPHUD : UI_TPCP
     void Update()
     {
         // 플레이어의 TP를 받아온다.
+        MaxTp = player.MaxTP;
         tp = player.TP;
         textTP.text = tp.ToString("000");
         TPprogress = tp / MaxTp;
@@ -79,23 +86,16 @@ public class UI_TPCPHUD : UI_TPCP
         TpGlow.GetComponent<ParticleSystem>().transform.rotation = FxHolder.rotation;
 
         if (Input.GetKeyDown(KeyCode.T))
-            StartCoroutine(ChangeColorScale(orange, ()=> 
-            { 
-                TpGlow.SetActive(true);
-                psMain.startColor = new ParticleSystem.MinMaxGradient(Color.white, gray);
-            }));
+            ChangeOrange();
 
         if (Input.GetKeyDown(KeyCode.Y))
-            StartCoroutine(ChangeColorScale(red, () => 
-            { 
-                TpGlow.SetActive(true);
-                psMain.startColor = new ParticleSystem.MinMaxGradient(Color.white, gray);
-            }));
+            ChangeRed();
 
 
         // 플레이어의 CP를 받아온다.
-        //cp = player.CP;
-        //CPprogress = cp / MaxCp;
+        cp = player.CP;
+        MaxCp = player.MaxCP;
+        CPprogress = cp / MaxCp;
         circleImageCP.fillAmount = CPprogress;
         CpHolder.transform.rotation = Quaternion.Euler(new Vector3(0, 0, CPprogress * -360));
     }
@@ -115,8 +115,28 @@ public class UI_TPCPHUD : UI_TPCP
         prevParentRot = curParentRot;
     }
 
+    // 노가드 람다
+    public void ChangeRed()
+    {
+        StartCoroutine(ChangeColorScale(red, () =>
+        {
+            TpGlow.SetActive(true);
+            psMain.startColor = new ParticleSystem.MinMaxGradient(Color.white, gray);
+        }));
+    }
+
+    // 가드 람다
+    public void ChangeOrange()
+    {
+        StartCoroutine(ChangeColorScale(orange, () =>
+        {
+            TpGlow.SetActive(true);
+            psMain.startColor = new ParticleSystem.MinMaxGradient(Color.white, gray);
+        }));
+    }
+
     // 슬라이더/텍스트의 크기를 키우고 색을 바꾼다.
-    IEnumerator ChangeColorScale(Vector4 color, Action onComplete)
+    public IEnumerator ChangeColorScale(Vector4 color, Action onComplete)
     {
         float elapsedTime = 0.0f;
 
