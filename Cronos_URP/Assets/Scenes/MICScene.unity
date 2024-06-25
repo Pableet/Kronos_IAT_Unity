@@ -2081,6 +2081,18 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 944050837}
+    - target: {fileID: 3087429632038769550, guid: c1cc39383b97e614b8da8a1b169870cb, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6323277908620535496, guid: c1cc39383b97e614b8da8a1b169870cb, type: 3}
+      propertyPath: ShapeModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6323277908620535496, guid: c1cc39383b97e614b8da8a1b169870cb, type: 3}
+      propertyPath: EmissionModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8363514865524093866, guid: c1cc39383b97e614b8da8a1b169870cb, type: 3}
       propertyPath: m_Name
       value: UI_TP/CP
