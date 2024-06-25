@@ -8,6 +8,7 @@ using System.Data.SqlTypes;
 using UnityEngine.Purchasing.Extension;
 using Unity.Mathematics;
 using System.Security;
+using System.Data;
 public class AutoTargetting : MonoBehaviour
 {
 
@@ -87,8 +88,6 @@ public class AutoTargetting : MonoBehaviour
 		xDotResult = Mathf.Abs(Vector3.Dot(maincamTransform.right, PlayerObject.right));
 		yDotResult = Mathf.Abs(Vector3.Dot(maincamTransform.up, Vector3.Cross(Vector3.right, direction.normalized).normalized));
 
-		Debug.Log($"yDot : {yDotResult}");
-
 		/// 공격이 일어났을때 
 		/// 제대로 쓸거면 inputsystem을 사용하는 방식으로 고치자
 		if (Input.GetButton("Fire1"))
@@ -118,7 +117,11 @@ public class AutoTargetting : MonoBehaviour
 	private void FixedUpdate()
 	{
 		// Player가 몬스터 방향으로 몸을 돌린다.
-		stateMachine.Rigidbody.rotation = Quaternion.Slerp(stateMachine.transform.rotation, Quaternion.LookRotation(direction.normalized), 0.1f);
+		if (isTargetting || stateMachine.Player.IsLockOn)
+		{
+			stateMachine.Rigidbody.rotation = Quaternion.Slerp(stateMachine.transform.rotation, Quaternion.LookRotation(direction.normalized), 0.1f);
+
+		}
 	}
 	private void LateUpdate() { }
 
@@ -243,7 +246,7 @@ public class AutoTargetting : MonoBehaviour
 			}
 			else
 			{
-				Target = MonsterList[1].transform;
+				Target = MonsterList[1]?.transform;
 			}
 		}
 	}

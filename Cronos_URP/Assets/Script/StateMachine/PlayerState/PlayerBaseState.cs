@@ -61,6 +61,7 @@ public abstract class PlayerBaseState : State
 	/// </summary>
 	protected void Move()
 	{
+		//Debug.Log($"speed : {stateMachine.Animator.speed}, Player speed {stateMachine.Player.moveSpeed}");
 		stateMachine.Rigidbody.AddForce(stateMachine.Velocity * stateMachine.Animator.speed * stateMachine.Player.moveSpeed * Time.fixedDeltaTime - GetPlayerHorizentalVelocity(), ForceMode.VelocityChange);
 	}
 

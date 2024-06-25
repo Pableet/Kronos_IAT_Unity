@@ -92,11 +92,6 @@ public class PlayerMoveState : PlayerBaseState
 
 	}
 
-	// 점프상태로 바꾸는 함수
-	private void SwitchToJumpState()
-	{
-		stateMachine.SwitchState(new PlayerJumpState(stateMachine));
-	}
 	private void SwitchToParryState()
 	{
 		Debug.Log("구른다");
@@ -106,10 +101,6 @@ public class PlayerMoveState : PlayerBaseState
 	private void SwitchToLAttackState()
 	{
 			stateMachine.SwitchState(new PlayerAttackState(stateMachine));
-	}
-	private void SwitchToRAttackState()
-	{
-		stateMachine.SwitchState(new PlayerPunchState(stateMachine));
 	}
 	private void SwitchToDefanceState()
 	{
