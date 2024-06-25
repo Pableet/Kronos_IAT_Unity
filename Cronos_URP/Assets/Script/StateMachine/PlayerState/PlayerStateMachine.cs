@@ -20,21 +20,7 @@ public class PlayerStateMachine : StateMachine
     public Transform MainCamera { get; private set; }
     public Transform PlayerTransform { get; private set; }
     public HitStop HitStop { get; private set; }
-
-//  	[field: Header("Collisions")]
-//  	[SerializeField] public CapsuleColliderUtility colliderUtility { get; private set; }
-//  	[SerializeField] public PlayerLayerData LayerData{ get; private set; }
-// 
-// 	private void Awake()
-// 	{
-// 		colliderUtility.Initialize(gameObject);
-// 		colliderUtility.CalculateCapsulcolliderDimentsions();
-// 	}
-// 	private void OnValidate()
-// 	{
-// 		colliderUtility.Initialize(gameObject);
-// 		colliderUtility.CalculateCapsulcolliderDimentsions();
-// 	}
+	public AutoTargetting AutoTargetting;
 
 	public void OnEnable()
     {
@@ -48,23 +34,7 @@ public class PlayerStateMachine : StateMachine
         PlayerTransform = GetComponent<Transform>();
         HitStop = GetComponent<HitStop>();
 
-
 		// 시작 상태를 정해준다.
 		SwitchState(new PlayerMoveState(this));
-	}
-
-	void OnSlashEvent()
-    {
-        EffectManager.Instance.PlayerSlash();
-    }
-	void OnDrawGizmos()
-	{
-		// 시각적으로 Ray를 확인하기 위한 Gizmo
-		if (transform.position != null)
-		{
-			Gizmos.color = Color.red;
-			Vector3 offset = new Vector3(0f, 1f, 0f);
-			Gizmos.DrawLine(transform.position + offset, transform.position + offset + Vector3.down);
-		}
 	}
 }

@@ -641,6 +641,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Parryable Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 4889532212588268973, guid: 129e4fdabb155614585377e73b76d9f6, type: 3}
+      propertyPath: m_TagString
+      value: Respawn
+      objectReference: {fileID: 0}
     - target: {fileID: 5228902405341910807, guid: 129e4fdabb155614585377e73b76d9f6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -224.3191
@@ -686,6 +690,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 129e4fdabb155614585377e73b76d9f6, type: 3}
+--- !u!114 &1237018157 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3078419922313236100, guid: 9cd5a9c87355eb646846f43ee525a01f, type: 3}
+  m_PrefabInstance: {fileID: 4069203939008522090}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f02c64eaab9973743aabe7cfc3893d5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1440538901
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1312,15 +1327,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7937186651005419037, guid: 8ab477a64edd8d449a48aed261f3cfcd, type: 3}
       propertyPath: m_XDamping
-      value: 0
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 7937186651005419037, guid: 8ab477a64edd8d449a48aed261f3cfcd, type: 3}
       propertyPath: m_YDamping
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7937186651005419037, guid: 8ab477a64edd8d449a48aed261f3cfcd, type: 3}
       propertyPath: m_ZDamping
-      value: 0
+      value: 0.4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1391,6 +1406,10 @@ PrefabInstance:
       propertyPath: PlayerCamera
       value: 
       objectReference: {fileID: 1539340714}
+    - target: {fileID: 3078419922313236100, guid: 9cd5a9c87355eb646846f43ee525a01f, type: 3}
+      propertyPath: verticalSpeed
+      value: 500
+      objectReference: {fileID: 0}
     - target: {fileID: 4746640102676434198, guid: 9cd5a9c87355eb646846f43ee525a01f, type: 3}
       propertyPath: m_Radius
       value: 7.07
@@ -1399,6 +1418,10 @@ PrefabInstance:
       propertyPath: Speed
       value: 30.9
       objectReference: {fileID: 0}
+    - target: {fileID: 7961368793812106336, guid: 9cd5a9c87355eb646846f43ee525a01f, type: 3}
+      propertyPath: AutoTargetting
+      value: 
+      objectReference: {fileID: 1237018157}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

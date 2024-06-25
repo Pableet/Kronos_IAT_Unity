@@ -15,6 +15,10 @@ public class PlayerBuffState : PlayerBaseState
 	}
 	public override void Tick()
 	{
+		if (stateMachine.InputReader.moveComposite.magnitude != 0f)
+		{
+			stateMachine.SwitchState(new PlayerMoveState(stateMachine));
+		}
 	}
 	public override void FixedTick()
 	{

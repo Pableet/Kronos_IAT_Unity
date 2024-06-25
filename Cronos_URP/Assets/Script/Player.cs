@@ -27,27 +27,23 @@ public class Player : MonoBehaviour, IMessageReceiver
 
 	[Header("Move Option")]
 	[SerializeField] private float Speed = 5f;
-	/*[SerializeField] */
 	private float JumpForce = 10f; // 점프 만들면 쓰지뭐
 	[SerializeField] private float LookRotationDampFactor = 10f;
-	//[SerializeField] private float Damage;
 	[SerializeField] private float attackCoefficient = 0.1f;
 	[SerializeField] private float moveCoefficient = 0.1f;
 
-	public float stopTiming = 0.2f; // 히트스탑은 이런식으로 작동하는게 아닐것이다. 스탑 시간정도로 바꿔서 쓰는게 좋을듯
 	[SerializeField] private float maxTP;
 	[SerializeField] private float maxCP;
 
 	[SerializeField] private float currentDamage;
 	[SerializeField] private float attackSpeed;
 
-
 	[SerializeField] private float currentTP;
 	[SerializeField] private float currentCP;
 	[SerializeField] private float chargingCP = 10f;
 
-
 	[SerializeField] private bool isEnforced = false;
+	[SerializeField] private bool isLockOn = false;
 
 
 
@@ -68,6 +64,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 	public float AttackSpeed { get { return attackSpeed; } set { attackSpeed = value; } }
 	public bool IsDecreaseCP { get; set; }
 	public bool IsEnforced { get { return isEnforced; } set { isEnforced = value; } }	// 강화상태를 위한 프로퍼티
+	public bool IsLockOn { get { return isLockOn; } set { isLockOn = value; } }	
 
 	// 플레이어 데이터를 저장하고 respawn시 반영하는 데이터
 	PlayerData playerData = new PlayerData();
@@ -164,55 +161,20 @@ public class Player : MonoBehaviour, IMessageReceiver
 		}
 
  		TP = _damageable.currentHitPoints;
-// 
-// 		if (Input.GetKeyDown(KeyCode.UpArrow))
-// 		{
-// 			if (currentTP + 100f < maxTP)
-// 			{
-// 				currentTP = currentTP + 100;
-// 				_damageable.currentHitPoints = currentTP;
-// 			}
-// 			else
-// 			{
-// 				currentTP = maxTP;
-// 				_damageable.currentHitPoints = currentTP;
-// 			}
-// 
-// 		}
+
 
 		if (TP <= 0)
 		{
 			_damageable.JustDead();
 		}
-
-
-		//MoveTest();
-
 	}
 	private void FixedUpdate()
 	{
 
 	}
 
-	private void OnAnimatorMove()
-	{
-// 		Vector3 deltaPosition = PlayerFSM.Animator.deltaPosition;
-// 		Quaternion deltaRotation = PlayerFSM.Animator.deltaRotation;
-// 
-// 		transform.position += deltaPosition;
-// 		transform.rotation = deltaRotation * transform.rotation;
-// 
-// 		// 위치와 회전을 저장하여 애니메이션이 끝난 후에도 적용
-// 		lastPosition = transform.position;
-// 		lastRotation = transform.rotation;
-	}
 	private void LateUpdate()
 	{
-// 		if (!PlayerFSM.Animator.GetCurrentAnimatorStateInfo(0).loop && PlayerFSM.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
-// 		{
-// 			PlayerFSM.transform.position = lastPosition;
-// 			PlayerFSM.transform.rotation = lastRotation;
-// 		}
  	}
 	private void OnTriggerEnter(Collider other)
 	{
@@ -375,19 +337,4 @@ public class Player : MonoBehaviour, IMessageReceiver
 	{
 		meleeWeapon.EndAttack();
 	}
-
-// 	void MoveTest()
-// 	{
-// 		float animationSpeed = PlayerFSM.Animator.deltaPosition.magnitude;
-// 
-// 		// test
-// 		Vector3 direction = PlayerFSM.transform.forward.normalized;
-// 
-// 		// 새로운 벡터 계산
-// 		Vector3 newDeltaPosition = direction * animationSpeed;
-// 
-// 		PlayerFSM.transform.Translate(newDeltaPosition);
-// 	}
-
-
 }
