@@ -4,7 +4,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Transactions;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
 using UnityEngine.PlayerLoop;

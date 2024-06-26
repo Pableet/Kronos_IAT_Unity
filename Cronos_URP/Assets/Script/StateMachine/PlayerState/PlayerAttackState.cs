@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Data.Common;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.RenderGraphModule;
 using UnityEngine.InputSystem.Interactions;
@@ -29,7 +28,10 @@ public class PlayerAttackState : PlayerBaseState
 
 	List<int> comboAttack;
 
-	int comboStack = 0;
+	private int comboStack = 0;
+	private float exitTime = 0.3f;
+	private float duration = 0f;
+	private float offset = 0f;
 
 	private bool nextCombo = false;
 	private bool isEnforcedAttack = false;      // 강화공격 가능
@@ -66,13 +68,47 @@ public class PlayerAttackState : PlayerBaseState
 		animatorStateInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
 		normalizedTime = animatorStateInfo.normalizedTime;
 
+		switch (comboStack)
+		{
+			case 0:
+				exitTime = 0.44f;
+				duration = 0.25f;
+				offset = 0f;
+				break;
+			case 1:
+				exitTime = 0.6f;
+				duration = 0.13f;
+				offset = 0.14f;
+				break;
+			case 2:
+				exitTime = 0.45f;
+				duration = 0.08f;
+				offset = 0.08f;
+				break;
+			case 3:
+				exitTime = 0.45f;
+				duration = 0.21f;
+				offset = 0f;
+				break;
+			case 4:
+				exitTime = 0f;
+				duration = 32f/48f;
+				offset = 0f;
+				break;
+			case 5:
+				exitTime = 0f;
+				duration = 0.5f;
+				offset = 0f;
+				break;
+		}
+
 		// 마우스가 눌려있으면
 		if (stateMachine.InputReader.IsLAttackPressed)
 		{
 			// 차징한다.
 			chargeAttack += Time.deltaTime;
 
-			if (chargeAttack > 0.3f)
+			if (chargeAttack > 0.4f)
 			{
 				// 강화공격을 true로 해준다
 				isEnforcedAttack = true;
@@ -88,8 +124,8 @@ public class PlayerAttackState : PlayerBaseState
 			nextCombo = false;
 		}
 		// 콤보가 예정되어있고
-		// 진행정도가 70% 이상이라면
-		else if (nextCombo && normalizedTime > 0.7f)
+		// 진행정도가 ~~ 이상이라면
+		else if (nextCombo && normalizedTime > exitTime + duration)
 		{
 			// 새로운 콤보어택을 시전한다.
 			NextCombo();
@@ -98,8 +134,8 @@ public class PlayerAttackState : PlayerBaseState
 
 		if (normalizedTime >= 1.0f)
 		{
-			//stateMachine.SwitchState(new PlayerMoveState(stateMachine));
-			stateMachine.SwitchState(new PlayerBuffState(stateMachine));
+			stateMachine.SwitchState(new PlayerMoveState(stateMachine));
+			//stateMachine.SwitchState(new PlayerBuffState(stateMachine));
 		}
 
 	}
@@ -118,6 +154,7 @@ public class PlayerAttackState : PlayerBaseState
 		stateMachine.InputReader.onLAttackCanceled -= ResetCharge;
 		stateMachine.InputReader.onRAttackStart -= SwitchToDefanceState;
 
+		stateMachine.Invoke("SwitchToBuffState", 1f);
 		//stateMachine.Player.IsEnforced = true;
 	}
 
@@ -132,7 +169,7 @@ public class PlayerAttackState : PlayerBaseState
 
 		// 만약.. 라면
 		// 
-		if (normalizedTime > 0.3f && normalizedTime < 0.7f)
+		if (normalizedTime > exitTime && normalizedTime < 0.7f)
 		{
 			// 다음 콤보공격을 true로 한다. 
 			nextCombo = true;
@@ -164,7 +201,7 @@ public class PlayerAttackState : PlayerBaseState
 		}
 
 		// 콤보스택에 맞는 콤보 애니메이션을 실행한다.
-		stateMachine.Animator.CrossFade(comboAttack[comboStack], 0.1f, -1, 0f);
+		stateMachine.Animator.CrossFade(comboAttack[comboStack], offset, -1, 0f);
 		// 타겟이 있으면
 		if (stateMachine.AutoTargetting.Target != null)
 		{
@@ -198,6 +235,8 @@ public class PlayerAttackState : PlayerBaseState
 	{
 		stateMachine.SwitchState(new PlayerDefenceState(stateMachine));
 	}
+
+
 
 
 }

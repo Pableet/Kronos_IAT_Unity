@@ -453,8 +453,8 @@ ModelImporter:
       name: Combo_03_3
       takeName: Combo_03_3
       internalID: 7400000
-      firstFrame: 2
-      lastFrame: 30.9
+      firstFrame: 0
+      lastFrame: 48
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

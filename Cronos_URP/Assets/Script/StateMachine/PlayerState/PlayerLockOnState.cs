@@ -1,8 +1,5 @@
 using UnityEditor;
-using UnityEditorInternal;
 using UnityEngine;
-using UnityEngine.WSA;
-
 public class PlayerLockOnState : PlayerBaseState
 {
 	private readonly int MoveSpeedHash = Animator.StringToHash("MoveSpeed");

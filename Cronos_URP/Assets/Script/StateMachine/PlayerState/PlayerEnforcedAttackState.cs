@@ -1,6 +1,5 @@
-
 using System.Collections.Generic;
-using UnityEditorInternal;
+using System.Data.Common;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.RenderGraphModule;
 using UnityEngine.InputSystem.Interactions;
@@ -13,7 +12,6 @@ public class PlayerEnforcedAttackState : PlayerBaseState
 	private readonly int AttackHash2 = Animator.StringToHash("Attack_3Combo_2");
 	private readonly int AttackHash3 = Animator.StringToHash("Attack_3Combo_3");
 	private readonly int AttackHash4 = Animator.StringToHash("Attack_4Combo_1B");
-
 
 	private readonly int chargeAtdtackHash = Animator.StringToHash("Combo_03_4");   // 강화공격
 
@@ -28,7 +26,10 @@ public class PlayerEnforcedAttackState : PlayerBaseState
 
 	List<int> comboAttack;
 
-	int comboStack = 0;
+	private int comboStack = 0;
+	private float exitTime = 0.3f;
+	private float duration = 0f;
+	private float offset = 0f;
 
 	private bool nextCombo = false;
 	private bool isEnforcedAttack = false;      // 강화공격 가능
@@ -63,6 +64,42 @@ public class PlayerEnforcedAttackState : PlayerBaseState
 		animatorStateInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
 		normalizedTime = animatorStateInfo.normalizedTime;
 
+		switch (comboStack)
+		{
+			case 0:
+				exitTime = 0.5f;
+				duration = 0.1f;
+				offset = 0.05f;
+				break;
+			case 1:
+				exitTime = 0.5f;
+				duration = 0.1f;
+				offset = 0.05f;
+				break;
+				exitTime = 0.75f;
+				duration = 0.25f;
+				offset = 0f;
+				break;
+			case 2:
+				exitTime = 0.5f;
+				duration = 0.1f;
+				offset = 0.05f;
+				break;
+				exitTime = 0.75f;
+				duration = 0.25f;
+				offset = 0f;
+				break;
+			case 3:
+				exitTime = 0.5f;
+				duration = 0.1f;
+				offset = 0.05f;
+				break;
+				exitTime = 0f;
+				duration = 31f/33f;
+				offset = 0f;
+				break;
+		}
+
 		// 마우스가 눌려있으면
 		if (stateMachine.InputReader.IsLAttackPressed)
 		{
@@ -85,8 +122,8 @@ public class PlayerEnforcedAttackState : PlayerBaseState
 			nextCombo = false;
 		}
 		// 콤보가 예정되어있고
-		// 진행정도가 70% 이상이라면
-		else if (nextCombo && normalizedTime > 0.7f)
+		// 진행정도가 ~~ 이상이라면
+		else if (nextCombo && normalizedTime > exitTime + duration)
 		{
 			// 새로운 콤보어택을 시전한다.
 			NextCombo();
@@ -95,6 +132,7 @@ public class PlayerEnforcedAttackState : PlayerBaseState
 
 		if (normalizedTime >= 1.0f)
 		{
+			//stateMachine.SwitchState(new PlayerMoveState(stateMachine));
 			stateMachine.SwitchState(new PlayerMoveState(stateMachine));
 		}
 
@@ -114,7 +152,6 @@ public class PlayerEnforcedAttackState : PlayerBaseState
 		stateMachine.InputReader.onLAttackCanceled -= ResetCharge;
 		stateMachine.InputReader.onRAttackStart -= SwitchToDefanceState;
 
-		//stateMachine.Player.IsEnforced = false;
 	}
 
 	// 다음콤보를 준비한다.
@@ -128,7 +165,7 @@ public class PlayerEnforcedAttackState : PlayerBaseState
 
 		// 만약.. 라면
 		// 
-		if (normalizedTime > 0.3f && normalizedTime < 0.7f)
+		if (normalizedTime > exitTime && normalizedTime < 0.7f)
 		{
 			// 다음 콤보공격을 true로 한다. 
 			nextCombo = true;
@@ -146,7 +183,7 @@ public class PlayerEnforcedAttackState : PlayerBaseState
 		// 차징을 리셋한다.
 		ResetCharge();
 		// 강화어택은 끝났다.
-		isEnforcedAttackDone = false;
+		isEnforcedAttackDone = true;
 	}
 
 	/// 새로운 콤보 애니메이션을 시전한다.
@@ -160,9 +197,16 @@ public class PlayerEnforcedAttackState : PlayerBaseState
 		}
 
 		// 콤보스택에 맞는 콤보 애니메이션을 실행한다.
-		stateMachine.Animator.CrossFade(comboAttack[comboStack], 0.1f, -1, 0f);
+		stateMachine.Animator.CrossFade(comboAttack[comboStack], offset, -1, 0f);
+		// 타겟이 있으면
+		if (stateMachine.AutoTargetting.Target != null)
+		{
+			// 타겟 쪽으로 이동하면서 공격
+			stateMachine.Rigidbody.AddForce((stateMachine.AutoTargetting.Target.position - stateMachine.transform.position).normalized * 2f);
+		}
 		// 애니메이션을 실행했다면 콤보 진행을 멈춘다.
 		nextCombo = false;
+
 	}
 
 	public void ChargeAttack()

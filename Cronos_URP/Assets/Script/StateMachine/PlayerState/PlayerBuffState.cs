@@ -15,8 +15,16 @@ public class PlayerBuffState : PlayerBaseState
 	}
 	public override void Tick()
 	{
+
+		AnimatorStateInfo stateInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
+
+			if (stateInfo.normalizedTime >= 0.7f)
+				stateMachine.Animator.speed = 0f;
+
 		if (stateMachine.InputReader.moveComposite.magnitude != 0f)
 		{
+			stateMachine.Animator.StartPlayback();
+			stateMachine.Animator.speed = 1f;
 			stateMachine.SwitchState(new PlayerMoveState(stateMachine));
 		}
 	}
@@ -28,6 +36,8 @@ public class PlayerBuffState : PlayerBaseState
 	}
 	public override void Exit()
 	{
+		stateMachine.Animator.StartPlayback();
+		stateMachine.Animator.speed = 1f;
 		stateMachine.InputReader.onLAttackStart -= SwitchEnforcedAttackState;
 	}
 

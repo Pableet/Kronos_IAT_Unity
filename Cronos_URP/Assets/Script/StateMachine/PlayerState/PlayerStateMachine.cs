@@ -1,8 +1,6 @@
-using UnityEditor.Tilemaps;
-using UnityEditorInternal;
 
 using UnityEngine;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
+//using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 [RequireComponent(typeof(Player))]
 [RequireComponent(typeof(InputReader))]         // 어트리뷰트를 상속받은 
 [RequireComponent(typeof(Animator))]            // 사용지정 어트리뷰트 RequireComponenet
@@ -36,5 +34,9 @@ public class PlayerStateMachine : StateMachine
 
 		// 시작 상태를 정해준다.
 		SwitchState(new PlayerMoveState(this));
+	}
+	private void SwitchToBuffState()
+	{
+		SwitchState(new PlayerBuffState(this));
 	}
 }

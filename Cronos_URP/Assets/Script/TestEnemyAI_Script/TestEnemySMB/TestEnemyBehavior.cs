@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem.XR;
-using UnityEngine.WSA;
 
 /// <summary>
 /// TestEnemy 의 행동을 정의한다.
@@ -261,13 +260,13 @@ public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
         _controller.animator.SetBool(hashInPursuit, inPursuit);
     }
 
-    private void OnDrawGizmos()
-    {
-        if (playerScanner != null)
-        {
-            playerScanner.EditorGizmo(transform);
-        }
-    }
+//     private void OnDrawGizmos()
+//     {
+//         if (playerScanner != null)
+//         {
+//             playerScanner.EditorGizmo(transform);
+//         }
+//     }
 
     private void OnDrawGizmosSelected()
     {

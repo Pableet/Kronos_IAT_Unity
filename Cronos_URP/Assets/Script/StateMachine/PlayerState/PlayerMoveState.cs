@@ -1,4 +1,3 @@
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.RenderGraphModule;
 using UnityEngine.InputSystem.Interactions;
@@ -39,7 +38,7 @@ public class PlayerMoveState : PlayerBaseState
 		}
 
 		// 플레이어의 cp 를 이동속도에 반영한다.
-		stateMachine.Animator.speed = stateMachine.Player.CP * stateMachine.Player.MoveCoefficient + 1f;
+		//stateMachine.Animator.speed = stateMachine.Player.CP * stateMachine.Player.MoveCoefficient + 1f;
 
 		// playerComponent기준으로 땅에 닿아있지 않다면
 		if (!IsGrounded())

@@ -1,6 +1,5 @@
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.WSA;
 
 public class PlayerParryState : PlayerBaseState
 {
@@ -20,6 +19,7 @@ public class PlayerParryState : PlayerBaseState
 		AnimatorStateInfo stateInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
 
 		
+		
 		stateMachine.Rigidbody.AddForce(stateMachine.transform.forward* 5);
 
 // 		stateMachine.GetComponentInChildren<Transform>().position +=
@@ -29,10 +29,12 @@ public class PlayerParryState : PlayerBaseState
 		{
 			stateMachine.SwitchState(new PlayerMoveState(stateMachine));
 		}
-
+		CalculateMoveDirection();
 	}
 	public override void FixedTick()
 	{
+		FaceMoveDirection();
+		stateMachine.Rigidbody.AddForce(stateMachine.transform.forward * 100f);
 	}
 	public override void LateTick()
 	{
