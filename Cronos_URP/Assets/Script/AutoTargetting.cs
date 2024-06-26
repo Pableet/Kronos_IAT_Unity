@@ -11,6 +11,8 @@ using System.Security;
 using System.Data;
 public class AutoTargetting : MonoBehaviour
 {
+	static AutoTargetting instance;
+	public static AutoTargetting GetInstance() { return instance; }
 
 	//public CinemachineFreeLook freeLookCamera;
 	public CinemachineVirtualCamera PlayerCamera;
@@ -41,9 +43,14 @@ public class AutoTargetting : MonoBehaviour
 
 	private void Awake()
 	{
+		instance = this;
 		MonsterList = new List<GameObject>();
 	}
 
+	public Transform GetTarget()
+	{
+		return Target;
+	}
 
 	// Start is called before the first frame update
 	public void OnEnable()
@@ -58,14 +65,36 @@ public class AutoTargetting : MonoBehaviour
 		// 콜라이더에 몬스터가 들어오면 리스트에 추가한다.
 		if (other.CompareTag("Respawn"))
 		{
-			MonsterList.Add(other.gameObject);
+			MonsterList.Add(FindChildRecursive(other.gameObject.transform, "Spine1").gameObject);
+			//MonsterList.Add(other.gameObject);
 			Debug.Log("monster in");
 		}
 
-
 	}
 
-	private void OnTriggerExit(Collider other)
+    Transform FindChildRecursive(Transform parent, string childName)
+    {
+        // 현재 부모의 하위 오브젝트들을 순회합니다.
+        foreach (Transform child in parent)
+        {
+            if (child.name == childName)
+            {
+                return child;
+            }
+
+            // 재귀적으로 하위 오브젝트들을 탐색합니다.
+            Transform found = FindChildRecursive(child, childName);
+            if (found != null)
+            {
+                return found;
+            }
+        }
+
+        // 이름에 맞는 하위 오브젝트를 찾지 못하면 null을 반환합니다.
+        return null;
+    }
+
+    private void OnTriggerExit(Collider other)
 	{
 		// 콜라이더에서 몬스터가 나가면 리스트에서 제거한다.
 		if (other.CompareTag("Respawn"))
@@ -83,6 +112,7 @@ public class AutoTargetting : MonoBehaviour
 		if (Target != null)
 		{
 			direction = Target.position - PlayerObject.position;
+			direction.y = 0;
 		}
 
 		xDotResult = Mathf.Abs(Vector3.Dot(maincamTransform.right, PlayerObject.right));
