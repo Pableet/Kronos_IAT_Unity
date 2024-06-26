@@ -386,7 +386,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
-  m_Camera: {fileID: 330585545}
+  m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -1686,6 +1686,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3078419922313236100, guid: 9cd5a9c87355eb646846f43ee525a01f, type: 3}
+      propertyPath: PlayerCamera
+      value: 
+      objectReference: {fileID: 1923415726}
+    - target: {fileID: 4746640102676434198, guid: 9cd5a9c87355eb646846f43ee525a01f, type: 3}
+      propertyPath: m_Radius
+      value: 4.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1952,6 +1960,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ab477a64edd8d449a48aed261f3cfcd, type: 3}
+--- !u!114 &1923415726 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4173196648517120406, guid: 8ab477a64edd8d449a48aed261f3cfcd, type: 3}
+  m_PrefabInstance: {fileID: 1826983624}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2124232389
 PrefabInstance:
   m_ObjectHideFlags: 0
