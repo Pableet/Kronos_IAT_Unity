@@ -17,6 +17,8 @@ public class PlayerDefenceState : PlayerBaseState
 		
 		stateMachine.InputReader.onRAttackPerformed += isDefencing;
 		stateMachine.InputReader.onRAttackCanceled += isNotDefencing;
+
+		stateMachine.Rigidbody.velocity = Vector3.zero;
 	}
 
 	public override void Tick()
@@ -28,7 +30,7 @@ public class PlayerDefenceState : PlayerBaseState
 			if (stateInfo.normalizedTime >= 0.2f)
 				stateMachine.Animator.speed = 0f;
 		}
-		else if (stateInfo.normalizedTime >= 1.0f && stateInfo.normalizedTime <= 1.1f && !isdefence )
+		else if (stateInfo.normalizedTime >= 1.0f && stateInfo.normalizedTime <= 1.1f)
 		{
 			stateMachine.SwitchState(new PlayerMoveState(stateMachine));
 		}
@@ -43,21 +45,24 @@ public class PlayerDefenceState : PlayerBaseState
 
 	public override void Exit()
 	{
-		stateMachine.InputReader.onRAttackPerformed -= isDefencing;
 		stateMachine.InputReader.onRAttackCanceled -= isNotDefencing;
+		stateMachine.InputReader.onRAttackPerformed -= isDefencing;
 	}
 
 	private void isDefencing()
 	{
 		isdefence = true;
+		stateMachine.Player._defnsible.isDefending = true;
+		stateMachine.Animator.Rebind();
+		stateMachine.Animator.CrossFadeInFixedTime(DefenceHash, CrossFadeDuration);
 	}
 
 	private void isNotDefencing()
 	{
-		stateMachine.Player._defnsible.isDefending = false;
-		isdefence = false;
 		stateMachine.Animator.StartPlayback();
 		stateMachine.Animator.speed = 1f;
+		stateMachine.Player._defnsible.isDefending = false;
+		isdefence = false;
 	}
 
 

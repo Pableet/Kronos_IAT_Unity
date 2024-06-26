@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Data.Common;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.RenderGraphModule;
@@ -66,11 +67,11 @@ public class PlayerAttackState : PlayerBaseState
 		normalizedTime = animatorStateInfo.normalizedTime;
 
 		// 마우스가 눌려있으면
-		if(stateMachine.InputReader.IsLAttackPressed)
+		if (stateMachine.InputReader.IsLAttackPressed)
 		{
 			// 차징한다.
 			chargeAttack += Time.deltaTime;
-			
+
 			if (chargeAttack > 0.3f)
 			{
 				// 강화공격을 true로 해준다
@@ -90,8 +91,8 @@ public class PlayerAttackState : PlayerBaseState
 		// 진행정도가 70% 이상이라면
 		else if (nextCombo && normalizedTime > 0.7f)
 		{
-				// 새로운 콤보어택을 시전한다.
-				NextCombo();
+			// 새로운 콤보어택을 시전한다.
+			NextCombo();
 		}
 
 
@@ -116,7 +117,7 @@ public class PlayerAttackState : PlayerBaseState
 		stateMachine.InputReader.onLAttackPerformed -= ChargeAttack;
 		stateMachine.InputReader.onLAttackCanceled -= ResetCharge;
 		stateMachine.InputReader.onRAttackStart -= SwitchToDefanceState;
-		
+
 		//stateMachine.Player.IsEnforced = true;
 	}
 
@@ -131,12 +132,12 @@ public class PlayerAttackState : PlayerBaseState
 
 		// 만약.. 라면
 		// 
-		if(normalizedTime > 0.3f && normalizedTime < 0.7f)
+		if (normalizedTime > 0.3f && normalizedTime < 0.7f)
 		{
 			// 다음 콤보공격을 true로 한다. 
 			nextCombo = true;
 		}
-		
+
 
 	}
 	// 강화공격을 실행한다.
@@ -164,8 +165,15 @@ public class PlayerAttackState : PlayerBaseState
 
 		// 콤보스택에 맞는 콤보 애니메이션을 실행한다.
 		stateMachine.Animator.CrossFade(comboAttack[comboStack], 0.1f, -1, 0f);
+		// 타겟이 있으면
+		if (stateMachine.AutoTargetting.Target != null)
+		{
+			// 타겟 쪽으로 이동하면서 공격
+			stateMachine.Rigidbody.AddForce((stateMachine.AutoTargetting.Target.position - stateMachine.transform.position).normalized * 2f);
+		}
 		// 애니메이션을 실행했다면 콤보 진행을 멈춘다.
 		nextCombo = false;
+
 	}
 
 	public void ChargeAttack()
