@@ -100,7 +100,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 		// 반드시 지워져야할 부분이지만 임시로 넣는다
 		PlayerFSM = GetComponent<PlayerStateMachine>();
 		///안돼
-		PlayerFSM.Animator.applyRootMotion = true;
+		//PlayerFSM.Animator.applyRootMotion = true;
 		playerTransform = GetComponent<Transform>();
 
 		meleeWeapon = GetComponentInChildren<MeleeTriggerEnterDamager>();

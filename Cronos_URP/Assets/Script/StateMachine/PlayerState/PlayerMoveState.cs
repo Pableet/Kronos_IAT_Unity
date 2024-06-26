@@ -38,7 +38,7 @@ public class PlayerMoveState : PlayerBaseState
 		}
 
 		// 플레이어의 cp 를 이동속도에 반영한다.
-		//stateMachine.Animator.speed = stateMachine.Player.CP * stateMachine.Player.MoveCoefficient + 1f;
+		stateMachine.Animator.speed = stateMachine.Player.CP * stateMachine.Player.MoveCoefficient + 1f;
 
 		// playerComponent기준으로 땅에 닿아있지 않다면
 		if (!IsGrounded())
@@ -76,7 +76,7 @@ public class PlayerMoveState : PlayerBaseState
 		stateMachine.InputReader.onJumpPerformed -= SwitchToParryState;
 		stateMachine.InputReader.onLAttackStart -= SwitchToLAttackState;
 		stateMachine.InputReader.onRAttackStart -= SwitchToDefanceState;
-		stateMachine.InputReader.onSwitchingStart -= Deceleration;
+		stateMachine.InputReader.onSwitchingStart -= Deceleration; 
 
 	}
 

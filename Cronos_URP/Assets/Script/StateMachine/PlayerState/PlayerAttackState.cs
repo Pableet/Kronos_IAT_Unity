@@ -131,7 +131,6 @@ public class PlayerAttackState : PlayerBaseState
 			NextCombo();
 		}
 
-
 		if (normalizedTime >= 1.0f)
 		{
 			stateMachine.SwitchState(new PlayerMoveState(stateMachine));
@@ -235,8 +234,4 @@ public class PlayerAttackState : PlayerBaseState
 	{
 		stateMachine.SwitchState(new PlayerDefenceState(stateMachine));
 	}
-
-
-
-
 }

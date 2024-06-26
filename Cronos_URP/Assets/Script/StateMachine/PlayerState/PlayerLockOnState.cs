@@ -10,6 +10,7 @@ public class PlayerLockOnState : PlayerBaseState
 	public PlayerLockOnState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 	public override void Enter()
 	{
+		Debug.Log("enter");
 
 		stateMachine.Player.IsLockOn = true;
 

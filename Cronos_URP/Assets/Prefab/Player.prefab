@@ -1656,7 +1656,6 @@ MonoBehaviour:
   LookRotationDampFactor: 10
   attackCoefficient: 0.1
   moveCoefficient: 0.1
-  stopTiming: 0.37
   maxTP: 500
   maxCP: 100
   currentDamage: 30
@@ -1665,6 +1664,7 @@ MonoBehaviour:
   currentCP: 0
   chargingCP: 10
   isEnforced: 0
+  isLockOn: 0
   _damageable: {fileID: 0}
   _defnsible: {fileID: 0}
 --- !u!114 &7961368793812106336
@@ -1680,6 +1680,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Velocity: {x: 0, y: 0, z: 0}
+  AutoTargetting: {fileID: 0}
 --- !u!114 &7544367144098382940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1757,6 +1758,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ParryEffect: {fileID: 6823302871133167919, guid: 1ec7018594813344ab2fca4eb906e23a, type: 3}
   Player: {fileID: 2138169223015833258}
+  slowTime: 0
+  slowAmount: 0
 --- !u!114 &7825334757282280281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2586,9 +2589,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f02c64eaab9973743aabe7cfc3893d5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerCamera: {fileID: 0}
+  PlayerCamera: {fileID: 4173196648517120406, guid: 8ab477a64edd8d449a48aed261f3cfcd, type: 3}
+  CinemachinePOV: {fileID: 0}
   horizontalSpeed: 500
-  verticalSpeed: 1
+  verticalSpeed: 100
   Player: {fileID: 2138169223015833258}
   Target: {fileID: 0}
   PlayerObject: {fileID: 6119113809629346088}
@@ -2612,7 +2616,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.52
+  m_Radius: 10.42
   m_Center: {x: 0, y: 0.75, z: 0}
 --- !u!1 &3260272557413406568
 GameObject:
