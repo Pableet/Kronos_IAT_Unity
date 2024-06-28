@@ -11,7 +11,7 @@ public class PlayerPunchState : PlayerBaseState
 	{
         stateMachine.Animator.Rebind();
 		stateMachine.Animator.CrossFadeInFixedTime(AttackHash, CrossFadeDuration);
-		EffectManager.Instance.PlayerSlash();
+		//EffectManager.Instance.PlayerSlash();
 	}
 	public override void Tick()
 	{
