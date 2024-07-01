@@ -35,6 +35,7 @@ public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
     private EnemyController _controller;
     protected TargetDistributor.TargetFollower _followerInstance;
 	protected Damageable _damageable;
+    protected BulletTimeScalable _bulletTimeScalable;
 
 	protected float _timerSinceLostTarget = 0.0f;
 
@@ -50,6 +51,9 @@ public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
         SceneLinkedSMB<TestEnemyBehavior>.Initialise(_controller.animator, this);
 		_damageable = GetComponent<Damageable>();
 		_damageable.onDamageMessageReceivers.Add(this);
+
+        _bulletTimeScalable = GetComponent<BulletTimeScalable>();
+
 		playerScanner.target = _controller.player;
 
         originalPosition = transform.position;
@@ -65,7 +69,7 @@ public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
 	void Damaged(Damageable.DamageMessage damageMessage)
 	{
 		_controller.animator.SetTrigger(hashDamageBase);
-        _controller.SetBulletTime(false);
+        SetBulletTimeScalable(false);
     }
 
 	private void FixedUpdate()
@@ -278,4 +282,19 @@ public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
 
 		//We unparent the hit source, as it would destroy it with the gameobject when it get replaced by the ragdol otherwise
 	}
+
+    public void SetVulnerable()
+    {
+        _damageable.SetVulnerability(true);
+    }
+
+    public void SetUnvulnerable()
+    {
+        _damageable.SetVulnerability(false);
+    }
+
+    public void SetBulletTimeScalable(bool val)
+    {
+        _bulletTimeScalable.active = val;
+    }
 }

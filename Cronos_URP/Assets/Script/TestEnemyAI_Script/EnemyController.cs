@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,8 +38,6 @@ public class EnemyController : MonoBehaviour
     protected Vector3 _externalForce;
     protected bool _grounded;
     protected Rigidbody _rigidbody;
-
-    protected bool _bulletTimeScaled = true;
 
     const float _groundedRayDistance = .8f;
 
@@ -143,26 +142,17 @@ public class EnemyController : MonoBehaviour
         if (_underExternalForce)
             return;
 
-        if (_bulletTimeScaled != false)
-        {
-            _animator.speed = BulletTime.Instance.GetCurrentSpeed();
-        }
-        else
-        {
-            _animator.speed = 0.8f;
-        }
-
         // 현재 프레임에서 이동한 거리와 시간 단위로 값을 속도로 지정한다.
         if (_followNavmeshAgent)
         {
-            _navMeshAgent.speed = (_animator.deltaPosition / Time.deltaTime).magnitude * BulletTime.Instance.GetCurrentSpeed();
+            _navMeshAgent.speed = (_animator.deltaPosition / Time.deltaTime).magnitude/* * BulletTime.Instance.GetCurrentSpeed()*/;
 
             /// test용. 
             /// deltaPosition 값이 없는 보스 걷기 모션을 위한 임시방변.
             /// TODO - 네브메시에이전트 스피드를 외부에서 설정할 수 있게 해야겠다.
             if (_animator.deltaPosition.magnitude <= 0.0f)
             {
-                _navMeshAgent.speed = 3f * BulletTime.Instance.GetCurrentSpeed(); ;
+                _navMeshAgent.speed = 3f/* * BulletTime.Instance.GetCurrentSpeed()*/; ;
             }
 
             transform.position = _navMeshAgent.nextPosition;
@@ -237,8 +227,8 @@ public class EnemyController : MonoBehaviour
         return _navMeshAgent.SetDestination(position);
     }
 
-    public void SetBulletTime(bool useBulletTimeScale)
+    internal void SetBulletTimeScalable(bool v)
     {
-        _bulletTimeScaled = useBulletTimeScale;
+        throw new NotImplementedException();
     }
 }
