@@ -16,8 +16,7 @@ public class LockOnTarget : MonoBehaviour
     AutoTargetting atTgt;
     bool isTgt;
 
-    public float yUp = 0.0f;
-    public float uiScaler = 5.0f;
+    //public float uiScaler = 5.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -55,4 +54,5 @@ public class LockOnTarget : MonoBehaviour
     //targetUI.transform.position = playerCam.WorldToScreenPoint(target.position) + new Vector3(0, yUp, 0);
     //targetUI.transform.localScale = new Vector3(uiScaler / targetUI.transform.position.z, uiScaler / targetUI.transform.position.z, 0f);
 
+    
 }
