@@ -15,7 +15,7 @@ public class PlayerFallState : PlayerBaseState
 	}
 	public override void Tick()
 	{
-		Debug.Log($"{stateMachine.Rigidbody.velocity.y}");
+		//Debug.Log($"{stateMachine.Rigidbody.velocity.y}");
 
 		if (IsGrounded())
 		{

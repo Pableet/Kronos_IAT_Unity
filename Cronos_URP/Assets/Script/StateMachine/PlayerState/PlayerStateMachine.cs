@@ -8,9 +8,10 @@ using UnityEngine;
 
 public class PlayerStateMachine : StateMachine
 {
-	
+	static PlayerStateMachine instance;
+	public static PlayerStateMachine GetInstance() { return instance; }
 
-    public Vector3 Velocity;
+	public Vector3 Velocity;
     public Player Player { get; private set; }
     public InputReader InputReader { get; private set; }
     public Animator Animator { get; private set; }
@@ -20,6 +21,10 @@ public class PlayerStateMachine : StateMachine
     public HitStop HitStop { get; private set; }
 	public AutoTargetting AutoTargetting;
 
+	public void Awake()
+	{
+		instance = this;
+	}
 	public void OnEnable()
     {
 

@@ -52,10 +52,6 @@ public abstract class PlayerBaseState : State
 			return;
 		}
 		// 플레이어의 회전은 구면 선형보간의 형태로 이루어진다. 
-		Debug.Log($"{stateMachine.transform.rotation}");
-		Debug.Log($"face direction x : {faceDirection.x}, y : {faceDirection.y}, z : {faceDirection.z}");
-		Debug.Log($"LookRotation x :{Quaternion.LookRotation(faceDirection).x}, y : {Quaternion.LookRotation(faceDirection).x}, z : {Quaternion.LookRotation(faceDirection).x}");
-		
 		stateMachine.Rigidbody.MoveRotation(Quaternion.Slerp(stateMachine.transform.rotation, Quaternion.LookRotation(faceDirection), stateMachine.Player.lookRotationDampFactor * Time.fixedDeltaTime));
 	}
 
@@ -65,7 +61,7 @@ public abstract class PlayerBaseState : State
 	/// </summary>
 	protected void Move()
 	{
-		Debug.Log($"speed : {stateMachine.Animator.speed}, Player speed {stateMachine.Player.moveSpeed}");
+		//Debug.Log($"speed : {stateMachine.Animator.speed}, Player speed {stateMachine.Player.moveSpeed}");
 		stateMachine.Rigidbody.AddForce(stateMachine.Velocity * stateMachine.Animator.speed * stateMachine.Player.moveSpeed * Time.fixedDeltaTime - GetPlayerHorizentalVelocity(), ForceMode.VelocityChange);
 	}
 
@@ -96,7 +92,7 @@ public abstract class PlayerBaseState : State
 		RaycastHit hit;
 		float distance = 0.1f;
 		bool isGrounded = Physics.Raycast(stateMachine.transform.position, Vector3.down, out hit, distance);
-		Debug.Log($"땅에 닿았나? {isGrounded}");
+		//Debug.Log($"땅에 닿았나? {isGrounded}");
 		// Raycast를 사용하여 땅을 체크
 		return isGrounded;
 	}

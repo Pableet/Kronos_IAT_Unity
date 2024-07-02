@@ -8,6 +8,7 @@ public class PlayerBuffState : PlayerBaseState
 	public PlayerBuffState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 	public override void Enter()
 	{
+		stateMachine.Animator.Rebind();
 		stateMachine.Animator.CrossFadeInFixedTime(MoveBlendTreeHash, CrossFadeDuration);
 		stateMachine.InputReader.onLAttackStart += SwitchEnforcedAttackState;
 	}

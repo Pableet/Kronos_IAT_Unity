@@ -38,3 +38,4 @@ public class PlayerParryState : PlayerBaseState
 		stateMachine.Player._damageable.isInvulnerable = false;
 	}
 }
+	

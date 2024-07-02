@@ -16,11 +16,14 @@ public class PlayerMoveState : PlayerBaseState
 
 	public override void Enter()
 	{
+		stateMachine.Animator.Rebind();
 		stateMachine.Animator.CrossFadeInFixedTime(MoveBlendTreeHash, CrossFadeDuration);
 
 		stateMachine.InputReader.onJumpPerformed += SwitchToParryState; // 스테이트에 돌입할때 input에 맞는 함수를 넣어준다
 		stateMachine.InputReader.onLAttackStart += SwitchToLAttackState;
 		stateMachine.InputReader.onRAttackStart += SwitchToDefanceState;
+		stateMachine.InputReader.onLockOnStart += LockOn;
+
 		stateMachine.InputReader.onSwitchingStart += Deceleration;
 	}
 
@@ -30,11 +33,6 @@ public class PlayerMoveState : PlayerBaseState
 		if (Input.GetKeyDown(KeyCode.V))
 		{
 			stateMachine.Player.CP += 1f;
-		}
-
-		if(Input.GetKeyDown(KeyCode.Tab))
-		{
-			stateMachine.SwitchState(new PlayerLockOnState(stateMachine));
 		}
 
 		// 플레이어의 cp 를 이동속도에 반영한다.
@@ -76,6 +74,8 @@ public class PlayerMoveState : PlayerBaseState
 		stateMachine.InputReader.onJumpPerformed -= SwitchToParryState;
 		stateMachine.InputReader.onLAttackStart -= SwitchToLAttackState;
 		stateMachine.InputReader.onRAttackStart -= SwitchToDefanceState;
+		//stateMachine.InputReader.onLockOn -= SwitchToLockOnState;
+
 		stateMachine.InputReader.onSwitchingStart -= Deceleration; 
 
 	}
@@ -104,6 +104,25 @@ public class PlayerMoveState : PlayerBaseState
 	private void SwitchToDefanceState()
 	{
 		stateMachine.SwitchState(new PlayerDefenceState(stateMachine));
+	}
+	private void LockOn()
+	{
+		if(!stateMachine.Player.IsLockOn)
+		{
+// 			// 자동조준을 해제하고 
+// 			stateMachine.AutoTargetting.LockOff();
+			// 대상을 찾고
+			stateMachine.Player.IsLockOn = stateMachine.AutoTargetting.FindTarget();
+			int a = 3;
+			// lockOn한다.
+			//stateMachine.AutoTargetting.LockOn();
+		}
+		else
+		{
+			stateMachine.AutoTargetting.LockOff();
+			//stateMachine.AutoTargetting.SwitchTarget();
+		}
+		
 	}
 }
 
