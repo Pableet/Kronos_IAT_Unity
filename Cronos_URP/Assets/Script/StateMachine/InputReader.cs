@@ -1,6 +1,4 @@
 using System;
-using UnityEditor.Build;
-using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.VirtualTexturing;
@@ -36,6 +34,10 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
     public Action onSwitchingCanceled;
 
     public Action onZoom;
+
+    public Action onLockOnStart;
+    public Action onLockOnPerformed;
+    public Action onLockOnCanceled;
 
     public bool IsLAttackPressed { get; set; } = false;
     public bool IsRAttackPressed { get; private set; } = false;
@@ -112,4 +114,19 @@ public class InputReader : MonoBehaviour, Controls.IPlayerActions
 
     // »Ÿ
     public void OnZoom(InputAction.CallbackContext context) { onZoom?.Invoke(); }
+
+
+	public void OnLockOnDown(InputAction.CallbackContext context)
+	{
+		onLockOnStart?.Invoke();
+	}
+	public void OnLockOn(InputAction.CallbackContext context)
+	{
+		//onLockOnPerformed?.Invoke(); 
+	}
+
+	public void OnLockOnUp(InputAction.CallbackContext context)
+	{
+		//onLockOnCanceled?.Invoke();
+	}
 }

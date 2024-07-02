@@ -1,6 +1,5 @@
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.WSA;
 
 public class PlayerParryState : PlayerBaseState
 {
@@ -16,23 +15,19 @@ public class PlayerParryState : PlayerBaseState
 	}
 	public override void Tick()
 	{
-		
+
 		AnimatorStateInfo stateInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
-
-		
-		stateMachine.Rigidbody.AddForce(stateMachine.transform.forward* 5);
-
-// 		stateMachine.GetComponentInChildren<Transform>().position +=
-// 	GameObjec t.Find("PlayerObj").GetComponent<Transform>().forward.normalized * 4 * Time.deltaTime;
 
 		if (stateInfo.IsName("Dodge") && stateInfo.normalizedTime >= 1.0f && stateInfo.normalizedTime <= 1.1f)
 		{
 			stateMachine.SwitchState(new PlayerMoveState(stateMachine));
 		}
-
+		CalculateMoveDirection();
 	}
 	public override void FixedTick()
 	{
+		FaceMoveDirection();
+		stateMachine.Rigidbody.AddForce(stateMachine.transform.forward * 8f);
 	}
 	public override void LateTick()
 	{
@@ -43,3 +38,4 @@ public class PlayerParryState : PlayerBaseState
 		stateMachine.Player._damageable.isInvulnerable = false;
 	}
 }
+	

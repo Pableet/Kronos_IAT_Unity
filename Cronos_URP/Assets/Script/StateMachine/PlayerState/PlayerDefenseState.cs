@@ -1,20 +1,20 @@
-using UnityEditor;
 using UnityEngine;
 
 public class PlayerDefenceState : PlayerBaseState
 {
 
 	private readonly int DefenceHash = Animator.StringToHash("defence");
-	private const float CrossFadeDuration = 0.1f;
+	private const float CrossFadeDuration = 0.3f;
 
 	private bool isdefence = false;
 	public PlayerDefenceState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 	public override void Enter()
 	{
+		isdefence = true;
 		stateMachine.Player._defnsible.isDefending = true;
 		stateMachine.Animator.Rebind();
 		stateMachine.Animator.CrossFadeInFixedTime(DefenceHash, CrossFadeDuration);
-		
+
 		stateMachine.InputReader.onRAttackPerformed += isDefencing;
 		stateMachine.InputReader.onRAttackCanceled += isNotDefencing;
 
@@ -23,17 +23,19 @@ public class PlayerDefenceState : PlayerBaseState
 
 	public override void Tick()
 	{
-		AnimatorStateInfo stateInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
-
+ 		AnimatorStateInfo stateInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
+// 
 		if(isdefence)
 		{
-			if (stateInfo.normalizedTime >= 0.2f)
+			if (stateInfo.normalizedTime >= 0.2f) 
 				stateMachine.Animator.speed = 0f;
 		}
-		else if (stateInfo.normalizedTime >= 1.0f && stateInfo.normalizedTime <= 1.1f)
-		{
-			stateMachine.SwitchState(new PlayerMoveState(stateMachine));
-		}
+ 		else if (stateInfo.normalizedTime >= 1.0f && stateInfo.normalizedTime <= 1.1f)
+ 		{
+// 			stateMachine.Animator.StartPlayback();
+ 			stateMachine.Animator.speed = 1f;
+ 			stateMachine.SwitchState(new PlayerMoveState(stateMachine));
+ 		}
 
 	}
 	public override void FixedTick()
@@ -59,7 +61,7 @@ public class PlayerDefenceState : PlayerBaseState
 
 	private void isNotDefencing()
 	{
-		stateMachine.Animator.StartPlayback();
+		//stateMachine.Animator.StartPlayback();
 		stateMachine.Animator.speed = 1f;
 		stateMachine.Player._defnsible.isDefending = false;
 		isdefence = false;

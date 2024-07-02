@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-public partial class @Controls : IInputActionCollection2, IDisposable
+public partial class @Controls: IInputActionCollection2, IDisposable
 {
     public InputActionAsset asset { get; }
     public @Controls()
@@ -60,7 +60,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""id"": ""f8520d70-a368-4c63-ba52-da95472c897c"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Press"",
+                    ""interactions"": ""Press,Hold,Tap"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -89,6 +89,15 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""processors"": ""Clamp(min=-0.1,max=0.1),Invert"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""LockOn"",
+                    ""type"": ""Button"",
+                    ""id"": ""5631a9ce-e7bd-4e6d-bc5f-39867755e021"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -206,7 +215,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""14418a03-8850-4255-a893-cbf39744e456"",
                     ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press,Hold,Tap"",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""L.Attack"",
@@ -243,6 +252,17 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ec1908dd-dbaf-4869-9231-d1ea86d42b17"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""LockOn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -804,6 +824,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         m_Player_RAttack = m_Player.FindAction("R.Attack", throwIfNotFound: true);
         m_Player_SwitchingAttribute = m_Player.FindAction("SwitchingAttribute", throwIfNotFound: true);
         m_Player_Zoom = m_Player.FindAction("Zoom", throwIfNotFound: true);
+        m_Player_LockOn = m_Player.FindAction("LockOn", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -884,6 +905,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_RAttack;
     private readonly InputAction m_Player_SwitchingAttribute;
     private readonly InputAction m_Player_Zoom;
+    private readonly InputAction m_Player_LockOn;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -895,76 +917,85 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         public InputAction @RAttack => m_Wrapper.m_Player_RAttack;
         public InputAction @SwitchingAttribute => m_Wrapper.m_Player_SwitchingAttribute;
         public InputAction @Zoom => m_Wrapper.m_Player_Zoom;
+        public InputAction @LockOn => m_Wrapper.m_Player_LockOn;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
         public static implicit operator InputActionMap(PlayerActions set) { return set.Get(); }
-        public void AddCallbacks(IPlayerActions instance)
-        {
-            if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
-            @Look.started += instance.OnLook;
-            @Look.performed += instance.OnLook;
-            @Look.canceled += instance.OnLook;
+		public void AddCallbacks(IPlayerActions instance)
+		{
+			if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
+			m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
+			@Look.started += instance.OnLook;
+			@Look.performed += instance.OnLook;
+			@Look.canceled += instance.OnLook;
 
-            @Move.started += instance.OnMove;
-            @Move.performed += instance.OnMove;
-            @Move.canceled += instance.OnMove;
+			@Move.started += instance.OnMove;
+			@Move.performed += instance.OnMove;
+			@Move.canceled += instance.OnMove;
 
-            @Jump.started += instance.OnJumpDown;
-            @Jump.performed += instance.OnJump;
-            @Jump.canceled += instance.OnJumpUp;
+			@Jump.started += instance.OnJumpDown;
+			@Jump.performed += instance.OnJump;
+			@Jump.canceled += instance.OnJumpUp;
 
-            @LAttack.started += instance.OnLAttackDown;
-            @LAttack.performed += instance.OnLAttack;
-            @LAttack.canceled += instance.OnLAttackUp;
+			@LAttack.started += instance.OnLAttackDown;
+			@LAttack.performed += instance.OnLAttack;
+			@LAttack.canceled += instance.OnLAttackUp;
 
-            @RAttack.started += instance.OnRAttackDown;
-            @RAttack.performed += instance.OnRAttack;
-            @RAttack.canceled += instance.OnRAttackUp;
+			@RAttack.started += instance.OnRAttackDown;
+			@RAttack.performed += instance.OnRAttack;
+			@RAttack.canceled += instance.OnRAttackUp;
 
-            @SwitchingAttribute.started += instance.OnSwitchingDown;
-            @SwitchingAttribute.performed += instance.OnSwitching;
-            @SwitchingAttribute.canceled += instance.OnSwitchingUp;
+			@SwitchingAttribute.started += instance.OnSwitchingDown;
+			@SwitchingAttribute.performed += instance.OnSwitching;
+			@SwitchingAttribute.canceled += instance.OnSwitchingUp;
 
-            @Zoom.started += instance.OnZoom;
-            @Zoom.performed += instance.OnZoom;
-            @Zoom.canceled += instance.OnZoom;
-        }
+			@Zoom.started += instance.OnZoom;
+			@Zoom.performed += instance.OnZoom;
+			@Zoom.canceled += instance.OnZoom;
 
-        private void UnregisterCallbacks(IPlayerActions instance)
-        {
-            @Look.started -= instance.OnLook;
-            @Look.performed -= instance.OnLook;
-            @Look.canceled -= instance.OnLook;
+			@LockOn.started += instance.OnLockOnDown;
+			@LockOn.performed += instance.OnLockOn;
+			@LockOn.canceled += instance.OnLockOnUp;
+		}
 
-            @Move.started -= instance.OnMove;
-            @Move.performed -= instance.OnMove;
-            @Move.canceled -= instance.OnMove;
+		private void UnregisterCallbacks(IPlayerActions instance)
+		{
+			@Look.started -= instance.OnLook;
+			@Look.performed -= instance.OnLook;
+			@Look.canceled -= instance.OnLook;
 
-            @Jump.started -= instance.OnJumpDown;
-            @Jump.performed -= instance.OnJump;
-            @Jump.canceled -= instance.OnJumpUp;
+			@Move.started -= instance.OnMove;
+			@Move.performed -= instance.OnMove;
+			@Move.canceled -= instance.OnMove;
 
-            @LAttack.started -= instance.OnLAttackDown;
-            @LAttack.performed -= instance.OnLAttack;
-            @LAttack.canceled -= instance.OnLAttackUp;
+			@Jump.started -= instance.OnJumpDown;
+			@Jump.performed -= instance.OnJump;
+			@Jump.canceled -= instance.OnJumpUp;
 
-            @RAttack.started -= instance.OnRAttackDown;
-            @RAttack.performed -= instance.OnRAttack;
-            @RAttack.canceled -= instance.OnRAttackUp;
+			@LAttack.started -= instance.OnLAttackDown;
+			@LAttack.performed -= instance.OnLAttack;
+			@LAttack.canceled -= instance.OnLAttackUp;
 
-            @SwitchingAttribute.started -= instance.OnSwitchingDown;
-            @SwitchingAttribute.performed -= instance.OnSwitching;
-            @SwitchingAttribute.canceled -= instance.OnSwitchingUp;
+			@RAttack.started -= instance.OnRAttackDown;
+			@RAttack.performed -= instance.OnRAttack;
+			@RAttack.canceled -= instance.OnRAttackUp;
 
-            @Zoom.started -= instance.OnZoom;
-            @Zoom.performed -= instance.OnZoom;
-            @Zoom.canceled -= instance.OnZoom;
-        }
+			@SwitchingAttribute.started -= instance.OnSwitchingDown;
+			@SwitchingAttribute.performed -= instance.OnSwitching;
+			@SwitchingAttribute.canceled -= instance.OnSwitchingUp;
 
-        public void RemoveCallbacks(IPlayerActions instance)
+			@Zoom.started -= instance.OnZoom;
+			@Zoom.performed -= instance.OnZoom;
+			@Zoom.canceled -= instance.OnZoom;
+
+			@LockOn.started -= instance.OnLockOnDown;
+			@LockOn.performed -= instance.OnLockOn;
+			@LockOn.canceled -= instance.OnLockOnUp;
+		}
+
+		public void RemoveCallbacks(IPlayerActions instance)
         {
             if (m_Wrapper.m_PlayerActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
@@ -1115,25 +1146,28 @@ public partial class @Controls : IInputActionCollection2, IDisposable
             return asset.controlSchemes[m_KeyboardandMouseSchemeIndex];
         }
     }
-    public interface IPlayerActions
-    {
-        void OnLook(InputAction.CallbackContext context);
-        void OnMove(InputAction.CallbackContext context);
-        void OnJumpDown(InputAction.CallbackContext context);
-        void OnJump(InputAction.CallbackContext context);
-        void OnJumpUp(InputAction.CallbackContext context);
-        void OnLAttackDown(InputAction.CallbackContext context);
-        void OnLAttack(InputAction.CallbackContext context);
-        void OnLAttackUp(InputAction.CallbackContext context);
-        void OnRAttackDown(InputAction.CallbackContext context);
-        void OnRAttack(InputAction.CallbackContext context);
-        void OnRAttackUp(InputAction.CallbackContext context);
-        void OnSwitchingDown(InputAction.CallbackContext context);
-        void OnSwitching(InputAction.CallbackContext context);
-        void OnSwitchingUp(InputAction.CallbackContext context);
-        void OnZoom(InputAction.CallbackContext context);
-    }
-    public interface IUIActions
+	public interface IPlayerActions
+	{
+		void OnLook(InputAction.CallbackContext context);
+		void OnMove(InputAction.CallbackContext context);
+		void OnJumpDown(InputAction.CallbackContext context);
+		void OnJump(InputAction.CallbackContext context);
+		void OnJumpUp(InputAction.CallbackContext context);
+		void OnLAttackDown(InputAction.CallbackContext context);
+		void OnLAttack(InputAction.CallbackContext context);
+		void OnLAttackUp(InputAction.CallbackContext context);
+		void OnRAttackDown(InputAction.CallbackContext context);
+		void OnRAttack(InputAction.CallbackContext context);
+		void OnRAttackUp(InputAction.CallbackContext context);
+		void OnSwitchingDown(InputAction.CallbackContext context);
+		void OnSwitching(InputAction.CallbackContext context);
+		void OnSwitchingUp(InputAction.CallbackContext context);
+		void OnZoom(InputAction.CallbackContext context);
+		void OnLockOnDown(InputAction.CallbackContext context);
+		void OnLockOn(InputAction.CallbackContext context);
+		void OnLockOnUp(InputAction.CallbackContext context);
+	}
+	public interface IUIActions
     {
         void OnNavigate(InputAction.CallbackContext context);
         void OnSubmit(InputAction.CallbackContext context);

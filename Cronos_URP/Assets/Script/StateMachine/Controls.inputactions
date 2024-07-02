@@ -38,7 +38,7 @@
                     "id": "f8520d70-a368-4c63-ba52-da95472c897c",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press",
+                    "interactions": "Press,Hold,Tap",
                     "initialStateCheck": false
                 },
                 {
@@ -67,6 +67,15 @@
                     "processors": "Clamp(min=-0.1,max=0.1),Invert",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "LockOn",
+                    "type": "Button",
+                    "id": "5631a9ce-e7bd-4e6d-bc5f-39867755e021",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -184,7 +193,7 @@
                     "name": "",
                     "id": "14418a03-8850-4255-a893-cbf39744e456",
                     "path": "<Mouse>/leftButton",
-                    "interactions": "",
+                    "interactions": "Press,Hold,Tap",
                     "processors": "",
                     "groups": "Keyboard and Mouse",
                     "action": "L.Attack",
@@ -221,6 +230,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ec1908dd-dbaf-4869-9231-d1ea86d42b17",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "LockOn",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

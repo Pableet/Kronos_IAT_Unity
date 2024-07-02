@@ -23,7 +23,7 @@ public class UI_Scanner : MonoBehaviour
 
     private void Start()
     {
-        interText.SetActive(false);
+        //interText.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)

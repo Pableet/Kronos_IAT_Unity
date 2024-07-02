@@ -52,7 +52,7 @@ public abstract class PlayerBaseState : State
 			return;
 		}
 		// 플레이어의 회전은 구면 선형보간의 형태로 이루어진다. 
-		stateMachine.Rigidbody.MoveRotation(Quaternion.Slerp(stateMachine.transform.rotation, Quaternion.LookRotation(faceDirection), stateMachine.Player.lookRotationDampFactor * Time.deltaTime));
+		stateMachine.Rigidbody.MoveRotation(Quaternion.Slerp(stateMachine.transform.rotation, Quaternion.LookRotation(faceDirection), stateMachine.Player.lookRotationDampFactor * Time.fixedDeltaTime));
 	}
 
 	/// <summary>
@@ -92,7 +92,7 @@ public abstract class PlayerBaseState : State
 		RaycastHit hit;
 		float distance = 0.1f;
 		bool isGrounded = Physics.Raycast(stateMachine.transform.position, Vector3.down, out hit, distance);
-		Debug.Log($"땅에 닿았나? {isGrounded}");
+		//Debug.Log($"땅에 닿았나? {isGrounded}");
 		// Raycast를 사용하여 땅을 체크
 		return isGrounded;
 	}

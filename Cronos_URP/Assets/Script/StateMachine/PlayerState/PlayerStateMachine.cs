@@ -1,8 +1,6 @@
-using UnityEditor.Tilemaps;
-using UnityEditorInternal;
 
 using UnityEngine;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
+//using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 [RequireComponent(typeof(Player))]
 [RequireComponent(typeof(InputReader))]         // 어트리뷰트를 상속받은 
 [RequireComponent(typeof(Animator))]            // 사용지정 어트리뷰트 RequireComponenet
@@ -10,9 +8,10 @@ using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class PlayerStateMachine : StateMachine
 {
-	
+	static PlayerStateMachine instance;
+	public static PlayerStateMachine GetInstance() { return instance; }
 
-    public Vector3 Velocity;
+	public Vector3 Velocity;
     public Player Player { get; private set; }
     public InputReader InputReader { get; private set; }
     public Animator Animator { get; private set; }
@@ -22,6 +21,10 @@ public class PlayerStateMachine : StateMachine
     public HitStop HitStop { get; private set; }
 	public AutoTargetting AutoTargetting;
 
+	public void Awake()
+	{
+		instance = this;
+	}
 	public void OnEnable()
     {
 
@@ -36,5 +39,9 @@ public class PlayerStateMachine : StateMachine
 
 		// 시작 상태를 정해준다.
 		SwitchState(new PlayerMoveState(this));
+	}
+	private void SwitchToBuffState()
+	{
+		SwitchState(new PlayerBuffState(this));
 	}
 }

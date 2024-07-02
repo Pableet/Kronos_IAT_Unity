@@ -4,7 +4,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Transactions;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
 using UnityEngine.PlayerLoop;
@@ -100,8 +99,6 @@ public class Player : MonoBehaviour, IMessageReceiver
 		// 감속/가속 변경함수를 임시로 사용해보자
 		// 반드시 지워져야할 부분이지만 임시로 넣는다
 		PlayerFSM = GetComponent<PlayerStateMachine>();
-		///안돼
-		PlayerFSM.Animator.applyRootMotion = true;
 		playerTransform = GetComponent<Transform>();
 
 		meleeWeapon = GetComponentInChildren<MeleeTriggerEnterDamager>();
@@ -278,27 +275,27 @@ public class Player : MonoBehaviour, IMessageReceiver
 
 	public void PlayerDeadRespawn()
 	{
-		if (SceneManager.GetActiveScene().name != GameManager.Instance.PlayerDT.saveScene)
-		{
-			SceneManager.LoadScene(GameManager.Instance.PlayerDT.saveScene);
-		}
-		else
-		{
-			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-		}
-		TP = maxTP;
-		CP = GameManager.Instance.PlayerDT.CP;
-		if (GameManager.Instance.PlayerDT.RespawnPos.x == 0f
-			&& GameManager.Instance.PlayerDT.RespawnPos.y == 0f
-			&& GameManager.Instance.PlayerDT.RespawnPos.z == 0f)
-		{
-			GameManager.Instance.PlayerDT.RespawnPos = new Vector3(0f, 7f, 0f);
-		}
-		else
-		{
-
-			playerTransform.position = (Vector3)GameManager.Instance.PlayerDT.RespawnPos;
-		}
+// 		if (SceneManager.GetActiveScene().name != GameManager.Instance.PlayerDT.saveScene)
+// 		{
+// 			SceneManager.LoadScene(GameManager.Instance.PlayerDT.saveScene);
+// 		}
+// 		else
+// 		{
+// 			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+// 		}
+// 		TP = maxTP;
+// 		CP = GameManager.Instance.PlayerDT.CP;
+// 		if (GameManager.Instance.PlayerDT.RespawnPos.x == 0f
+// 			&& GameManager.Instance.PlayerDT.RespawnPos.y == 0f
+// 			&& GameManager.Instance.PlayerDT.RespawnPos.z == 0f)
+// 		{
+// 			GameManager.Instance.PlayerDT.RespawnPos = new Vector3(0f, 7f, 0f);
+// 		}
+// 		else
+// 		{
+// 
+// 			playerTransform.position = (Vector3)GameManager.Instance.PlayerDT.RespawnPos;
+// 		}
 	}
 
 
