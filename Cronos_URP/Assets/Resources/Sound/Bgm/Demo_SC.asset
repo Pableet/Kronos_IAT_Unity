@@ -30,7 +30,7 @@ MonoBehaviour:
       stopIfTransformIsNull: 1
       randomStartPosition: 0
       randomStartPositionMin: 0
-      randomStartPositionMax: 1
+      randomStartPositionMax: 0.049821317
       startPosition: 0
       reverse: 0
       neverStealVoice: 0
@@ -160,10 +160,10 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      pitchExpand: 0
+      pitchExpand: 1
       pitchSemitone: 0
       pitchRatio: 1
-      pitchRandomEnable: 1
+      pitchRandomEnable: 0
       pitchRandomRangeSemitoneBipolar: 0.25
       pitchIntensityEnable: 0
       pitchIntensityLowSemitone: -12
@@ -370,9 +370,9 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      distortionExpand: 0
+      distortionExpand: 1
       distortionEnabled: 0
-      distortionAmount: 0.25
+      distortionAmount: 0
       distortionDistanceEnable: 0
       distortionDistanceRolloff: -4
       distortionDistanceCurve:
