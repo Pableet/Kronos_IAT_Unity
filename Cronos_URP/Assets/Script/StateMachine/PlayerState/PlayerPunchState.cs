@@ -29,7 +29,7 @@ public class PlayerPunchState : PlayerBaseState
 		// 애니메이션이 끝났다면
 		if (stateInfo.IsName("Hook") && stateInfo.normalizedTime >= 1.0f && stateInfo.normalizedTime <= 1.1f)
 		{
-			stateMachine.SwitchState(new PlayerMoveState(stateMachine));
+			stateMachine.SwitchState(new PlayerIdleState(stateMachine));
 		}
 	}
 	public override void FixedTick()

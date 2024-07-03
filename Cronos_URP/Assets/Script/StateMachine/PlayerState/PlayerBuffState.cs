@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerBuffState : PlayerBaseState
 {
 
-	private readonly int MoveBlendTreeHash = Animator.StringToHash("Buff_01");
+	private readonly int MoveBlendTreeHash = Animator.StringToHash("Com_Attack_Ready");
 	private const float CrossFadeDuration = 0.1f;
 	public PlayerBuffState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 	public override void Enter()

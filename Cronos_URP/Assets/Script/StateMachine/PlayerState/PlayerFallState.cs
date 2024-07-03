@@ -20,7 +20,7 @@ public class PlayerFallState : PlayerBaseState
 		if (IsGrounded())
 		{
 			stateMachine.Animator.speed = 1f;
-			stateMachine.SwitchState(new PlayerMoveState(stateMachine));
+			stateMachine.SwitchState(new PlayerIdleState(stateMachine));
 		}
 
 	}

@@ -34,7 +34,7 @@ public class PlayerDefenceState : PlayerBaseState
  		{
 // 			stateMachine.Animator.StartPlayback();
  			stateMachine.Animator.speed = 1f;
- 			stateMachine.SwitchState(new PlayerMoveState(stateMachine));
+ 			stateMachine.SwitchState(new PlayerIdleState(stateMachine));
  		}
 
 	}

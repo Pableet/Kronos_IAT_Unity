@@ -8,8 +8,8 @@ using UnityEngine.Rendering.Universal;
 public class PlayerEnforcedAttackState : PlayerBaseState
 {
 	private readonly int nextComboHash = Animator.StringToHash("NextCombo");
-	private readonly int AttackHash1 = Animator.StringToHash("Attack_3Combo_1");
-	private readonly int chargeAtdtackHash = Animator.StringToHash("Skill_H");   // 강화공격
+	private readonly int AttackHash1 = Animator.StringToHash("Com_Attack_01");
+	private readonly int chargeAtdtackHash = Animator.StringToHash("Com_S Attack");   // 강화공격
 
 	private const float CrossFadeDuration = 0.1f;
 

@@ -38,7 +38,7 @@ public class PlayerStateMachine : StateMachine
         HitStop = GetComponent<HitStop>();
 
 		// 시작 상태를 정해준다.
-		SwitchState(new PlayerMoveState(this));
+		SwitchState(new PlayerIdleState(this));
 	}
 	private void SwitchToBuffState()
 	{

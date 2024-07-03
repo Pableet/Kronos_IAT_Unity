@@ -30,6 +30,12 @@ public class PlayerMoveState : PlayerBaseState
 	// state의 update라 볼 수 있지
 	public override void Tick()
 	{
+		// 이동하지 않으면 idle
+		if(stateMachine.InputReader.moveComposite.magnitude == 0)
+		{
+			stateMachine.SwitchState(new PlayerIdleState(stateMachine));
+		}
+
 		if (Input.GetKeyDown(KeyCode.V))
 		{
 			stateMachine.Player.CP += 1f;
@@ -74,7 +80,6 @@ public class PlayerMoveState : PlayerBaseState
 		stateMachine.InputReader.onJumpPerformed -= SwitchToParryState;
 		stateMachine.InputReader.onLAttackStart -= SwitchToLAttackState;
 		stateMachine.InputReader.onRAttackStart -= SwitchToDefanceState;
-		//stateMachine.InputReader.onLockOn -= SwitchToLockOnState;
 
 		stateMachine.InputReader.onSwitchingStart -= Deceleration; 
 
@@ -82,7 +87,7 @@ public class PlayerMoveState : PlayerBaseState
 
 	private void Deceleration()
 	{
-		if (stateMachine.Player.CP >= 10)
+		if (stateMachine.Player.CP >= 100)
 		{
 			Debug.Log("몬스터들이 느려진다");
 			BulletTime.Instance.DecelerateSpeed();
@@ -113,7 +118,6 @@ public class PlayerMoveState : PlayerBaseState
 // 			stateMachine.AutoTargetting.LockOff();
 			// 대상을 찾고
 			stateMachine.Player.IsLockOn = stateMachine.AutoTargetting.FindTarget();
-			int a = 3;
 			// lockOn한다.
 			//stateMachine.AutoTargetting.LockOn();
 		}

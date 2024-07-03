@@ -22,7 +22,7 @@ public class PlayerDamagedState : PlayerBaseState
 		// 애니메이션이 종료되고
 		if (stateInfo.normalizedTime >= 1.0f)
 		{
-			stateMachine.SwitchState(new PlayerMoveState(stateMachine));
+			stateMachine.SwitchState(new PlayerIdleState(stateMachine));
 
 		}
 

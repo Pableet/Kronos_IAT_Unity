@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Data.Common;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.RenderGraphModule;
 using UnityEngine.InputSystem.Interactions;
@@ -8,8 +9,8 @@ using UnityEngine.Rendering.Universal;
 public class PlayerAttackState : PlayerBaseState
 {
 	private readonly int nextComboHash = Animator.StringToHash("NextCombo");
-	private readonly int AttackHash1 = Animator.StringToHash("Combo_01_1"); // 콤보시작
-	private readonly int chargeAtdtackHash = Animator.StringToHash("Combo_03_4");   // 강화공격
+	private readonly int AttackHash1 = Animator.StringToHash("Nor_Attack01"); // 콤보시작
+	private readonly int chargeAtdtackHash = Animator.StringToHash("Nor_S_Attack");   // 강화공격
 
 	private const float CrossFadeDuration = 0.1f;
 
@@ -29,6 +30,8 @@ public class PlayerAttackState : PlayerBaseState
 		stateMachine.Animator.CrossFadeInFixedTime(AttackHash1, CrossFadeDuration);
 		// 현재 애니메이션 정보를 받아온다
 
+		stateMachine.InputReader.IsLAttackPressed = false;
+
 		stateMachine.InputReader.onLAttackStart += ReadyNextCombo;
 		stateMachine.InputReader.onLAttackPerformed += ChargeAttack;
 		stateMachine.InputReader.onLAttackCanceled += ResetCharge;
@@ -44,7 +47,9 @@ public class PlayerAttackState : PlayerBaseState
 			// 차징한다.
 			chargeAttack += Time.deltaTime;
 
-			if (chargeAttack > 0.4f)
+			Debug.Log($"charging {chargeAttack}");
+
+			if (chargeAttack > 1f)
 			{
 				// 강화공격을 true로 해준다
 				isEnforcedAttack = true;

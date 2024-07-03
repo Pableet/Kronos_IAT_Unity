@@ -40,6 +40,8 @@ public class Player : MonoBehaviour, IMessageReceiver
 	[SerializeField] private float currentTP;
 	[SerializeField] private float currentCP;
 	[SerializeField] private float chargingCP = 10f;
+	[SerializeField] private float decayTime = 1f;
+
 
 	[SerializeField] private bool isEnforced = false;
 	[SerializeField] private bool isLockOn = false;
@@ -147,7 +149,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 		// 실시간으로 CP감소
 		if (IsDecreaseCP && CP > 0)
 		{
-			CP -= Time.deltaTime;
+			CP -= Time.deltaTime * decayTime;
 			if (CP <= 0)
 			{
 				IsDecreaseCP = false;
