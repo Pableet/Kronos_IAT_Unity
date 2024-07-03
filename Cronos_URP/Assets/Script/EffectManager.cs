@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class EffectManager : MonoBehaviour
 {
+    // 싱글턴
     private static EffectManager instance;
-
+    // Get하는 프로퍼티
     public static EffectManager Instance
     {
         get
@@ -25,14 +26,12 @@ public class EffectManager : MonoBehaviour
         }
     }
 
+    [SerializeField]
     GameObject player;
-    GameObject trail;
-    GameObject burst;
-    GameObject smoke;
-    GameObject skull;
+
+    // 사용할 이펙트 리스트
     static List<GameObject> effects;
 
-    Vector3 EdestPos;
 
     // 이펙트를 로드하는 단계
     protected void Awake()
@@ -67,11 +66,7 @@ public class EffectManager : MonoBehaviour
 
     void Initialize()
     {
-        trail = FindName("Trail_Prac");
-        burst = FindName("Flame_Circle");
-        smoke = FindName("Explosion");
-        skull = FindName("ProjectileE");
-        player = GameObject.Find("Player");
+        
     }
 
     void LoadEffect()
@@ -88,89 +83,6 @@ public class EffectManager : MonoBehaviour
     }
 
 
-    public void PlayerSlash()
-    {
-        if (trail == null)
-        { 
-            return; 
-        }
-
-        Debug.Log("FX 매니저의 훅 슬래시");
-        GameObject playerArm = FindChild(player, "Character1_RightArm");
-        trail.transform.position = playerArm.transform.TransformPoint(Vector3.zero);
-        trail.transform.rotation = Quaternion.Euler(0f, playerArm.transform.rotation.eulerAngles.y - 120.0f, 0f);
-        trail.SetActive(true);
-        Invoke("DestroyQ", 1.0f);
-    }
-
-    public void PlayerW()
-    {
-        Debug.Log("FX 매니저의 W 공격");
-        burst.SetActive(true);
-    }
-
-    public void PlayerW2()
-    {
-        smoke.transform.position = player.transform.position;
-        smoke.SetActive(true);
-        Invoke("DestroyW2", 1.0f);
-    }
-
-    public void PlayerE()
-    {
-        Debug.Log("FX 매니저의 E 공격");
-        skull.SetActive(true);
-        skull.transform.position = player.transform.position + Vector3.up * 2.0f;
-    }
-
-    public void TurnE()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        Debug.DrawRay(Camera.main.transform.position, ray.direction * 100.0f, Color.red, 1.0f);
-
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100.0f))
-        {
-            EdestPos = new Vector3(hit.point.x, transform.position.y, hit.point.z);
-            Vector3 dir = EdestPos - player.transform.position;
-            Quaternion targetRotation = Quaternion.LookRotation(new Vector3(dir.x, 0f, dir.z));
-            player.transform.rotation = Quaternion.Euler(0f, targetRotation.eulerAngles.y, 0f);
-            skull.transform.rotation = Quaternion.Euler(0f, targetRotation.eulerAngles.y, 0f);
-        }
-    }
-
-    //     void UpdateWpos()
-    //     {
-    //         burst.transform.position = player.transform.position;
-    //     }
-    // 
-    // 
-    //     void UpdateEpos()
-    //     {
-    //         if (skull.activeSelf == false)
-    //         {
-    //             skull.transform.position = player.transform.position + Vector3.up * 2.0f;
-    //             return;
-    //         }
-    // 
-    //         Vector3 dir = EdestPos - skull.transform.position;
-    //         dir.y = 0f;
-    //         float speed = 15.0f;
-    // 
-    //         float moveDist = Mathf.Clamp(speed * Time.deltaTime, 0, dir.magnitude);
-    // 
-    //         if (dir.magnitude < 0.001f)
-    //         {
-    //             skull.SetActive(false);
-    //             skull.transform.position = player.transform.position + Vector3.up * 2.0f;
-    //         }
-    //         else
-    //         {
-    //             Vector3 newPosition = skull.transform.position + new Vector3(dir.x, 0f, dir.z).normalized * moveDist;
-    //             skull.transform.position = newPosition;
-    //         }
-    //     }
 
     GameObject FindName(string name)
     {
@@ -182,6 +94,8 @@ public class EffectManager : MonoBehaviour
         return null;
     }
 
+    // 부모 오브젝트에서 이름을 가진 자식 오브젝트를 리턴
+    // 이펙트가 나올 자식 오브젝트 위치 찾는 데 사용하는 중
     GameObject FindChild(GameObject parent, string name)
     {
         GameObject result = GameObject.Find(name);
@@ -196,23 +110,15 @@ public class EffectManager : MonoBehaviour
         return null;
     }
 
-    void DestroyQ()
+    // 오브젝트의 SetActive를 false로 하는 것
+    void TurnOffObject(GameObject obj)
     {
-        trail.SetActive(false);
+        obj.SetActive(false);
     }
 
-    public void DestroyW()
+    // 이건 씬에서 없애는 것 인스턴싱하고 지울 때
+    void DestroyObject(GameObject obj)
     {
-        burst.SetActive(false);
-    }
-
-    void DestroyW2()
-    {
-        smoke.SetActive(false);
-    }
-
-    void DestroyE()
-    {
-        skull.SetActive(false);
+        Destroy(obj);
     }
 }

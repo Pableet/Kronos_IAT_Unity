@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 7185483583756503593}
   - component: {fileID: 8589535486203353254}
   m_Layer: 5
-  m_Name: LockOnCanvas
+  m_Name: LockOnCanvasOverlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

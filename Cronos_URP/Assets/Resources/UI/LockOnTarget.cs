@@ -16,8 +16,7 @@ public class LockOnTarget : MonoBehaviour
     AutoTargetting atTgt;
     bool isTgt;
 
-    public float yUp = 0.0f;
-    public float uiScaler = 5.0f;
+    //public float uiScaler = 5.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -30,25 +29,30 @@ public class LockOnTarget : MonoBehaviour
     {
         target = atTgt.GetTarget();
         isTgt = player.IsLockOn;
+    }
 
+    private void LateUpdate()
+    {
         if (target && isTgt)
         {
             targetUI.SetActive(true);
 
-            targetUI.transform.position = playerCam.WorldToScreenPoint(target.position) + new Vector3(0, yUp, 0);
-            targetUI.transform.localScale = new Vector3(uiScaler / targetUI.transform.position.z, uiScaler / targetUI.transform.position.z, 0f);
+            Vector3 dir = (target.transform.position - player.transform.position).normalized;
+
+            targetUI.transform.position = target.position - new Vector3(dir.x, 0, dir.z);
+            transform.forward = Camera.main.transform.forward;
         }
         else
         {
             targetUI.SetActive(false);
         }
+
+        
     }
 
-    // 일단 적의 자식 오브젝트 중 Spine을 찾아서 그 트랜스폼을 뱉는다.
-    //Transform SearchSpine(Transform transform)
-    //{
+    //ui 오버레이로 설정할 경우
+    //targetUI.transform.position = playerCam.WorldToScreenPoint(target.position) + new Vector3(0, yUp, 0);
+    //targetUI.transform.localScale = new Vector3(uiScaler / targetUI.transform.position.z, uiScaler / targetUI.transform.position.z, 0f);
 
-
-
-    //}
+    
 }
