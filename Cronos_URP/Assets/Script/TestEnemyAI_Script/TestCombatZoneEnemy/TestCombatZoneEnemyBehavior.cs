@@ -92,7 +92,7 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour, IMessageReceiver
     void Damaged(Damageable.DamageMessage damageMessage)
     {
         _controller.animator.SetTrigger(hashDamageBase);
-        _controller.SetBulletTime(false);
+        //_controller.SetBulletTime(false);
     }
 
     public void FindTarget()
@@ -236,7 +236,7 @@ public class TestCombatZoneEnemyBehavior : MonoBehaviour, IMessageReceiver
     }
     public void AttackBegin()
     {
-        meleeWeapon.BeginAttack(false);
+        meleeWeapon.BeginAttack();
     }
 
     public void AttackEnd()

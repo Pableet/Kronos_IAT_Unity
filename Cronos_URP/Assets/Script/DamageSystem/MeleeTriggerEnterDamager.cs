@@ -22,7 +22,7 @@ public class MeleeTriggerEnterDamager : MonoBehaviour
 		m_owner = owner;
 	}
 
-	public void BeginAttack(bool thowingAttack)
+	public void BeginAttack()
 	{
 		m_inAttack = true;
 	}

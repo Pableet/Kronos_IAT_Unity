@@ -1,0 +1,96 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+public class CombatZone : MonoBehaviour
+{
+    public bool IsClear { get; private set; }
+
+    public GameObject target;
+
+    public CombatZoneEnemy[] enemyList;
+
+    private bool isTargetIn;
+    public GameObject Detect(Transform detector, bool useHeightDifference = true)
+    {
+        if (isTargetIn)
+        {
+            return target;
+        }
+
+        return null;
+    }
+
+    private void Start()
+    {
+        foreach (var enemy in enemyList)
+        {
+            if (enemy != null)
+            {
+                enemy.combatZone = this;
+            }
+        }
+    }
+
+    private void OnEnable()
+    {
+        if (target == null)
+        {
+            target = GameObject.FindGameObjectWithTag("Player");
+        }
+
+    }
+
+    private void LateUpdate()
+    {
+        CheckClear();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject == target)
+        {
+            isTargetIn = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject == target)
+        {
+            isTargetIn = false;
+        }
+    }
+
+    private void CheckClear()
+    {
+        if (IsClear)
+        {
+            return;
+        }
+
+        for (int i = 0; i < enemyList.Length; i++)
+        {
+            if (enemyList[i] != null)
+            {
+                return;
+            }
+        }
+
+        IsClear = true;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (IsClear)
+        {
+            Gizmos.color = new Color(0, 1, 0, 0.5f);
+        }
+        else
+        {
+            Gizmos.color = new Color(1, 0, 0, 0.5f);
+        }
+
+        Gizmos.matrix = transform.localToWorldMatrix;
+        Gizmos.DrawCube(Vector3.zero, Vector3.one);
+    }
+}

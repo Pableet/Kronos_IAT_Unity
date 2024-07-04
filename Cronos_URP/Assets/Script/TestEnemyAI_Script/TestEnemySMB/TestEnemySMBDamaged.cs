@@ -9,10 +9,9 @@ internal class TestEnemySMBDamaged : SceneLinkedSMB<TestEnemyBehavior>
 {
     public override void OnSLStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        _monoBehaviour.controller.SetBulletTime(false);
     }
+
     public override void OnSLStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        _monoBehaviour.controller.SetBulletTime(true);
     }
 }

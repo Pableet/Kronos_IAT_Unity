@@ -15,11 +15,12 @@ public class EnemyController : MonoBehaviour
     // 인스펙터 창에 지정하지 않으면
     // OnEnable 이벤트에서 Tag 를 통해 Player 객체를 찾는다.
     [Header("Player Settings")]
-    public GameObject player;
+    public GameObject target;
 
     [Header("Movement Settings ")]
-    public bool interpolateTurning = false;
-    public bool applyAnimationRotation = false;
+    public bool useAnimatiorSpeed = true;
+    public bool interpolateTurning;
+    public bool applyAnimationRotation;
     [Range(0f, 100f)]
     public float rotationLerpSpeed;
 
@@ -38,15 +39,13 @@ public class EnemyController : MonoBehaviour
     protected bool _grounded;
     protected Rigidbody _rigidbody;
 
-    protected bool _bulletTimeScaled = true;
-
     const float _groundedRayDistance = .8f;
 
     void OnEnable()
     {
-        if (player == null)
+        if (target == null)
         {
-            player = GameObject.FindGameObjectWithTag("Player");
+            target = GameObject.FindGameObjectWithTag("Player");
         }
 
         _navMeshAgent = GetComponent<NavMeshAgent>();
@@ -104,7 +103,7 @@ public class EnemyController : MonoBehaviour
         Vector3 direction = targetPostion - transform.position;
         direction.y = 0f;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
-        this.transform.rotation = Quaternion.Lerp(this.transform.rotation, lookRotation, rotationLerpSpeed * Time.deltaTime * BulletTime.Instance.GetCurrentSpeed());
+        this.transform.rotation = Quaternion.Lerp(this.transform.rotation, lookRotation, rotationLerpSpeed * Time.deltaTime);
     }
 
     // 지면 위에 있는지 검사한다.
@@ -135,34 +134,18 @@ public class EnemyController : MonoBehaviour
 
         _navMeshAgent.Warp(_rigidbody.position);
     }
-
-
     private void OnAnimatorMove()
     {
         // 외부 압력이 있을 경우 애니메이션이 재생되어서는 안된다.
         if (_underExternalForce)
             return;
 
-        if (_bulletTimeScaled != false)
-        {
-            _animator.speed = BulletTime.Instance.GetCurrentSpeed();
-        }
-        else
-        {
-            _animator.speed = 0.8f;
-        }
-
         // 현재 프레임에서 이동한 거리와 시간 단위로 값을 속도로 지정한다.
         if (_followNavmeshAgent)
         {
-            _navMeshAgent.speed = (_animator.deltaPosition / Time.deltaTime).magnitude * BulletTime.Instance.GetCurrentSpeed();
-
-            /// test용. 
-            /// deltaPosition 값이 없는 보스 걷기 모션을 위한 임시방변.
-            /// TODO - 네브메시에이전트 스피드를 외부에서 설정할 수 있게 해야겠다.
-            if (_animator.deltaPosition.magnitude <= 0.0f)
+            if (useAnimatiorSpeed)
             {
-                _navMeshAgent.speed = 3f * BulletTime.Instance.GetCurrentSpeed(); ;
+                _navMeshAgent.speed = (_animator.deltaPosition / Time.deltaTime).magnitude;
             }
 
             transform.position = _navMeshAgent.nextPosition;
@@ -200,6 +183,21 @@ public class EnemyController : MonoBehaviour
         _navMeshAgent.enabled = follow;
     }
 
+    public void UseNavemeshAgentRotation(bool use)
+    {
+        _navMeshAgent.updateRotation = use;
+    }
+
+    public void SetNavemeshAgentSpeed(float speed)
+    {
+        _navMeshAgent.speed = speed;
+    }
+
+    public float GetNavemeshAgentSpeed()
+    {
+        return _navMeshAgent.speed;
+    }
+
     public void AddForce(Vector3 force, bool useGravity = true)
     {
         if (_navMeshAgent.enabled)
@@ -235,10 +233,5 @@ public class EnemyController : MonoBehaviour
     public bool SetTarget(Vector3 position)
     {
         return _navMeshAgent.SetDestination(position);
-    }
-
-    public void SetBulletTime(bool useBulletTimeScale)
-    {
-        _bulletTimeScaled = useBulletTimeScale;
     }
 }

@@ -43,7 +43,7 @@ public class TestEnemySMBChargedAttack : SceneLinkedSMB<TestEnemyBehavior>
         float animationSpeed = _monoBehaviour.controller.animator.deltaPosition.magnitude;
 
         // test
-        Vector3 direction = (_monoBehaviour.transform.position - _monoBehaviour.controller.player.transform.position).normalized;
+        Vector3 direction = (_monoBehaviour.transform.position - _monoBehaviour.controller.target.transform.position).normalized;
 
         // 새로운 벡터 계산
         Vector3 newDeltaPosition = direction * animationSpeed;

@@ -33,6 +33,8 @@ public class TestEnemySMBIdle : SceneLinkedSMB<TestEnemyBehavior>
     {
         base.OnSLStateNoTransitionUpdate(animator, stateInfo, layerIndex);
 
+        _monoBehaviour.FindTarget();
+
         if (_monoBehaviour.target != null)
         {
             Vector3 toTarget = _monoBehaviour.target.transform.position - _monoBehaviour.transform.position;
@@ -48,6 +50,5 @@ public class TestEnemySMBIdle : SceneLinkedSMB<TestEnemyBehavior>
             }
         }
 
-        _monoBehaviour.FindTarget();
     }
 }

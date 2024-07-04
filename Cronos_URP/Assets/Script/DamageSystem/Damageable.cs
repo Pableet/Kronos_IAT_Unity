@@ -1,14 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Message;
-using Sonity.Internal;
 
 public partial class Damageable : MonoBehaviour
 {
-    public float timePoints;
+    public float hitPoints;
     [Tooltip("피해를 받은 후 무적 상태가 되는 시간입니다.")]
     public float invulnerabiltyTime;
 
@@ -28,8 +26,8 @@ public partial class Damageable : MonoBehaviour
 
     public float currentHitPoints
     {
-        get { return timePoints; }
-        set { timePoints = value; }
+        get { return hitPoints; }
+        set { hitPoints = value; }
     }
 
     public UnityEvent OnDeath, OnReceiveDamage, OnHitWhileInvulnerable, OnBecomeVulnerable, OnResetDamage;
@@ -65,7 +63,7 @@ public partial class Damageable : MonoBehaviour
 
     public void ResetDamage()
     {
-        currentHitPoints = timePoints;
+        currentHitPoints = hitPoints;
         isInvulnerable = false;
         m_timeSinceLastHit = 0.0f;
         OnResetDamage.Invoke();
