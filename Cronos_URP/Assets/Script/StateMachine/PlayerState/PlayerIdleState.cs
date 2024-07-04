@@ -15,32 +15,34 @@ public class PlayerIdleState : PlayerBaseState
 	
 	public override void Enter()
 	{
-		// 1. Idle 애니메이션을 재생할것
-		//stateMachine.Animator.CrossFadeInFixedTime(idleHash, duration);
-		stateMachine.Animator.CrossFade(idleHash, duration);
-
-
-		stateMachine.InputReader.onLAttackStart += SwitchToLAttackState;
+		//stateMachine.InputReader.onLAttackStart += SwitchToLAttackState;
 		stateMachine.InputReader.onRAttackStart += SwitchToDefanceState;
 		stateMachine.InputReader.onLockOnStart += LockOn;
 
 		stateMachine.InputReader.onSwitchingStart += Deceleration;
 
 		stateMachine.InputReader.onMove += IsMove;
-
-    }
+		stateMachine.Rigidbody.velocity = Vector3.zero;
+	}
 	public override void Tick()
 	{
+		if(Input.GetKeyDown(KeyCode.Mouse0))
+		{
+			stateMachine.Animator.SetTrigger("Attack");
+			stateMachine.SwitchState(new PlayerAttackState(stateMachine));
+		}
+
 		// playerComponent기준으로 땅에 닿아있지 않다면
  		if (!IsGrounded())
  		{
  			stateMachine.SwitchState(new PlayerFallState(stateMachine)); // 상태를 생성해서 접근한다.
  		}
 		// 움직이면 == 이동키입력을 받으면
-		if (isMove)
+		if (stateMachine.InputReader.moveComposite.magnitude != 0f)
 		{
 			// 이동상태로 바뀐다
-			SwitchToMoveState();
+			stateMachine.Animator.SetBool("isMove", true);
+			stateMachine.SwitchState(new PlayerMoveState(stateMachine));
 		}
 	}
 	public override void FixedTick() {}
@@ -48,7 +50,7 @@ public class PlayerIdleState : PlayerBaseState
 	public override void Exit()
 	{
 		stateMachine.InputReader.onMove -= IsMove;
-		stateMachine.InputReader.onLAttackStart -= SwitchToLAttackState;
+		//stateMachine.InputReader.onLAttackStart -= SwitchToLAttackState;
 		stateMachine.InputReader.onRAttackStart -= SwitchToDefanceState;
 		stateMachine.InputReader.onLockOnStart -= LockOn;
 
@@ -57,6 +59,7 @@ public class PlayerIdleState : PlayerBaseState
 
 	private void SwitchToLAttackState()
 	{
+		stateMachine.Animator.SetTrigger("Attack");
 		stateMachine.SwitchState(new PlayerAttackState(stateMachine));
 	}
 

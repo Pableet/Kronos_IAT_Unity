@@ -36,6 +36,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 
 	[SerializeField] private float currentDamage;
 	[SerializeField] private float attackSpeed;
+	[SerializeField] private float chargeAttack = 0f;
 
 	[SerializeField] private float currentTP;
 	[SerializeField] private float currentCP;
@@ -45,6 +46,8 @@ public class Player : MonoBehaviour, IMessageReceiver
 
 	[SerializeField] private bool isEnforced = false;
 	[SerializeField] private bool isLockOn = false;
+
+	public int testInt = 0;
 
 
 
@@ -63,6 +66,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 	public float ChargingCP { get { return chargingCP; } set { chargingCP = value; } }
 	public float CurrentDamage { get { return currentDamage; } set { currentDamage = value; } }
 	public float AttackSpeed { get { return attackSpeed; } set { attackSpeed = value; } }
+	public float ChargeAttack { get { return chargeAttack; } set { chargeAttack = value; } }
 	public bool IsDecreaseCP { get; set; }
 	public bool IsEnforced { get { return isEnforced; } set { isEnforced = value; } }	// 강화상태를 위한 프로퍼티
 	public bool IsLockOn { get { return isLockOn; } set { isLockOn = value; } }	

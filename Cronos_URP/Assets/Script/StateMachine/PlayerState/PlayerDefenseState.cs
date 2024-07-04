@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerDefenceState : PlayerBaseState
 {
 
-	private readonly int DefenceHash = Animator.StringToHash("defence");
+	private readonly int DefenceHash = Animator.StringToHash("Guard");
 	private const float CrossFadeDuration = 0.3f;
 
 	private bool isdefence = false;
@@ -12,30 +12,32 @@ public class PlayerDefenceState : PlayerBaseState
 	{
 		isdefence = true;
 		stateMachine.Player._defnsible.isDefending = true;
-		stateMachine.Animator.Rebind();
-		stateMachine.Animator.CrossFadeInFixedTime(DefenceHash, CrossFadeDuration);
+		//stateMachine.Animator.Rebind();
+		//stateMachine.Animator.CrossFadeInFixedTime(DefenceHash, CrossFadeDuration);
 
-		stateMachine.InputReader.onRAttackPerformed += isDefencing;
-		stateMachine.InputReader.onRAttackCanceled += isNotDefencing;
+// 		stateMachine.InputReader.onRAttackPerformed += isDefencing;
+// 		stateMachine.InputReader.onRAttackCanceled += isNotDefencing;
 
 		stateMachine.Rigidbody.velocity = Vector3.zero;
 	}
 
 	public override void Tick()
 	{
- 		AnimatorStateInfo stateInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
-// 
-		if(isdefence)
+
+// 		if(stateMachine.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.4f&& isdefence)
+// 		{
+// 			stateMachine.Animator.speed = 0f;
+// 		}
+		if(Input.GetKey(KeyCode.Mouse1))
 		{
-			if (stateInfo.normalizedTime >= 0.2f) 
-				stateMachine.Animator.speed = 0f;
+			isDefencing();
 		}
- 		else if (stateInfo.normalizedTime >= 1.0f && stateInfo.normalizedTime <= 1.1f)
- 		{
-// 			stateMachine.Animator.StartPlayback();
- 			stateMachine.Animator.speed = 1f;
- 			stateMachine.SwitchState(new PlayerIdleState(stateMachine));
- 		}
+		if (Input.GetKeyUp(KeyCode.Mouse1))
+		{
+			stateMachine.Animator.speed = 1f;
+			isNotDefencing();
+		}
+
 
 	}
 	public override void FixedTick()
@@ -47,22 +49,30 @@ public class PlayerDefenceState : PlayerBaseState
 
 	public override void Exit()
 	{
-		stateMachine.InputReader.onRAttackCanceled -= isNotDefencing;
-		stateMachine.InputReader.onRAttackPerformed -= isDefencing;
+// 		stateMachine.InputReader.onRAttackCanceled -= isNotDefencing;
+// 		stateMachine.InputReader.onRAttackPerformed -= isDefencing;
 	}
 
 	private void isDefencing()
 	{
 		isdefence = true;
 		stateMachine.Player._defnsible.isDefending = true;
-		stateMachine.Animator.Rebind();
-		stateMachine.Animator.CrossFadeInFixedTime(DefenceHash, CrossFadeDuration);
+		stateMachine.Animator.SetBool("isGuard", true);
+		//stateMachine.Animator.Rebind();
+		//stateMachine.Animator.CrossFadeInFixedTime(DefenceHash, CrossFadeDuration);
+
+		if (stateMachine.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.4f && isdefence)
+		{
+			stateMachine.Animator.speed = 0f;
+		}
 	}
 
 	private void isNotDefencing()
 	{
+		//stateMachine.Animator.speed = 1f;
+		stateMachine.Animator.SetBool("isGuard", false);
 		//stateMachine.Animator.StartPlayback();
-		stateMachine.Animator.speed = 1f;
+		//stateMachine.Animator.speed = 1f;
 		stateMachine.Player._defnsible.isDefending = false;
 		isdefence = false;
 	}
