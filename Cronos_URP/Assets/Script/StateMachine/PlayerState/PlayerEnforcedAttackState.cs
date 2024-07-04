@@ -8,8 +8,8 @@ using UnityEngine.Rendering.Universal;
 public class PlayerEnforcedAttackState : PlayerBaseState
 {
 	private readonly int nextComboHash = Animator.StringToHash("NextCombo");
-	private readonly int AttackHash1 = Animator.StringToHash("Attack_3Combo_1");
-	private readonly int chargeAtdtackHash = Animator.StringToHash("Skill_H");   // 강화공격
+	private readonly int AttackHash1 = Animator.StringToHash("Com_Attack_01");
+	private readonly int chargeAtdtackHash = Animator.StringToHash("Com_S Attack");   // 강화공격
 
 	private const float CrossFadeDuration = 0.1f;
 
@@ -27,24 +27,36 @@ public class PlayerEnforcedAttackState : PlayerBaseState
 	{
 		stateMachine.Animator.Rebind();
 		stateMachine.Animator.CrossFadeInFixedTime(AttackHash1, CrossFadeDuration);
-		// 현재 애니메이션 정보를 받아온다
 
-		stateMachine.InputReader.onLAttackStart += ReadyNextCombo;
-		stateMachine.InputReader.onLAttackPerformed += ChargeAttack;
-		stateMachine.InputReader.onLAttackCanceled += ResetCharge;
+// 		stateMachine.InputReader.onLAttackStart += ReadyNextCombo;
+// 		stateMachine.InputReader.onLAttackPerformed += ChargeAttack;
+// 		stateMachine.InputReader.onLAttackCanceled += ResetCharge;
 		stateMachine.InputReader.onRAttackStart += SwitchToDefanceState;
 
 		stateMachine.Rigidbody.velocity = Vector3.zero;
 	}
 	public override void Tick()
 	{
-		// 마우스가 눌려있으면
-		if (stateMachine.InputReader.IsLAttackPressed)
+		/// 2024.7.4
+		/// 인풋시스템이 고장났으니 인풋매니저를 사용한다... ㅠㅠㅠ 
+		/// 주말에는 고칠 수 있겠지? 고칠 수 있다고 해줘 해강아
+		/// 
+
+		if (Input.GetKeyDown(KeyCode.Mouse0))
+		{
+			stateMachine.Animator.SetBool(nextComboHash, true);
+		}
+		if (Input.GetKeyUp(KeyCode.Mouse0))
+		{
+			stateMachine.Player.ChargeAttack = 0f;
+		}
+		//		if (stateMachine.InputReader.IsLAttackPressed) 
+		if (Input.GetKey(KeyCode.Mouse0))
 		{
 			// 차징한다.
-			chargeAttack += Time.deltaTime;
+			stateMachine.Player.ChargeAttack += Time.deltaTime;
 
-			if (chargeAttack > 0.4f)
+			if (stateMachine.Player.ChargeAttack >= 0.3f)
 			{
 				// 강화공격을 true로 해준다
 				isEnforcedAttack = true;
@@ -69,9 +81,9 @@ public class PlayerEnforcedAttackState : PlayerBaseState
 
 	public override void Exit()
 	{
-		stateMachine.InputReader.onLAttackStart -= ReadyNextCombo;
-		stateMachine.InputReader.onLAttackPerformed -= ChargeAttack;
-		stateMachine.InputReader.onLAttackCanceled -= ResetCharge;
+		//stateMachine.InputReader.onLAttackStart -= ReadyNextCombo;
+		//stateMachine.InputReader.onLAttackPerformed -= ChargeAttack;
+		//stateMachine.InputReader.onLAttackCanceled -= ResetCharge;
 		stateMachine.InputReader.onRAttackStart -= SwitchToDefanceState;
 
 	}
@@ -86,10 +98,10 @@ public class PlayerEnforcedAttackState : PlayerBaseState
 	// 강화공격을 실행한다.
 	public void EnforcedAttack()
 	{
-		stateMachine.Animator.Rebind();
-		float normalizedStartTime = 0.0f;
+		//stateMachine.Animator.Rebind();
+		//float normalizedStartTime = 0.0f;
 		// 애니메이션을 실행하고
-		stateMachine.Animator.CrossFadeInFixedTime(chargeAtdtackHash, 0.1f, -1, normalizedStartTime);
+		stateMachine.Animator.CrossFadeInFixedTime(chargeAtdtackHash, 0.1f, -1, 0.3F);
 		// 차징을 리셋한다.
 		ResetCharge();
 		// 강화어택은 끝났다.

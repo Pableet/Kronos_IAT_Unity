@@ -51,7 +51,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SwitchingAttribute",
+                    "name": "Deceleration",
                     "type": "Button",
                     "id": "9f8c0e93-515b-482d-be7f-db0ecbebfe6d",
                     "expectedControlType": "Button",
@@ -193,7 +193,7 @@
                     "name": "",
                     "id": "14418a03-8850-4255-a893-cbf39744e456",
                     "path": "<Mouse>/leftButton",
-                    "interactions": "Press,Hold,Tap",
+                    "interactions": "Press,Hold,Press(behavior=1)",
                     "processors": "",
                     "groups": "Keyboard and Mouse",
                     "action": "L.Attack",
@@ -218,7 +218,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard and Mouse",
-                    "action": "SwitchingAttribute",
+                    "action": "Deceleration",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

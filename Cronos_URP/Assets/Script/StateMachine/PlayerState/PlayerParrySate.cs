@@ -20,7 +20,7 @@ public class PlayerParryState : PlayerBaseState
 
 		if (stateInfo.IsName("Dodge") && stateInfo.normalizedTime >= 1.0f && stateInfo.normalizedTime <= 1.1f)
 		{
-			stateMachine.SwitchState(new PlayerMoveState(stateMachine));
+			stateMachine.SwitchState(new PlayerIdleState(stateMachine));
 		}
 		CalculateMoveDirection();
 	}

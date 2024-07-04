@@ -94,6 +94,7 @@ public abstract class PlayerBaseState : State
 		bool isGrounded = Physics.Raycast(stateMachine.transform.position, Vector3.down, out hit, distance);
 		//Debug.Log($"¶¥¿¡ ´ê¾Ò³ª? {isGrounded}");
 		// Raycast¸¦ »ç¿ëÇÏ¿© ¶¥À» Ã¼Å©
+		stateMachine.IsGrounded = isGrounded;
 		return isGrounded;
 	}
 

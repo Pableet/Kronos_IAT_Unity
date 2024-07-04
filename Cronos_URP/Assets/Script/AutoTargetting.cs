@@ -61,6 +61,8 @@ public class AutoTargetting : MonoBehaviour
 		stateMachine = Player.GetComponent<PlayerStateMachine>();
 		maincamTransform = Camera.main.transform;
 		CinemachinePOV = PlayerCamera.GetCinemachineComponent<CinemachinePOV>();
+		var pov = PlayerCamera.GetCinemachineComponent<CinemachinePOV>();
+		var test = PlayerCamera.IsValid;
 	}
 
 	private void OnTriggerEnter(Collider other)

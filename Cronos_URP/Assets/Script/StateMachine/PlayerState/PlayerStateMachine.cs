@@ -21,6 +21,8 @@ public class PlayerStateMachine : StateMachine
     public HitStop HitStop { get; private set; }
 	public AutoTargetting AutoTargetting;
 
+	public bool IsGrounded {  get;  set; }
+
 	public void Awake()
 	{
 		instance = this;
@@ -38,10 +40,7 @@ public class PlayerStateMachine : StateMachine
         HitStop = GetComponent<HitStop>();
 
 		// 시작 상태를 정해준다.
-		SwitchState(new PlayerMoveState(this));
-	}
-	private void SwitchToBuffState()
-	{
-		SwitchState(new PlayerBuffState(this));
+		SwitchState(new PlayerIdleState(this));
+		//SwitchState(new PlayerMoveState(this));
 	}
 }

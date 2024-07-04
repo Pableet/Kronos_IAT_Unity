@@ -215,7 +215,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""14418a03-8850-4255-a893-cbf39744e456"",
                     ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": ""Press,Hold,Tap"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""L.Attack"",
@@ -1146,8 +1146,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             return asset.controlSchemes[m_KeyboardandMouseSchemeIndex];
         }
     }
-	public interface IPlayerActions
-	{
+    public interface IPlayerActions
+    {
 		void OnLook(InputAction.CallbackContext context);
 		void OnMove(InputAction.CallbackContext context);
 		void OnJumpDown(InputAction.CallbackContext context);

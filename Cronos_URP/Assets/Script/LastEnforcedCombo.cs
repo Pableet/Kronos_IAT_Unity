@@ -14,7 +14,7 @@ public class LastEnforcedCombo : StateMachineBehaviour
 	{
 		if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1f)
 		{
-			PlayerStateMachine.GetInstance().SwitchState(new PlayerMoveState(PlayerStateMachine.GetInstance()));
+			PlayerStateMachine.GetInstance().SwitchState(new PlayerIdleState(PlayerStateMachine.GetInstance()));
 			return;
 		}
 	}
