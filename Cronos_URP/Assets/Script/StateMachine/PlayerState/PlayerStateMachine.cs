@@ -43,4 +43,16 @@ public class PlayerStateMachine : StateMachine
 		SwitchState(new PlayerIdleState(this));
 		//SwitchState(new PlayerMoveState(this));
 	}
+
+
+	public void AnimationStop()
+	{
+		Animator.speed = 0f; 
+	}
+
+	public void AnimationGO()
+	{
+		Animator.speed = 1f;
+	}
+
 }

@@ -14,7 +14,6 @@ public class AutoTargetting : MonoBehaviour
 	static AutoTargetting instance;
 	public static AutoTargetting GetInstance() { return instance; }
 
-	//public CinemachineFreeLook freeLookCamera;
 	public CinemachineVirtualCamera PlayerCamera;
 	public CinemachinePOV CinemachinePOV;
 
@@ -24,7 +23,7 @@ public class AutoTargetting : MonoBehaviour
 	public GameObject Player;       // 플레이어
 	public Transform Target = null;     // Player가 바라볼 대상
 	public Transform PlayerObject; // 플레이어 오브젝트 
-	/*public */
+
 	Transform maincamTransform;
 
 	public float lockOnAixsDamp = 0.99f;  // 어느정도까지 따라갈 것인가!
@@ -118,7 +117,8 @@ public class AutoTargetting : MonoBehaviour
 			direction.y = 0;
 		}
 
-		xDotResult = Mathf.Abs(Vector3.Dot(maincamTransform.right, PlayerObject.right));
+		
+		xDotResult = Mathf.Abs(Vector3.Dot(maincamTransform.right, Vector3.Cross(Vector3.up, direction.normalized).normalized)); 
 		yDotResult = Mathf.Abs(Vector3.Dot(maincamTransform.up, Vector3.Cross(Vector3.right, direction.normalized).normalized));
 
 		/// 공격이 일어났을때 

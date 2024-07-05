@@ -17,7 +17,14 @@ public class MeleeTriggerEnterDamager : MonoBehaviour
 	public delegate void TriggerEnterAction(Collider other);
 	public event TriggerEnterAction OnTriggerEnterEvent;
 
-	public void SetOwner(GameObject owner)
+	SoundManager soundManager;
+
+    private void OnEnable()
+    {
+        soundManager = SoundManager.Instance;
+    }
+
+    public void SetOwner(GameObject owner)
 	{
 		m_owner = owner;
 	}

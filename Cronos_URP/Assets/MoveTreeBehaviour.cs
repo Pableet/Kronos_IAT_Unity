@@ -22,14 +22,15 @@ public class MoveTreeBehaviour : StateMachineBehaviour
 	//OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
-		if (stateMachine.InputReader.moveComposite.magnitude == 0f)
-		{
-			animator.SetBool(moveHash, false);
-		}
 		if (Input.GetKeyDown(KeyCode.Mouse0))
 		{
 			animator.SetBool(attackHash, true);
 		}
+		if (stateMachine.InputReader.moveComposite.magnitude == 0f)
+		{
+			animator.SetBool(moveHash, false);
+		}
+
 	}
 	// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 	//override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
