@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,14 +10,14 @@ using Sonity;
 public partial class Damageable : MonoBehaviour
 {
     public float timePoints;
-    [Tooltip("ÇÇÇØ¸¦ ¹ŞÀº ÈÄ ¹«Àû »óÅÂ°¡ µÇ´Â ½Ã°£ÀÔ´Ï´Ù.")]
+    [Tooltip("í”¼í•´ë¥¼ ë°›ì€ í›„ ë¬´ì  ìƒíƒœê°€ ë˜ëŠ” ì‹œê°„ì…ë‹ˆë‹¤.")]
     public float invulnerabiltyTime;
 
 
-    [Tooltip("´ë¹ÌÁö¸¦ ÀÔÈú ¼ö ÀÖ´Â °¢µµÀÔ´Ï´Ù. Ç×»ó ¿ùµå XZ Æò¸é¿¡ ÀÖÀ¸¸ç, Àü¹æÀº hitForwardRoationÀ¸·Î È¸ÀüÇÕ´Ï´Ù.")]
+    [Tooltip("ëŒ€ë¯¸ì§€ë¥¼ ì…í ìˆ˜ ìˆëŠ” ê°ë„ì…ë‹ˆë‹¤. í•­ìƒ ì›”ë“œ XZ í‰ë©´ì— ìˆìœ¼ë©°, ì „ë°©ì€ hitForwardRoationìœ¼ë¡œ íšŒì „í•©ë‹ˆë‹¤.")]
     [Range(0.0f, 360.0f)]
     public float hitAngle = 360.0f;
-    [Tooltip("Å¸°İ °¢µµ ¿µ¿ªÀ» Á¤ÀÇÇÏ´Â ±âÁØ °¢µµ¸¦ È¸Àü½ÃÅ³ ¼ö ÀÖ½À´Ï´Ù.")]
+    [Tooltip("íƒ€ê²© ê°ë„ ì˜ì—­ì„ ì •ì˜í•˜ëŠ” ê¸°ì¤€ ê°ë„ë¥¼ íšŒì „ì‹œí‚¬ ìˆ˜ ìˆìŠµë‹ˆë‹¤.")]
     [Range(0.0f, 360.0f)]
     [FormerlySerializedAs("hitForwardRoation")] //SHAME!
     public float hitForwardRotation = 360.0f;
@@ -35,7 +35,7 @@ public partial class Damageable : MonoBehaviour
 
     public UnityEvent OnDeath, OnReceiveDamage, OnHitWhileInvulnerable, OnBecomeVulnerable, OnResetDamage;
 
-    [Tooltip("µ¥¹ÌÁö¸¦ ÀÔÀ¸¸é, ´Ù¸¥ °ÔÀÓ ¿ÀºêÁ§Æ®¿¡°Ô ¸Ş½ÃÁö¸¦ Àü´ŞÇÕ´Ï´Ù.")]
+    [Tooltip("ë°ë¯¸ì§€ë¥¼ ì…ìœ¼ë©´, ë‹¤ë¥¸ ê²Œì„ ì˜¤ë¸Œì íŠ¸ì—ê²Œ ë©”ì‹œì§€ë¥¼ ì „ë‹¬í•©ë‹ˆë‹¤.")]
     [EnforceType(typeof(Message.IMessageReceiver))]
     public List<MonoBehaviour> onDamageMessageReceivers;
 
@@ -95,8 +95,8 @@ public partial class Damageable : MonoBehaviour
     {
         if (currentHitPoints <= 0)
         {
-            // ÀÌ¹Ì Á×Àº »óÅÂ¶ó¸é µ¥¹ÌÁö¸¦ ´õ´Â ¹ŞÁö ¾Ê´Â´Ù.
-            // ¸¸ÀÏ ÀÌ¹Ì Á×Àº µÚ¿¡µµ µ¥¹ÌÁö¸¦ ¹Ş´Â °ÍÀ» °¨ÁöÇÏ°í ½Í´Ù¸é ÀÌºÎºĞ ¼öÁ¤ÇÒ °Í
+            // ì´ë¯¸ ì£½ì€ ìƒíƒœë¼ë©´ ë°ë¯¸ì§€ë¥¼ ë”ëŠ” ë°›ì§€ ì•ŠëŠ”ë‹¤.
+            // ë§Œì¼ ì´ë¯¸ ì£½ì€ ë’¤ì—ë„ ë°ë¯¸ì§€ë¥¼ ë°›ëŠ” ê²ƒì„ ê°ì§€í•˜ê³  ì‹¶ë‹¤ë©´ ì´ë¶€ë¶„ ìˆ˜ì •í•  ê²ƒ
             //return;
         }
 
@@ -109,20 +109,20 @@ public partial class Damageable : MonoBehaviour
         Vector3 forward = transform.forward;
         forward = Quaternion.AngleAxis(hitForwardRotation, transform.up) * forward;
 
-        // µ¥¹ÌÁö¸¦ ÀÔÀº ¹æÇâ°ú µ¥¹ÌÁö ¿µ¿ªÀ» Åõ¿µ(projection)
+        // ë°ë¯¸ì§€ë¥¼ ì…ì€ ë°©í–¥ê³¼ ë°ë¯¸ì§€ ì˜ì—­ì„ íˆ¬ì˜(projection)
         Vector3 positionToDamager = data.damageSource - transform.position;
         positionToDamager -= transform.up * Vector3.Dot(transform.up, positionToDamager);
 
         if (Vector3.Angle(forward, positionToDamager) > hitAngle * 0.5f)
             return;
 
-        /// ¿©±â¿¡ ¹Îµ¿ÈÖ°¡ ¸¸µé¾î³õÀ½
-        /// ÇÃ·¹ÀÌ¾î ¼Òµå¸¦ LookAt ÇÏ¿© ÆÄÆ¼Å¬ ÀÎ½ºÅÏ½Ì
-        /// playerSword°¡ nullÀÌ ¾Æ´Ï¸é Àû
+        /// ì—¬ê¸°ì— ë¯¼ë™íœ˜ê°€ ë§Œë“¤ì–´ë†“ìŒ
+        /// í”Œë ˆì´ì–´ ì†Œë“œë¥¼ LookAt í•˜ì—¬ íŒŒí‹°í´ ì¸ìŠ¤í„´ì‹±
+        /// playerSwordê°€ nullì´ ì•„ë‹ˆë©´ ì 
         if (playerSword != null)
         {
             Vector3 damagedPosition = transform.position;
-            // ÀÏ´Ü ¸ÂÀº À§Ä¡¿¡ ÀÎ½ºÅÏ½º¸¦ ¸¸µç´Ù.
+            // ì¼ë‹¨ ë§ì€ ìœ„ì¹˜ì— ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë§Œë“ ë‹¤.
             GameObject frag = effectManager.SpawnEffect("FragFX", damagedPosition);
             frag.transform.LookAt(playerSword.transform);
             frag.transform.Rotate(-15f, 0, 0);
@@ -145,12 +145,12 @@ public partial class Damageable : MonoBehaviour
         }
         else
         {
-            // ÀÏ´Ü È®ÀÎ
+            // ì¼ë‹¨ í™•ì¸
             if (playerSword != null)
                 soundManager.PlaySFX("Enemy_impact_SE", transform);
 
             OnReceiveDamage.Invoke();
-            Debug.Log("µ¥¹ÌÁö¸¦ ¹Ş¾Ò´Ù");
+            Debug.Log("ë°ë¯¸ì§€ë¥¼ ë°›ì•˜ë‹¤");
         }
 
         var messageType = currentHitPoints <= 0 ? MessageType.DEAD : MessageType.DAMAGED;
