@@ -334,7 +334,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 
 	public void AttackStart()
 	{
-		meleeWeapon.BeginAttack(false);
+		meleeWeapon.BeginAttack();
 	}
 	public void AttackEnd()
 	{

@@ -29,6 +29,7 @@ public class GameObjectTeleporter : MonoBehaviour
 
 	protected static GameObjectTeleporter instance;
 
+	//protected PlayerInput m_playerInput;
 	protected bool m_transitioning;
 
 	void Awake()
@@ -40,6 +41,8 @@ public class GameObjectTeleporter : MonoBehaviour
         }
 
 		DontDestroyOnLoad(gameObject);
+
+		//m_playerInput = FindObjectOfType<PlayerInput>();
 	}
 
 	public static void Teleport(TransitionPoint transitionPoint)
@@ -62,13 +65,12 @@ public class GameObjectTeleporter : MonoBehaviour
 	{
 		m_transitioning = true;
 
-		if (releaseControl)
-		{
-			// 예시:
-			//if (m_playerInput == null)
-			//	m_playerInput = FindObjectOfType<PlayerInput>();
-			//m_playerInput.ReleaseControl();
-		}
+		//if (releaseControl)
+		//{
+		//	if (m_playerInput == null)
+		//		m_playerInput = FindObjectOfType<PlayerInput>();
+		//	m_playerInput.ReleaseControl();
+		//}
 
 		if (fade)
 			yield return StartCoroutine(ScreenFader.FadeSceneOut());
@@ -78,11 +80,10 @@ public class GameObjectTeleporter : MonoBehaviour
 		if (fade)
 			yield return StartCoroutine(ScreenFader.FadeSceneIn());
 
-		if (releaseControl)
-		{
-            // 예시:
-            // m_playerInput.GainControl();
-		}
+		//if (releaseControl)
+		//{
+		//	m_playerInput.GainControl();
+		//}
 
 		m_transitioning = false;
 	}
