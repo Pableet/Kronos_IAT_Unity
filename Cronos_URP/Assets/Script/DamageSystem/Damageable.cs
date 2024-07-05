@@ -126,7 +126,6 @@ public partial class Damageable : MonoBehaviour
             GameObject frag = effectManager.SpawnEffect("FragFX", damagedPosition);
             frag.transform.LookAt(playerSword.transform);
             frag.transform.Rotate(-15f, 0, 0);
-            Debug.Log($"damageSource : {data.damageSource}");
             Destroy(frag, 2.0f);
         }
 
