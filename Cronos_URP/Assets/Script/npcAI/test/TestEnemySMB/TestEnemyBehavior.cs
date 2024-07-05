@@ -35,6 +35,7 @@ public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
     private EnemyController _controller;
     protected TargetDistributor.TargetFollower _followerInstance;
 	protected Damageable _damageable;
+    protected BulletTimeScalable _bulletTimeScalable;
 
 	protected float _timerSinceLostTarget = 0.0f;
 
@@ -54,8 +55,10 @@ public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
     {
         SceneLinkedSMB<TestEnemyBehavior>.Initialise(_controller.animator, this);
 		_damageable.onDamageMessageReceivers.Add(this);
-		playerScanner.target = _controller.target;
-        meleeWeapon.SetOwner(gameObject);
+
+        _bulletTimeScalable = GetComponent<BulletTimeScalable>();
+
+		playerScanner.target = _controller.player;
 
         originalPosition = transform.position;
     }
@@ -70,6 +73,7 @@ public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
 	void Damaged(Damageable.DamageMessage damageMessage)
 	{
 		_controller.animator.SetTrigger(hashDamageBase);
+        SetBulletTimeScalable(false);
     }
 
     private void Update() 
@@ -295,5 +299,10 @@ public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
     public void SetUnvulnerable()
     {
         _damageable.SetVulnerability(false);
+    }
+
+    public void SetBulletTimeScalable(bool val)
+    {
+        _bulletTimeScalable.active = val;
     }
 }
