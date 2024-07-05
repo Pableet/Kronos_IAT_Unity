@@ -86,6 +86,8 @@ public class Player : MonoBehaviour, IMessageReceiver
 	private Vector3 lastPosition;
 	private Quaternion lastRotation;
 
+	SoundManager soundManager;
+
 	protected void OnDisable()
 	{
 		_damageable.onDamageMessageReceivers.Remove(this);
@@ -125,8 +127,11 @@ public class Player : MonoBehaviour, IMessageReceiver
 		GameManager.Instance.PlayerDT.saveScene = SceneManager.GetActiveScene().name;
 		
 		currentDamage = meleeWeapon.damageAmount;
-	}
-	private void ChargeCP(Collider other)
+		
+		// 여기에 초기화
+        soundManager = SoundManager.Instance;
+    }
+    private void ChargeCP(Collider other)
 	{
 		if (other.CompareTag("Respawn"))
 		{
@@ -141,6 +146,10 @@ public class Player : MonoBehaviour, IMessageReceiver
 				}
 			}
 		}
+	}
+
+	void Start()
+	{
 	}
 
 	private void Update()
@@ -340,4 +349,14 @@ public class Player : MonoBehaviour, IMessageReceiver
 	{
 		meleeWeapon.EndAttack();
 	}
+
+	public void SoundSword()
+	{
+		soundManager.PlaySFX("Attack_SE", transform);
+	}
+
+	public void SoundVoice()
+	{
+        soundManager.PlaySFX("Character_voice_SE", transform);
+    }
 }

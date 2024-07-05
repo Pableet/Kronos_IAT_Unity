@@ -6,6 +6,7 @@ public class GuardBehavior : StateMachineBehaviour
 {
 	PlayerStateMachine stateMachine;
 	private readonly int fallHash = Animator.StringToHash("isFalling");
+	private readonly int guradHash = Animator.StringToHash("isGuard");
 	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
@@ -16,19 +17,11 @@ public class GuardBehavior : StateMachineBehaviour
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
-		if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.7f)
+		if (Input.GetKeyUp(KeyCode.Mouse1))
 		{
-			//animator.speed = 0f;
+			animator.SetBool(guradHash, false);
+			stateMachine.SwitchState(new PlayerMoveState(stateMachine));
 		}
-
-// 		if (Input.GetKey(KeyCode.Mouse1))
-// 		{
-// 			isDefencing();
-// 		}
-// 		if (Input.GetKeyUp(KeyCode.Mouse1))
-// 		{
-// 			isNotDefencing();
-// 		}
 
 	}
 

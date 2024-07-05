@@ -24,18 +24,20 @@ public class PlayerDefenceState : PlayerBaseState
 	public override void Tick()
 	{
 
-// 		if(stateMachine.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.4f&& isdefence)
+		float a = stateMachine.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+
+// 		if (stateMachine.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.4f)
 // 		{
 // 			stateMachine.Animator.speed = 0f;
 // 		}
-		if(Input.GetKey(KeyCode.Mouse1))
-		{
-			isDefencing();
-		}
+// 		if(Input.GetKey(KeyCode.Mouse1))
+// 		{
+// 			isDefencing();
+// 		}
 		if (Input.GetKeyUp(KeyCode.Mouse1))
 		{
-			stateMachine.Animator.speed = 1f;
-			isNotDefencing();
+			stateMachine.AnimationGO();
+			//isNotDefencing();
 		}
 
 
