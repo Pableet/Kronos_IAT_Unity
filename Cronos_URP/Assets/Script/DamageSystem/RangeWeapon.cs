@@ -6,7 +6,6 @@ public class RangeWeapon : MonoBehaviour
 {
     public Vector3 muzzleOffset;
     public Projectile projectile;
-    public int maxBulletPoolNum = 10;
 
     public Projectile loadedProjectile
     {
@@ -19,24 +18,24 @@ public class RangeWeapon : MonoBehaviour
     private void Start()
     {
         m_projectilePool = new ObjectPooler<Projectile>();
-        m_projectilePool.Initialize(maxBulletPoolNum, projectile);
+        m_projectilePool.Initialize(10, projectile);
     }
 
     // TEST
-    public GameObject target;
-    const float maxtime = 1f;
-    float passedTime = 0;
-    private void Update()
-    {
-        passedTime -= Time.deltaTime;
+    //public GameObject target;
+    //const float maxtime = 1f;
+    //float passedTime = 0;
+    //private void Update()
+    //{
+    //    passedTime -= Time.deltaTime;
     
-        if (passedTime < 0)
-        {
-            passedTime = maxtime;
-            Attack(target.transform.position);
-        }
+    //    if (passedTime < 0)
+    //    {
+    //        passedTime = maxtime;
+    //        Attack(target.transform.position);
+    //    }
     
-    }
+    //}
 
     public void Attack(Vector3 target)
     {
