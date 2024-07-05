@@ -5,20 +5,14 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/TitleScene.unity
-    guid: 06c0d3334aa72864eb49db07e5461592
-  - enabled: 0
-    path: Assets/Scenes/MICScene.unity
-    guid: 631de6023f3200648b90dca8c0b26e6e
   - enabled: 1
-    path: Assets/Scenes/OHK_NextScene.unity
-    guid: e6b62b5ee0d416d488fbe1e66600ab3e
-  - enabled: 0
-    path: Assets/Scenes/OHK_Scene.unity
-    guid: 54994ece4199c214fa06621e1e20aa6a
+    path: Assets/Scenes/_Prototype/Level1.unity
+    guid: fefa7c16ab6c33740b6d9d0e3b8ef3c3
   - enabled: 1
-    path: Assets/Scenes/MovmentTest.unity
-    guid: 8ce927c189d7bcd4f8c82be6716e467f
+    path: Assets/Scenes/_Prototype/Title.unity
+    guid: 914bf29faf8991c49ab7350d92cef9d9
+  - enabled: 1
+    path: Assets/Scenes/_Prototype/Boss.unity
+    guid: eb351fd1ddfa27147999ce0e481720ec
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 12708196cbca44b488ceec6fdabb1276, type: 2}

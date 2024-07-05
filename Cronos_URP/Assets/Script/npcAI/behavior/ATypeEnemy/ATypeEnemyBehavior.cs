@@ -8,11 +8,12 @@ using UnityEngine.WSA;
 [RequireComponent(typeof(EnemyController))]
 public class ATypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
 {
+    public bool drawGizmos;
+
     public float attackDistance = 1.8f;
     public float strafeDistance = 2f;
     public float strafeSpeed = 1f;
     public float rotationSpeed = 1.0f;
-
     public Vector3 BasePosition { get; private set; }
     public EnemyController Controller { get { return _controller; } }
 
@@ -70,8 +71,10 @@ public class ATypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
 
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
+        if(drawGizmos == false) return;
+
         // 공격 범위
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackDistance);
@@ -128,6 +131,7 @@ public class ATypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
                 Damaged();
                 break;
             case MessageType.DEAD:
+                Dead();
                 break;
             case MessageType.RESPAWN:
                 break;
@@ -139,6 +143,11 @@ public class ATypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
     private void Damaged()
     {
         TriggerDamage();
+    }
+
+    private void Dead()
+    {
+        GetComponent<ReplaceWithRagdoll>().Replace();
     }
 
     public void BeginAttack()

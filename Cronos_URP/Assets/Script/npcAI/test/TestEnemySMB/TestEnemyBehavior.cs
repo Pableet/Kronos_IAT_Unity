@@ -26,12 +26,12 @@ public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
     [System.NonSerialized]
     public float attackDistance = 2;
 
-    public GameObject target { get { return _target; } }
+    public GameObject Target { get { return _target; } }
     public Vector3 originalPosition { get; protected set; }
     public EnemyController controller { get { return _controller; } }
     public TargetDistributor.TargetFollower followerData { get { return _followerInstance; } }
 
-    private GameObject _target;
+    public GameObject _target;
     private EnemyController _controller;
     protected TargetDistributor.TargetFollower _followerInstance;
 	protected Damageable _damageable;
@@ -58,7 +58,7 @@ public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
 
         _bulletTimeScalable = GetComponent<BulletTimeScalable>();
 
-		playerScanner.target = _controller.player;
+		playerScanner.target = _target;
 
         originalPosition = transform.position;
     }
