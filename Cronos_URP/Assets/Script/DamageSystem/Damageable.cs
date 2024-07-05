@@ -5,6 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Message;
 using Sonity.Internal;
+using Sonity;
 
 public partial class Damageable : MonoBehaviour
 {
@@ -43,8 +44,14 @@ public partial class Damageable : MonoBehaviour
 
     System.Action schedule;
 
+    SoundManager soundManager;
+    EffectManager effectManager;
+    [SerializeField] GameObject playerSword;
+
     void Start()
     {
+        effectManager = EffectManager.Instance;
+        soundManager = SoundManager.Instance;
         ResetDamage();
         m_Collider = GetComponent<Collider>();
     }
@@ -61,6 +68,7 @@ public partial class Damageable : MonoBehaviour
                 OnBecomeVulnerable.Invoke();
             }
         }
+
     }
 
     public void ResetDamage()
@@ -80,6 +88,8 @@ public partial class Damageable : MonoBehaviour
     {
         m_Collider.enabled = enabled;
     }
+
+
 
     public void ApplyDamage(DamageMessage data)
     {
@@ -106,6 +116,21 @@ public partial class Damageable : MonoBehaviour
         if (Vector3.Angle(forward, positionToDamager) > hitAngle * 0.5f)
             return;
 
+        /// 여기에 민동휘가 만들어놓음
+        /// 플레이어 소드를 LookAt 하여 파티클 인스턴싱
+        /// playerSword가 null이 아니면 적
+        if (playerSword != null)
+        {
+            Vector3 damagedPosition = transform.position;
+            // 일단 맞은 위치에 인스턴스를 만든다.
+            GameObject frag = effectManager.SpawnEffect("FragFX", damagedPosition);
+            frag.transform.LookAt(playerSword.transform);
+            frag.transform.Rotate(-15f, 0, 0);
+            Debug.Log($"damageSource : {data.damageSource}");
+            Destroy(frag, 2.0f);
+        }
+
+
         if (defensible)
         {
             defensible.ApplyDamage(ref data);
@@ -120,6 +145,10 @@ public partial class Damageable : MonoBehaviour
         }
         else
         {
+            // 일단 확인
+            if (playerSword != null)
+                soundManager.PlaySFX("Enemy_impact_SE", transform);
+
             OnReceiveDamage.Invoke();
             Debug.Log("데미지를 받았다");
         }

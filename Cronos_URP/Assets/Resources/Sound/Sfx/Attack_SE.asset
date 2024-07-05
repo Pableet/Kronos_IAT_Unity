@@ -22,7 +22,7 @@ MonoBehaviour:
       expandTriggerOnPlay: 0
       expandTriggerOnStop: 0
       expandTriggerOnTail: 0
-      expandAllSoundTag: 0
+      expandAllSoundTag: 1
       timelineSoundContainerData:
       - delay: 0
         volumeRatio: 1
@@ -44,7 +44,7 @@ MonoBehaviour:
         startPosition: 0
         reverse: 0
         stereoPan: 0
-        polyphony: 1
+        polyphony: 5
         distanceScale: 1
         distortionIncrease: 0
         fadeInLength: 0
@@ -78,7 +78,7 @@ MonoBehaviour:
       polyphonyMode: 0
       audioMixerGroup: {fileID: 0}
       soundMix: {fileID: 0}
-      soundPolyGroup: {fileID: 0}
+      soundPolyGroup: {fileID: 11400000, guid: b561407bc2d2d4447a2b47270b2f9041, type: 2}
       soundPolyGroupPriority: 1
       cooldownTime: 0
       probability: 100

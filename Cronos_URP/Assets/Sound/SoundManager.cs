@@ -45,20 +45,11 @@ public class SoundManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        PlayBGM("Demo_SE");
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            PlaySFX("Attack_SE", player.transform);
-        }
-
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            PlayBGM("Demo_SE");
-        }
 
         if (Input.GetKeyDown(KeyCode.V))
         {
@@ -87,7 +78,7 @@ public class SoundManager : MonoBehaviour
 
     }
 
-    void PlayBGM(string name)
+    public void PlayBGM(string name)
     {
         foreach (SoundEvent se in BgmList)
         {
@@ -96,7 +87,7 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    void PlaySFX(string name, Transform transform)
+    public void PlaySFX(string name, Transform transform)
     {
         foreach (SoundEvent se in SfxList)
         {
@@ -106,7 +97,7 @@ public class SoundManager : MonoBehaviour
     }
 
     // 오버로딩
-    void PlaySFX(string name)
+    public void PlaySFX(string name)
     {
         foreach (SoundEvent se in SfxList)
         {
@@ -115,7 +106,7 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    void StopBGM(string name)
+    public void StopBGM(string name)
     {
         foreach (SoundEvent se in BgmList)
         {

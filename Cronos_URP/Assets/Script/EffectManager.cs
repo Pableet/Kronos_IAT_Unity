@@ -29,9 +29,11 @@ public class EffectManager : MonoBehaviour
     [SerializeField]
     GameObject player;
 
-    // 사용할 이펙트 리스트
-    static List<GameObject> effects;
+    public GameObject fragExample;
 
+    // 사용할 이펙트 리스트
+    static List<GameObject> effects = new List<GameObject>();
+    GameObject[] effectArray;
 
     // 이펙트를 로드하는 단계
     protected void Awake()
@@ -60,8 +62,7 @@ public class EffectManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //         UpdateWpos();
-        //         UpdateEpos();
+
     }
 
     void Initialize()
@@ -71,9 +72,8 @@ public class EffectManager : MonoBehaviour
 
     void LoadEffect()
     {
-        GameObject[] prefabs = Resources.LoadAll<GameObject>("FX");
-        effects = new List<GameObject>();
-        foreach (GameObject effect in prefabs)
+        effectArray = Resources.LoadAll<GameObject>("FX/InGameFXs");
+        foreach (GameObject effect in effectArray)
         {
             GameObject effectInstance = Instantiate(effect);
             effectInstance.name = effect.name;
@@ -82,6 +82,20 @@ public class EffectManager : MonoBehaviour
         }
     }
 
+    public GameObject SpawnEffect(string name, Vector3 pos)
+    {
+        foreach (GameObject effect in effectArray)
+        {
+            if (effect.name == name)
+            {
+                GameObject instance = Instantiate(effect);
+                instance.transform.position = pos;
+                return instance;
+            }
+        }
+
+        return null;
+    }
 
 
     GameObject FindName(string name)
