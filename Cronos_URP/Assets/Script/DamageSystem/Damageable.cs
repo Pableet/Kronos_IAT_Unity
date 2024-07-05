@@ -137,18 +137,19 @@ public partial class Damageable : MonoBehaviour
         isInvulnerable = true;
         currentHitPoints -= data.amount;
 
+        // 죽든 살든 맞는 소리는 나와야 하니까
+        if (playerSword != null)
+            soundManager.PlaySFX("Enemy_impact_SE", transform);
+
         if (currentHitPoints <= 0)
         {
+            Debug.Log("데미지를 받아 죽었다");
             schedule += OnDeath.Invoke; //This avoid race condition when objects kill each other.
         }
         else
         {
-            // 일단 확인
-            if (playerSword != null)
-                soundManager.PlaySFX("Enemy_impact_SE", transform);
-
-            OnReceiveDamage.Invoke();
             Debug.Log("데미지를 받았다");
+            OnReceiveDamage.Invoke();
         }
 
         var messageType = currentHitPoints <= 0 ? MessageType.DEAD : MessageType.DAMAGED;
