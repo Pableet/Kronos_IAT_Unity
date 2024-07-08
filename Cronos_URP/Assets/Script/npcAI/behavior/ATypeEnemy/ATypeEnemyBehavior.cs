@@ -1,8 +1,6 @@
 using Message;
-using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.WSA;
 
 [DefaultExecutionOrder(100)]
 [RequireComponent(typeof(EnemyController))]

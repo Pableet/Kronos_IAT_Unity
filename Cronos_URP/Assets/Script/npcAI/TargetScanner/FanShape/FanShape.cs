@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.PackageManager.UI;
 using UnityEngine;
-using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 // enemy 객체가 플레이를 찾고 추적하는 데 사용된다.
 [System.Serializable]

@@ -1,11 +1,4 @@
-using System.Collections.Generic;
-using System.Data.Common;
-using UnityEditorInternal;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.RenderGraphModule;
-using UnityEngine.InputSystem.Interactions;
-using UnityEngine.Rendering.Universal;
-
 public class PlayerAttackState : PlayerBaseState
 {
 	private readonly int subAttack = Animator.StringToHash("Attack");
