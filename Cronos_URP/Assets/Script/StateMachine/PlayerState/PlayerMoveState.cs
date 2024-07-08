@@ -11,6 +11,8 @@ public class PlayerMoveState : PlayerBaseState
 	private const float AnimationDampTime = 0.1f;
 	private const float CrossFadeDuration = 0.3f;
 
+	float releaseLockOn = 0f;
+
 
 	public PlayerMoveState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
@@ -23,7 +25,7 @@ public class PlayerMoveState : PlayerBaseState
 		stateMachine.InputReader.onLAttackStart += SwitchToLAttackState;
 		stateMachine.InputReader.onRAttackStart += SwitchToRAttackState;
 		stateMachine.InputReader.onRAttackStart += SwitchToDefanceState;
-		stateMachine.InputReader.onLockOnStart += LockOn;
+		//stateMachine.InputReader.onLockOnStart += LockOn;
 
 		stateMachine.InputReader.onSwitchingStart += Deceleration;
 	}
@@ -60,6 +62,36 @@ public class PlayerMoveState : PlayerBaseState
 		else { moveSpeed = 0.5f; }
 
 		stateMachine.Player.SetSpeed(moveSpeed);
+
+		if (Input.GetMouseButtonDown(2))
+		{
+			// 락온 상태가 아니라면
+			if (!stateMachine.Player.IsLockOn)
+			{
+				// 대상을 찾고
+				stateMachine.Player.IsLockOn = stateMachine.AutoTargetting.FindTarget();
+			}
+			// 락온상태라면 락온을 해제한다.
+			else
+			{
+				//stateMachine.AutoTargetting.LockOff();
+				stateMachine.AutoTargetting.SwitchTarget();
+			}
+		}
+
+		if (Input.GetMouseButton(2))
+		{
+			releaseLockOn += Time.deltaTime;
+
+			if (releaseLockOn > 1f)
+			{
+				stateMachine.AutoTargetting.LockOff();
+			}
+		}
+		else
+		{
+			releaseLockOn = 0f;
+		}
 
 		// 애니메이터 movespeed의 파라메터의 값을 정한다.
 		stateMachine.Animator.SetFloat(MoveSpeedHash, stateMachine.InputReader.moveComposite.sqrMagnitude > 0f ? moveSpeed : 0f, AnimationDampTime, Time.deltaTime);
@@ -106,7 +138,7 @@ public class PlayerMoveState : PlayerBaseState
 
 	private void SwitchToLAttackState()
 	{
-		stateMachine.Animator.SetTrigger("Attack");
+		//stateMachine.Animator.SetTrigger("Attack");
 		stateMachine.SwitchState(new PlayerAttackState(stateMachine));
 	}
 

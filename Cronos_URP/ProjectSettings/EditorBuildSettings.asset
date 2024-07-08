@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/MICScene.unity
     guid: 631de6023f3200648b90dca8c0b26e6e
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/OHK_NextScene.unity
     guid: e6b62b5ee0d416d488fbe1e66600ab3e
   - enabled: 0
