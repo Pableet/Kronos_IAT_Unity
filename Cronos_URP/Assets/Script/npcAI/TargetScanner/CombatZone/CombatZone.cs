@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class CombatZone : MonoBehaviour
 {
-    public bool IsClear { get; private set; }
+    public bool isClear;
 
     public GameObject target;
 
@@ -63,7 +63,7 @@ public class CombatZone : MonoBehaviour
 
     private void CheckClear()
     {
-        if (IsClear)
+        if (isClear)
         {
             return;
         }
@@ -76,12 +76,12 @@ public class CombatZone : MonoBehaviour
             }
         }
 
-        IsClear = true;
+        isClear = true;
     }
 
     private void OnDrawGizmos()
     {
-        if (IsClear)
+        if (isClear)
         {
             Gizmos.color = new Color(0, 1, 0, 0.5f);
         }

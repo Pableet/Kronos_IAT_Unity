@@ -15,7 +15,7 @@ public class BTypeEnemySMBAttack : SceneLinkedSMB<BTypeEnemyBehavior>
         /// TODO = 추후 추가 요망
         if (false)
         {
-            _monoBehaviour.TriggerDown();
+            //_monoBehaviour.TriggerDown();
         }
 
         // IDLE - 타겟을 찾을 수 없을 때
