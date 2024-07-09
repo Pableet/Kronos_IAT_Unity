@@ -141,14 +141,17 @@ MonoBehaviour:
   maxCP: 100
   currentDamage: 30
   attackSpeed: 0
+  chargeAttack: 0
   currentTP: 500
   currentCP: 0
   chargingCP: 10
   decayTime: 1
   isEnforced: 0
   isLockOn: 0
+  testInt: 0
   _damageable: {fileID: 0}
   _defnsible: {fileID: 0}
+  playerSword: {fileID: 4202592198075565264}
 --- !u!114 &7961368793812106336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,7 +257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c807bc4a94ff6449756000c7ad95cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timePoints: 0
+  hitPoints: 0
   invulnerabiltyTime: 0
   hitAngle: 360
   hitForwardRotation: 360
@@ -275,6 +278,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   onDamageMessageReceivers: []
+  playerSword: {fileID: 0}
 --- !u!114 &3226844834027223012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -644,6 +648,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 274a3a78a3e481640809fb1bb0518c65, type: 3}
+--- !u!1 &4202592198075565264 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9047352775516390619, guid: 274a3a78a3e481640809fb1bb0518c65, type: 3}
+  m_PrefabInstance: {fileID: 5178079901715251211}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7248018038251356214 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2542878188687278141, guid: 274a3a78a3e481640809fb1bb0518c65, type: 3}
