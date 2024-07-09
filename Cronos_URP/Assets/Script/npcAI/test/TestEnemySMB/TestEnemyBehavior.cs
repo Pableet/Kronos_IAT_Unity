@@ -1,10 +1,5 @@
 using Message;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.InputSystem.XR;
-using UnityEngine.WSA;
 
 /// <summary>
 /// TestEnemy 의 행동을 정의한다.
@@ -26,15 +21,16 @@ public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
     [System.NonSerialized]
     public float attackDistance = 2;
 
-    public GameObject target { get { return _target; } }
+    public GameObject Target { get { return _target; } }
     public Vector3 originalPosition { get; protected set; }
     public EnemyController controller { get { return _controller; } }
     public TargetDistributor.TargetFollower followerData { get { return _followerInstance; } }
 
-    private GameObject _target;
+    public GameObject _target;
     private EnemyController _controller;
     protected TargetDistributor.TargetFollower _followerInstance;
 	protected Damageable _damageable;
+    protected BulletTimeScalable _bulletTimeScalable;
 
 	protected float _timerSinceLostTarget = 0.0f;
 
@@ -54,8 +50,10 @@ public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
     {
         SceneLinkedSMB<TestEnemyBehavior>.Initialise(_controller.animator, this);
 		_damageable.onDamageMessageReceivers.Add(this);
-		playerScanner.target = _controller.target;
-        meleeWeapon.SetOwner(gameObject);
+
+        _bulletTimeScalable = GetComponent<BulletTimeScalable>();
+
+		playerScanner.target = _target;
 
         originalPosition = transform.position;
     }
@@ -70,6 +68,7 @@ public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
 	void Damaged(Damageable.DamageMessage damageMessage)
 	{
 		_controller.animator.SetTrigger(hashDamageBase);
+        SetBulletTimeScalable(false);
     }
 
     private void Update() 
@@ -261,13 +260,13 @@ public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
         _controller.animator.SetBool(hashInPursuit, inPursuit);
     }
 
-    private void OnDrawGizmos()
-    {
-        if (playerScanner != null)
-        {
-            playerScanner.EditorGizmo(transform);
-        }
-    }
+//     private void OnDrawGizmos()
+//     {
+//         if (playerScanner != null)
+//         {
+//             playerScanner.EditorGizmo(transform);
+//         }
+//     }
 
     private void OnDrawGizmosSelected()
     {
@@ -295,5 +294,10 @@ public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
     public void SetUnvulnerable()
     {
         _damageable.SetVulnerability(false);
+    }
+
+    public void SetBulletTimeScalable(bool val)
+    {
+        _bulletTimeScalable.active = val;
     }
 }

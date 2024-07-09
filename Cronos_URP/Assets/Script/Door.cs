@@ -21,8 +21,13 @@ public class Door : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (_combatZone.IsClear)
+		if (_combatZone.isClear)
 		{
+			// 프로토타입용
+			{
+				Destroy(this.gameObject);
+			}
+
 			isOpening = true;
 		}
 

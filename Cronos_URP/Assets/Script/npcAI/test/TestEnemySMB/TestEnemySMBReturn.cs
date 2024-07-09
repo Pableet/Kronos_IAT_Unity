@@ -15,7 +15,7 @@ public class TestEnemySMBReturn : SceneLinkedSMB<TestEnemyBehavior>
 
         _monoBehaviour.FindTarget();
 
-        if (_monoBehaviour.target != null)
+        if (_monoBehaviour.Target != null)
             _monoBehaviour.StartPursuit(); // if the player got back in our vision range, resume pursuit!
         else
             _monoBehaviour.WalkBackToBase();

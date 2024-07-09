@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -137,8 +138,7 @@ public class EnemyController : MonoBehaviour
     private void OnAnimatorMove()
     {
         // 외부 압력이 있을 경우 애니메이션이 재생되어서는 안된다.
-        if (_underExternalForce)
-            return;
+        if (_underExternalForce) return;
 
         // 현재 프레임에서 이동한 거리와 시간 단위로 값을 속도로 지정한다.
         if (_followNavmeshAgent)
@@ -147,7 +147,6 @@ public class EnemyController : MonoBehaviour
             {
                 _navMeshAgent.speed = (_animator.deltaPosition / Time.deltaTime).magnitude;
             }
-
             transform.position = _navMeshAgent.nextPosition;
         }
         else

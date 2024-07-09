@@ -158,6 +158,7 @@ public class BTypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
                 Damaged();
                 break;
             case MessageType.DEAD:
+                Dead();
                 break;
             case MessageType.RESPAWN:
                 break;
@@ -170,6 +171,11 @@ public class BTypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
     private void Damaged()
     {
         TriggerDamage();
+    }
+
+    private void Dead()
+    {
+        GetComponent<ReplaceWithRagdoll>().Replace();
     }
 
     internal void SetFollowerDataRequire(bool val)

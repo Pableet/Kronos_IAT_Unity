@@ -18,7 +18,7 @@ public class TestEnemySMBPursuit : SceneLinkedSMB<TestEnemyBehavior>
             return;
         }
 
-        if (_monoBehaviour.target == null)
+        if (_monoBehaviour.Target == null)
         {//if the target was lost or is respawning, we stop the pursit
             _monoBehaviour.StopPursuit();
         }
@@ -26,7 +26,7 @@ public class TestEnemySMBPursuit : SceneLinkedSMB<TestEnemyBehavior>
         {
             _monoBehaviour.RequestTargetPosition();
 
-            Vector3 toTarget = _monoBehaviour.target.transform.position - _monoBehaviour.transform.position;
+            Vector3 toTarget = _monoBehaviour.Target.transform.position - _monoBehaviour.transform.position;
 
             if (toTarget.sqrMagnitude < _monoBehaviour.attackDistance * _monoBehaviour.attackDistance)
             {
@@ -34,7 +34,7 @@ public class TestEnemySMBPursuit : SceneLinkedSMB<TestEnemyBehavior>
             }
             else if (_monoBehaviour.followerData.assignedSlot != -1)
             {
-                Vector3 targetPoint = _monoBehaviour.target.transform.position +
+                Vector3 targetPoint = _monoBehaviour.Target.transform.position +
                     _monoBehaviour.followerData.distributor.GetDirection(_monoBehaviour.followerData
                         .assignedSlot) * _monoBehaviour.attackDistance * 0.9f;
 

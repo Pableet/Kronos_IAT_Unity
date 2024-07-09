@@ -12,9 +12,9 @@ public class TestEnemySMBIdle : SceneLinkedSMB<TestEnemyBehavior>
         if (minimumIdleGruntTime > maximumIdleGruntTime)
             minimumIdleGruntTime = maximumIdleGruntTime;
 
-        if (_monoBehaviour.target != null)
+        if (_monoBehaviour.Target != null)
         {
-            Vector3 toTarget = _monoBehaviour.target.transform.position - _monoBehaviour.transform.position;
+            Vector3 toTarget = _monoBehaviour.Target.transform.position - _monoBehaviour.transform.position;
 
             if (toTarget.sqrMagnitude < _monoBehaviour.attackDistance * _monoBehaviour.attackDistance)
             {
@@ -35,9 +35,9 @@ public class TestEnemySMBIdle : SceneLinkedSMB<TestEnemyBehavior>
 
         _monoBehaviour.FindTarget();
 
-        if (_monoBehaviour.target != null)
+        if (_monoBehaviour.Target != null)
         {
-            Vector3 toTarget = _monoBehaviour.target.transform.position - _monoBehaviour.transform.position;
+            Vector3 toTarget = _monoBehaviour.Target.transform.position - _monoBehaviour.transform.position;
 
             if (toTarget.sqrMagnitude < _monoBehaviour.attackDistance * _monoBehaviour.attackDistance)
             {
