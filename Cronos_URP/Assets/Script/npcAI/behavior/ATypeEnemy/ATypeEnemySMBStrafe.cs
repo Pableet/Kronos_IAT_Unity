@@ -11,6 +11,7 @@ public class ATypeEnemySMBStrafe : SceneLinkedSMB<ATypeEnemyBehavior>
     private float _strafeTime;
     private float _strafeSpeed;
     private float _timer;
+
     private bool _onRinght;
 
 

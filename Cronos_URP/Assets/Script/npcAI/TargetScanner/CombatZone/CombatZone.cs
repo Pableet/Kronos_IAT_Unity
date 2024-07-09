@@ -4,6 +4,7 @@ using UnityEngine;
 public class CombatZone : MonoBehaviour
 {
     public bool isClear;
+    public bool drawGizmos;
 
     public GameObject target;
 
@@ -81,6 +82,8 @@ public class CombatZone : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        if (drawGizmos == false) return;
+
         if (isClear)
         {
             Gizmos.color = new Color(0, 1, 0, 0.5f);
