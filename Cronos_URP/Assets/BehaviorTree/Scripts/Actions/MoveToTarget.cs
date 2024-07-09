@@ -1,13 +1,23 @@
-ï»¿public class MoveToPosition : ActionNode
+using UnityEngine;
+
+public class MoveToTarget : ActionNode
 {
-    public float speed = 5;
+    public float speed = 3.5f;
     public float stoppingDistance = 0.1f;
     public bool updateRotation = true;
-    public float acceleration = 40.0f;
-    public float tolerance = 1.0f;
+    public float acceleration = 100f;
 
     protected override void OnStart()
     {
+        if (blackboard.target == null)
+        {
+            Debug.Log("Å¸±êÀ» Ã£À» ¼ö ¾øÀ½");
+        }
+        else
+        {
+            blackboard.moveToPosition = blackboard.target.transform.position;
+        }
+
         context.agent.stoppingDistance = stoppingDistance;
         context.agent.speed = speed;
         context.agent.destination = blackboard.moveToPosition;
@@ -26,7 +36,7 @@
             return State.Running;
         }
 
-        if (context.agent.remainingDistance < tolerance)
+        if (context.agent.remainingDistance < stoppingDistance)
         {
             return State.Success;
         }

@@ -1,4 +1,6 @@
-﻿public class Failure : DecoratorNode
+﻿using UnityEngine;
+
+class IsTargetNull : ActionNode
 {
     protected override void OnStart()
     {
@@ -10,11 +12,13 @@
 
     protected override State OnUpdate()
     {
-        var state = child.Update();
-        if (state == State.Success)
+        if (blackboard.target == null)
+        {
+            return State.Success;
+        }
+        else
         {
             return State.Failure;
         }
-        return state;
     }
 }

@@ -1,6 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
-
+﻿
 public class Inverter : DecoratorNode
 {
     protected override void OnStart()
