@@ -1048,13 +1048,13 @@ ModelImporter:
       curves: []
       events:
       - time: 0.0063492064
-        functionName: AttakcStart
+        functionName: AttackStart
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.20938629
+      - time: 0.23515949
         functionName: SoundSword
         data: 
         objectReferenceParameter: {instanceID: 0}
