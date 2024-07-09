@@ -481,7 +481,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.4476534
+      - time: 0.46054
         functionName: SoundSword
         data: 
         objectReferenceParameter: {instanceID: 0}

@@ -303,6 +303,14 @@ public class AutoTargetting : MonoBehaviour
 				TurnCamVertical(verticalSpeed * Time.deltaTime * (targetPos.y / math.abs(targetPos.y)) * (1f - yDotResult));
 			}
 		}
+		else if(MonsterList.Count != 0)
+		{
+			FindTarget();
+		}
+		else
+		{
+			LockOff();
+		}
 
 	}
 
