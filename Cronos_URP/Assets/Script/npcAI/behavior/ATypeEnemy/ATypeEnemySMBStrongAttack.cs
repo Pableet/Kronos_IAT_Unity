@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ATypeEnemySMBParriableAttack : SceneLinkedSMB<ATypeEnemyBehavior>
+public class ATypeEnemySMBStrongAttack : SceneLinkedSMB<ATypeEnemyBehavior>
 {
     public override void OnSLStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        _monoBehaviour.ChangeDebugText("PARRIABLE ATTACK");
+        _monoBehaviour.ChangeDebugText("STRONG ATTACK");
         _monoBehaviour.ResetTriggerDown();
     }
 
