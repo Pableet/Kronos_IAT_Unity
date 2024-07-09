@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: fea9a93a42c1cd24ca191be076d2b025
+guid: 01710436048cad04ba58bb6a5222aa2d
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -19,10 +19,10 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
       copied configuration does not match position in animation file:\n\t'thigh_l'
-      : position error = 11.636320 mm\n\t'calf_l' : position error = 7.178843 mm\n\t'foot_l'
-      : position error = 7.501363 mm\n\t'ball_l' : position error = 5.588599 mm\n\t'thigh_r'
-      : position error = 11.540910 mm\n\t'calf_r' : position error = 13.985922 mm\n\t'foot_r'
-      : position error = 4.587877 mm\n\t'ball_r' : position error = 2.400169 mm\n"
+      : position error = 11.591983 mm\n\t'calf_l' : position error = 8.004280 mm\n\t'foot_l'
+      : position error = 7.121733 mm\n\t'ball_l' : position error = 6.101671 mm\n\t'thigh_r'
+      : position error = 11.697817 mm\n\t'calf_r' : position error = 8.163177 mm\n\t'foot_r'
+      : position error = 10.067231 mm\n\t'ball_r' : position error = 6.987226 mm\n"
     animationImportErrors: 
     animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
       might lower retargeting quality:\nNote: Activate translation DOF on avatar
@@ -42,11 +42,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Walk_ver_A_Front_R45
+      name: Walk_ver_A_Back_R45
       takeName: Take 001
       internalID: 1827226128182048838
-      firstFrame: 0
-      lastFrame: 32
+      firstFrame: 1
+      lastFrame: 33
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -69,7 +69,7 @@ ModelImporter:
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+      additiveReferencePoseFrame: 0.9
     isReadable: 0
   meshes:
     lODScreenPercentages: []

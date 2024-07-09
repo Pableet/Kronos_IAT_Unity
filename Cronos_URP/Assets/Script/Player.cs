@@ -233,10 +233,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 			case MessageType.DAMAGED:
 				{
 					Damageable.DamageMessage damageData = (Damageable.DamageMessage)data;
-					if (true)
-					{
-						damageData.amount = 0;
-					}
+
 					Damaged(damageData);
 				}
 				break;
@@ -254,10 +251,15 @@ public class Player : MonoBehaviour, IMessageReceiver
 	void Damaged(Damageable.DamageMessage damageMessage)
 	{
 		//  방어상태가 아닐때만 하자
-		if (PlayerFSM.GetState().ToString() != "PlayerDefenceState")
+		if (PlayerFSM.GetState().ToString() == "PlayerDefenceState")
 		{
-			PlayerFSM.SwitchState(new PlayerDamagedState(PlayerFSM));
+			return;
 		}
+		if (PlayerFSM.GetState().ToString() == "PlayerParryState")
+		{
+			return;
+		}
+			PlayerFSM.SwitchState(new PlayerDamagedState(PlayerFSM));
 	}
 
 	public void Death(Damageable.DamageMessage msg)
