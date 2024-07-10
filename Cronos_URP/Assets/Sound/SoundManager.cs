@@ -17,7 +17,7 @@ public class SoundManager : MonoBehaviour
                 instance = FindObjectOfType<SoundManager>();
                 if (instance == null)
                 {
-                    GameObject sm = new GameObject(typeof(EffectManager).Name);
+                    GameObject sm = new GameObject(typeof(SoundManager).Name);
                     instance = sm.AddComponent<SoundManager>();
 
                     DontDestroyOnLoad(sm);
