@@ -239,6 +239,10 @@ public class AutoTargetting : MonoBehaviour
 			Target = null;
 			return false;
 		}
+		if(stateMachine.Player.IsLockOn)
+		{
+			return true;
+		}
 
 		// 현재 몬스터 목록을 순회한다.
 		for (int i = MonsterList.Count - 1; i >= 0; i--)
@@ -305,7 +309,9 @@ public class AutoTargetting : MonoBehaviour
 		}
 		else if(MonsterList.Count != 0)
 		{
+			stateMachine.Player.IsLockOn = false;
 			FindTarget();
+			stateMachine.Player.IsLockOn = true;
 		}
 		else
 		{
