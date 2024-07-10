@@ -6,9 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(EnemyController))]
 public class ATypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
 {
-    public bool drawGizmos;
-
     public float attackDistance = 1.8f;
+    public float strongAttackDistance = 3f;
     public float strafeDistance = 2f;
     public float strafeSpeed = 1f;
     public float rotationSpeed = 1.0f;
@@ -76,6 +75,12 @@ public class ATypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
         // 공격 범위
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackDistance);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, strafeDistance);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, strongAttackDistance);
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////
@@ -138,6 +143,23 @@ public class ATypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
 
         }
     }
+
+    public bool IsInStrongAttackRange()
+    {
+        return CheckDistanceWithTarget(strongAttackDistance);
+    }
+
+    public bool IsInAttackRange()
+    {
+        return CheckDistanceWithTarget(attackDistance);
+    }
+
+    public bool CheckDistanceWithTarget(float distance)
+    {
+        Vector3 toTarget = CurrentTarget.transform.position - transform.position;
+        return toTarget.sqrMagnitude < distance * distance;
+    }
+
     private void Damaged()
     {
         TriggerDamage();
@@ -204,7 +226,7 @@ public class ATypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
         _controller.animator.SetTrigger(hashAttack);
     }
 
-    internal void TriggerParriableAttack()
+    internal void TriggerStrongAttack()
     {
         _controller.animator.SetTrigger(hashParriableAttack);
     }

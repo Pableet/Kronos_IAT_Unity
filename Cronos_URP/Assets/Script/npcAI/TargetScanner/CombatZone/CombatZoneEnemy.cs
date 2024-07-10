@@ -5,6 +5,8 @@ using UnityEngine.InputSystem.XR;
 
 public class CombatZoneEnemy : MonoBehaviour
 {
+    public bool drawGizmos;
+
     public float timeToStopPursuit = 0.0f;
     protected float _timerSinceLostTarget = 0.0f;
     // finder¿« ≈∏±Í

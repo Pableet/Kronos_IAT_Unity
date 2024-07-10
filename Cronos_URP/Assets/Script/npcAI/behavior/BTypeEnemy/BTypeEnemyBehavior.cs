@@ -1,5 +1,4 @@
 using Message;
-using System;
 using TMPro;
 using UnityEngine;
 
@@ -7,10 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(EnemyController))]
 public class BTypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
 {
-    public bool drawGizmos;
-
     public float attackDistance = 1.8f;
-    public float strafeDistance = 2f;
+    //public float strafeDistance = 3f;
     public float strafeSpeed = 1f;
     public float rotationSpeed = 1.0f;
 
@@ -81,6 +78,9 @@ public class BTypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
         // 공격 범위
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackDistance);
+
+        //Gizmos.color = Color.blue;
+        //Gizmos.DrawWireSphere(transform.position, strafeDistance);
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////
@@ -110,8 +110,13 @@ public class BTypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
 
     public bool IsInAttackRange()
     {
+        return CheckDistanceWithTarget(attackDistance);
+    }
+
+    private bool CheckDistanceWithTarget(float distance)
+    {
         Vector3 toTarget = CurrentTarget.transform.position - transform.position;
-        return toTarget.sqrMagnitude < attackDistance * attackDistance;
+        return toTarget.sqrMagnitude < distance * distance;
     }
 
 

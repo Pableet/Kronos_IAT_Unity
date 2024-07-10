@@ -5,7 +5,7 @@ using UnityEngine;
 public class BulletTime : MonoBehaviour
 {
     [SerializeField]
-    private float currentSpeed = 0f;
+    private float currentSpeed = 1f;
 
     public float targetSpeed = 1f;
     public float acceleration = 1f;
