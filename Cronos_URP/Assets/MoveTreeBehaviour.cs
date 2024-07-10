@@ -17,6 +17,8 @@ public class MoveTreeBehaviour : StateMachineBehaviour
 		stateMachine = PlayerStateMachine.GetInstance();
 		stateMachine.SwitchState(new PlayerMoveState(stateMachine));
 
+		animator.ResetTrigger(dodgeHash);
+
 	}
 
 	//OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
