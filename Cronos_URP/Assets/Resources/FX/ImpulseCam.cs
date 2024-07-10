@@ -36,4 +36,8 @@ public class ImpulseCam : MonoBehaviour
     {
         impulse.GenerateImpulse(1f);
     }
+    public void Shake(float pow)
+    {
+        impulse.GenerateImpulse(pow);
+    }
 }

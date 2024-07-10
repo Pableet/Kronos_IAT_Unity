@@ -133,8 +133,6 @@ public partial class Damageable : MonoBehaviour
             Vector3 dir = (transform.position - playerSword.transform.position).normalized;
             GameObject slashed = effectManager.SpawnEffect("UpSlash", new Vector3(transform.position.x -dir.x, playerSword.transform.position.y, transform.position.z - dir.z));
             slashed.transform.forward = Camera.main.transform.forward;
-            //slashed.transform.rotation = playerSword.transform.rotation;
-            //slashed.transform.Rotate(180f, 0, playerSword.transform.rotation.x);
             Destroy(slashed, 1.0f);
         }
 

@@ -45,16 +45,16 @@ public class SoundManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayBGM("Demo_SE");
+        //PlayBGM("Demo_SE");
     }
 
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            StopBGM("Demo_SE");
-        }
+        //if (Input.GetKeyDown(KeyCode.V))
+        //{
+        //    StopBGM("Demo_SE");
+        //}
     }
 
     // 리소스 폴더 내부의 SE를 한번에 로드
