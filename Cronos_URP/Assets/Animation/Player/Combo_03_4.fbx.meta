@@ -504,6 +504,8 @@ ModelImporter:
         messageOptions: 0
       - time: 0.36785328
         functionName: AttackEnd
+      - time: 0.3537906
+        functionName: Shake
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

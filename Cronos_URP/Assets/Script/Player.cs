@@ -88,6 +88,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 
 	SoundManager soundManager;
 	EffectManager effectManager;
+	ImpulseCam impulseCam;
 	public GameObject playerSword;
 
 	protected void OnDisable()
@@ -133,6 +134,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 		// 여기에 초기화
         soundManager = SoundManager.Instance;
 		effectManager = EffectManager.Instance;
+		impulseCam = ImpulseCam.Instance;
     }
     private void ChargeCP(Collider other)
 	{
@@ -368,11 +370,16 @@ public class Player : MonoBehaviour, IMessageReceiver
 		slash.transform.Rotate(90f, 180f, 0);
 		float newY = playerSword.transform.position.y;
 		slash.transform.position = new Vector3(slash.transform.position.x, newY, slash.transform.position.z);
-		Destroy(slash, 1.0f);
+		Destroy(slash, 0.7f);
 	}
 
 	public void SoundVoice()
 	{
         soundManager.PlaySFX("Character_voice_SE", transform);
     }
+
+	public void Shake()
+	{
+		impulseCam.Shake();
+	}
 }
