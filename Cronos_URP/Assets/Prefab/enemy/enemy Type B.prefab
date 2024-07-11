@@ -789,7 +789,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  useAnimatiorSpeed: 0
+  useAnimatiorSpeed: 1
   interpolateTurning: 0
   applyAnimationRotation: 0
   rotationLerpSpeed: 0
@@ -889,10 +889,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 611d45435c2762742a0400a711b0280a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToStopPursuit: 0
   drawGizmos: 1
+  timeToStopPursuit: 0
   attackDistance: 6
-  strafeDistance: 2
   strafeSpeed: 1
   rotationSpeed: 1
 --- !u!114 &3157585109899365106
