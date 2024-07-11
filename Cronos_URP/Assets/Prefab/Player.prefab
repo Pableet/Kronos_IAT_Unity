@@ -639,6 +639,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -11.28
       objectReference: {fileID: 0}
+    - target: {fileID: 4431565120504225524, guid: 274a3a78a3e481640809fb1bb0518c65, type: 3}
+      propertyPath: drawGizmos
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9047352775516390619, guid: 274a3a78a3e481640809fb1bb0518c65, type: 3}
       propertyPath: m_Name
       value: Sword

@@ -231,6 +231,11 @@ public class EnemyController : MonoBehaviour
 
     public bool SetTarget(Vector3 position)
     {
+        if (_followNavmeshAgent == false)
+        {
+            return false;
+        }
+
         return _navMeshAgent.SetDestination(position);
     }
 }
