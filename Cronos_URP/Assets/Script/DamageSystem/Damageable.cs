@@ -45,6 +45,7 @@ public partial class Damageable : MonoBehaviour
 
     SoundManager soundManager;
     EffectManager effectManager;
+    Player player;
     [SerializeField] GameObject playerSword;
 
     void Start()
@@ -53,6 +54,7 @@ public partial class Damageable : MonoBehaviour
         soundManager = SoundManager.Instance;
         ResetDamage();
         m_Collider = GetComponent<Collider>();
+        
     }
 
     void Update()
@@ -67,7 +69,6 @@ public partial class Damageable : MonoBehaviour
                 OnBecomeVulnerable.Invoke();
             }
         }
-
     }
 
     public void ResetDamage()
@@ -120,12 +121,19 @@ public partial class Damageable : MonoBehaviour
         /// playerSword가 null이 아니면 적
         if (playerSword != null)
         {
+            // 파편 만들기
             Vector3 damagedPosition = transform.position;
             // 일단 맞은 위치에 인스턴스를 만든다.
             GameObject frag = effectManager.SpawnEffect("FragFX", damagedPosition);
             frag.transform.LookAt(playerSword.transform);
             frag.transform.Rotate(-15f, 0, 0);
             Destroy(frag, 2.0f);
+
+            // 피격 이펙트 만들기
+            Vector3 dir = (transform.position - playerSword.transform.position).normalized;
+            GameObject slashed = effectManager.SpawnEffect("UpSlash", new Vector3(transform.position.x -dir.x, playerSword.transform.position.y, transform.position.z - dir.z));
+            slashed.transform.forward = Camera.main.transform.forward;
+            Destroy(slashed, 1.0f);
         }
 
 
