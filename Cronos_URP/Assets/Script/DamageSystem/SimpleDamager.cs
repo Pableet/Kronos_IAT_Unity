@@ -4,7 +4,7 @@ using System.Diagnostics.Contracts;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public class MeleeTriggerEnterDamager : MonoBehaviour
+public class SimpleDamager : MonoBehaviour
 {
     public bool drawGizmos;
 
@@ -63,42 +63,42 @@ public class MeleeTriggerEnterDamager : MonoBehaviour
             {
                 Gizmos.DrawCube(boxCollider.center, boxCollider.size);
             }
+            else if (collider is SphereCollider sphereCollider)
+            {
+                Gizmos.DrawSphere(sphereCollider.center, sphereCollider.radius);
+            }
             else if (collider is CapsuleCollider capsuleCollider)
             {
-                // 캡슐의 반지름과 높이를 가져옴
+                // 캡슐 콜라이더의 위치와 크기를 가져옵니다.
+                Vector3 center = collider.bounds.center;
+                float height = capsuleCollider.height * 0.5f;
                 float radius = capsuleCollider.radius;
-                float height = capsuleCollider.height / 2.0f - radius;
 
-                // 캡슐의 방향을 설정
-                Vector3 direction = Vector3.up;
-                if (capsuleCollider.direction == 0) // X-axis
+                // 캡슐 콜라이더의 방향에 따라 캡슐의 상하 위치를 결정합니다.
+                Vector3 upDirection;
+                if (capsuleCollider.direction == 0) // X-Axis
                 {
-                    direction = Vector3.right;
+                    upDirection = Vector3.right;
                 }
-                else if (capsuleCollider.direction == 2) // Z-axis
+                else if (capsuleCollider.direction == 1) // Y-Axis
                 {
-                    direction = Vector3.forward;
+                    upDirection = Vector3.up;
+                }
+                else // Z-Axis
+                {
+                    upDirection = Vector3.forward;
                 }
 
-                // 캡슐의 두 끝점을 계산
-                Vector3 offset = direction * height;
-                Vector3 topSphereCenter = capsuleCollider.center + offset;
-                Vector3 bottomSphereCenter = capsuleCollider.center - offset;
+                Vector3 bottomSphereCenter = center - upDirection * (height - radius);
+                Vector3 topSphereCenter = center + upDirection * (height - radius);
 
-                // 위쪽 반구를 그림
-                Gizmos.DrawSphere(topSphereCenter, radius);
-
-                // 아래쪽 반구를 그림
+                // 반구 및 실린더 부분을 그립니다.
                 Gizmos.DrawSphere(bottomSphereCenter, radius);
-
-                // 두 반구 사이에 박스를 그림
-                Vector3 boxCenter = (topSphereCenter + bottomSphereCenter) / 2;
-                Vector3 boxSize = new Vector3(
-                    direction == Vector3.right ? height + radius : radius,
-                    direction == Vector3.up ? height + radius : radius,
-                    direction == Vector3.forward ? height + radius : radius
-                );
-                Gizmos.DrawCube(boxCenter, boxSize);
+                Gizmos.DrawSphere(topSphereCenter, radius);
+                Gizmos.DrawLine(bottomSphereCenter + radius * Vector3.forward, topSphereCenter + radius * Vector3.forward);
+                Gizmos.DrawLine(bottomSphereCenter - radius * Vector3.forward, topSphereCenter - radius * Vector3.forward);
+                Gizmos.DrawLine(bottomSphereCenter + radius * Vector3.right, topSphereCenter + radius * Vector3.right);
+                Gizmos.DrawLine(bottomSphereCenter - radius * Vector3.right, topSphereCenter - radius * Vector3.right);
             }
         }
     }

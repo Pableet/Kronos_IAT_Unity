@@ -16,7 +16,7 @@ public class ATypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
 
     private Damageable _damageable;
     private EnemyController _controller;
-    private MeleeTriggerEnterDamager _meleeWeapon;
+    private SimpleDamager _meleeWeapon;
 
     // Animator Parameters
     public static readonly int hashDown = Animator.StringToHash("down");
@@ -35,7 +35,7 @@ public class ATypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
 
         _damageable = GetComponent<Damageable>();
         _controller = GetComponent<EnemyController>();
-        _meleeWeapon = GetComponentInChildren<MeleeTriggerEnterDamager>();
+        _meleeWeapon = GetComponentInChildren<SimpleDamager>();
     }
 
     // void Start()
