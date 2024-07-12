@@ -7,13 +7,13 @@ using UnityEngine;
 public class BTypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
 {
     public float attackDistance = 1.8f;
-    //public float strafeDistance = 3f;
     public float strafeSpeed = 1f;
     public float rotationSpeed = 1.0f;
 
     public Vector3 BasePosition { get; private set; }
     public EnemyController Controller { get { return _controller; } }
 
+    private HitShake _hitShake;
     private Damageable _damageable;
     private RangeWeapon _rangeWeapon;
     private EnemyController _controller;
@@ -34,6 +34,7 @@ public class BTypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
     {
         BasePosition = transform.position;
 
+        _hitShake = GetComponent<HitShake>();
         _damageable = GetComponent<Damageable>();
         _rangeWeapon = GetComponent<RangeWeapon>();
         _controller = GetComponent<EnemyController>();
@@ -176,6 +177,7 @@ public class BTypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
     private void Damaged()
     {
         TriggerDamage();
+        _hitShake.Begin();
     }
 
     private void Dead()
