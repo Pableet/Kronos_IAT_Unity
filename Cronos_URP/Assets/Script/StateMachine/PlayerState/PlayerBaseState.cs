@@ -89,13 +89,15 @@ public abstract class PlayerBaseState : State
 
 	public bool IsGrounded()
 	{
-		RaycastHit hit;
-		float distance = 0.1f;
-		bool isGrounded = Physics.Raycast(stateMachine.transform.position, Vector3.down, out hit, distance);
+		//RaycastHit hit;
+		//float distance = 0.1f;
+		//bool isGrounded = Physics.Raycast(stateMachine.transform.position, Vector3.down, out hit, distance);
 		//Debug.Log($"¶¥¿¡ ´ê¾Ò³ª? {isGrounded}");
 		// Raycast¸¦ »ç¿ëÇÏ¿© ¶¥À» Ã¼Å©
-		stateMachine.IsGrounded = isGrounded;
-		return isGrounded;
+		//stateMachine.IsGrounded = isGrounded;
+		stateMachine.IsGrounded = stateMachine.GetComponent<GroundChecker>().IsGrounded();
+
+        return stateMachine.IsGrounded;
 	}
 
 
