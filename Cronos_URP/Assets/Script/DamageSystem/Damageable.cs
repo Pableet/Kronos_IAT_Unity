@@ -131,7 +131,8 @@ public partial class Damageable : MonoBehaviour
 
             // 피격 이펙트 만들기
             Vector3 dir = (transform.position - playerSword.transform.position).normalized;
-            GameObject slashed = effectManager.SpawnEffect("UpSlash", new Vector3(transform.position.x -dir.x, playerSword.transform.position.y, transform.position.z - dir.z));
+            Vector3 newPos = new Vector3(transform.position.x - dir.x, playerSword.transform.position.y, transform.position.z - dir.z);
+            GameObject slashed = effectManager.SpawnEffect("UpSlash", newPos);
             slashed.transform.forward = Camera.main.transform.forward;
             Destroy(slashed, 1.0f);
         }
