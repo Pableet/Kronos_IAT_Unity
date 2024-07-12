@@ -654,6 +654,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3b988f7af5ad49748b788f107f9bdf47, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4231333519554678771}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3b988f7af5ad49748b788f107f9bdf47, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2601519489802444424}
   m_SourcePrefab: {fileID: 100100000, guid: 3b988f7af5ad49748b788f107f9bdf47, type: 3}
 --- !u!4 &2883770411589496228 stripped
 Transform:
@@ -813,6 +816,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   onDamageMessageReceivers: []
+  playerSword: {fileID: 0}
 --- !u!114 &8490536159276755372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -825,9 +829,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b737b3124f05ab4fbe605d6b9ee6a08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToStopPursuit: 0
   drawGizmos: 0
+  timeToStopPursuit: 0
   attackDistance: 1.8
+  strongAttackDistance: 3
   strafeDistance: 3
   strafeSpeed: 0.8
   rotationSpeed: 1
@@ -857,6 +862,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   active: 1
+--- !u!114 &-2601519489802444424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4427584833974447933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3106a914167b004b81d10940c15eaef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 0.2
+  distance: 0.1
+  delayBetweenShakes: 0
 --- !u!1001 &3619265494863675828
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -967,6 +987,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5cd88515cb5d774d830ef4f9a144cf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawGizmos: 0
   damageAmount: 1
   stopCamera: 0
   targetLayers:

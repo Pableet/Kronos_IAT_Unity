@@ -14,6 +14,7 @@ public class ATypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
     public Vector3 BasePosition { get; private set; }
     public EnemyController Controller { get { return _controller; } }
 
+    private HitShake _hitShake;
     private Damageable _damageable;
     private EnemyController _controller;
     private MeleeTriggerEnterDamager _meleeWeapon;
@@ -33,6 +34,7 @@ public class ATypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
     {
         BasePosition = transform.position;
 
+        _hitShake = GetComponent<HitShake>();
         _damageable = GetComponent<Damageable>();
         _controller = GetComponent<EnemyController>();
         _meleeWeapon = GetComponentInChildren<MeleeTriggerEnterDamager>();
@@ -163,6 +165,7 @@ public class ATypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
     private void Damaged()
     {
         TriggerDamage();
+        _hitShake.Begin();
     }
 
     private void Dead()
