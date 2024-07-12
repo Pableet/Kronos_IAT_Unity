@@ -141,7 +141,6 @@ public partial class Damageable : MonoBehaviour
         if (gameObject.tag == "Respawn")
         {
             impCam.Shake(impCam.shakeStrength);
-            Debug.Log("셰이크 테스팅중");
         }
 
         if (defensible)
