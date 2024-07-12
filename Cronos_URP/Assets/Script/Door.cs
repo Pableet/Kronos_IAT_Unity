@@ -25,7 +25,7 @@ public class Door : MonoBehaviour
 		{
 			// 프로토타입용
 			{
-				Destroy(this.gameObject);
+				//Destroy(this.gameObject);
 			}
 
 			isOpening = true;

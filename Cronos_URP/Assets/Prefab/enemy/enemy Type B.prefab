@@ -716,6 +716,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3b988f7af5ad49748b788f107f9bdf47, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3685617736305639920}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3b988f7af5ad49748b788f107f9bdf47, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5960727987830328873}
   m_SourcePrefab: {fileID: 100100000, guid: 3b988f7af5ad49748b788f107f9bdf47, type: 3}
 --- !u!4 &7083932612220552871 stripped
 Transform:
@@ -789,7 +792,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  useAnimatiorSpeed: 0
+  useAnimatiorSpeed: 1
   interpolateTurning: 0
   applyAnimationRotation: 0
   rotationLerpSpeed: 0
@@ -889,10 +892,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 611d45435c2762742a0400a711b0280a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToStopPursuit: 0
   drawGizmos: 1
+  timeToStopPursuit: 0
   attackDistance: 6
-  strafeDistance: 2
   strafeSpeed: 1
   rotationSpeed: 1
 --- !u!114 &3157585109899365106
@@ -935,3 +937,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   active: 1
+--- !u!114 &5960727987830328873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7567454204185697309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3106a914167b004b81d10940c15eaef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 0.2
+  distance: 0.1
+  delayBetweenShakes: 0
