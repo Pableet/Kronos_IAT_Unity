@@ -90,6 +90,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 	EffectManager effectManager;
 	ImpulseCam impulseCam;
 	public GameObject playerSword;
+	
 
 	protected void OnDisable()
 	{
