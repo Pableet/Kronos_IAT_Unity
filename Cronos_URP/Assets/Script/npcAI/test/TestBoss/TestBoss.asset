@@ -15,7 +15,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 304694a28655ed84896b9ceff481c094
-  position: {x: -244.08888, y: -146.83002}
+  position: {x: -343.99606, y: -168.86049}
   blackboard:
     monobehaviour: {fileID: 0}
     target: {fileID: 0}
@@ -24,6 +24,7 @@ MonoBehaviour:
   drawGizmos: 0
   children:
   - {fileID: -1394176441785879301}
+  - {fileID: -6186934228029795365}
 --- !u!114 &-8650462489167858827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,6 +73,54 @@ MonoBehaviour:
   child: {fileID: 9093475257176678985}
   distance: 3
   comparison: 0
+--- !u!114 &-7940577207199983374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad46a561829d7ca43b9fcd294c2bfa09, type: 3}
+  m_Name: PlayTimeline
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: f98d76fd42f92424681fece88ba33013
+  position: {x: -333.30066, y: 250.09029}
+  blackboard:
+    monobehaviour: {fileID: 0}
+    target: {fileID: 0}
+    moveToPosition: {x: 0, y: 0, z: 0}
+  description: 
+  drawGizmos: 0
+  timeline: {fileID: 11400000, guid: 00629610136efd84684971710e897cdf, type: 2}
+--- !u!114 &-6186934228029795365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ab98ca1df9df1248a69d22ebdab24d0, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 4db80617db6a078428c94099ab14338a
+  position: {x: -196.43944, y: 114.29661}
+  blackboard:
+    monobehaviour: {fileID: 0}
+    target: {fileID: 0}
+    moveToPosition: {x: 0, y: 0, z: 0}
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: -7940577207199983374}
+  - {fileID: 7148555972006702500}
 --- !u!114 &-2891845083941055640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,7 +206,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 80f23c5d0c7633647914ffe201dba24a
-  position: {x: -243.9746, y: 1.5407166}
+  position: {x: -425.9378, y: -3.0189703}
   blackboard:
     monobehaviour: {fileID: 0}
     target: {fileID: 0}
@@ -192,6 +241,9 @@ MonoBehaviour:
   - {fileID: 1435888924372285958}
   - {fileID: -8018291509618344849}
   - {fileID: -8650462489167858827}
+  - {fileID: -7940577207199983374}
+  - {fileID: -6186934228029795365}
+  - {fileID: 7148555972006702500}
   blackboard:
     monobehaviour: {fileID: 0}
     target: {fileID: 0}
@@ -294,6 +346,29 @@ MonoBehaviour:
     moveToPosition: {x: 0, y: 0, z: 0}
   description: 
   drawGizmos: 0
+--- !u!114 &7148555972006702500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad46a561829d7ca43b9fcd294c2bfa09, type: 3}
+  m_Name: PlayTimeline
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: b5d6483b1234b3b4aa946f5dfd97f1d2
+  position: {x: -36, y: 245}
+  blackboard:
+    monobehaviour: {fileID: 0}
+    target: {fileID: 0}
+    moveToPosition: {x: 0, y: 0, z: 0}
+  description: 
+  drawGizmos: 0
+  timeline: {fileID: 11400000, guid: 5c1200b71f0270d4f8bf7af3b540180f, type: 2}
 --- !u!114 &9093475257176678985
 MonoBehaviour:
   m_ObjectHideFlags: 0
