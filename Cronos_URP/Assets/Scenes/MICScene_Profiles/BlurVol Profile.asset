@@ -23,10 +23,10 @@ MonoBehaviour:
     overrideState: 1
     value: 5.6
   focalLength:
-    overrideState: 0
+    overrideState: 1
     value: 50
   kernelSize:
-    overrideState: 0
+    overrideState: 1
     value: 1
 --- !u!114 &11400000
 MonoBehaviour:

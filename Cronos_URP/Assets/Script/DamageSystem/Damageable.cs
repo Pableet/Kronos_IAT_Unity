@@ -45,7 +45,7 @@ public partial class Damageable : MonoBehaviour
 
     SoundManager soundManager;
     EffectManager effectManager;
-    Player player;
+    public Player player;
     [SerializeField] GameObject playerSword;
 
     void Start()
@@ -54,7 +54,7 @@ public partial class Damageable : MonoBehaviour
         soundManager = SoundManager.Instance;
         ResetDamage();
         m_Collider = GetComponent<Collider>();
-        
+        player = GameObject.Find("Player").GetComponent<Player>();
     }
 
     void Update()
@@ -118,8 +118,8 @@ public partial class Damageable : MonoBehaviour
 
         /// 여기에 민동휘가 만들어놓음
         /// 플레이어 소드를 LookAt 하여 파티클 인스턴싱
-        /// playerSword가 null이 아니면 적
-        if (playerSword != null)
+        /// 태그가 플레이어가 아니면 적이겠지
+        if (gameObject.tag != "Player")
         {
             // 파편 만들기
             Vector3 damagedPosition = transform.position;
@@ -135,6 +135,12 @@ public partial class Damageable : MonoBehaviour
             GameObject slashed = effectManager.SpawnEffect("UpSlash", newPos);
             slashed.transform.forward = Camera.main.transform.forward;
             Destroy(slashed, 1.0f);
+
+            // 히트 스탑 시험중
+            if (player != null)
+            {
+                player.GetComponent<HitStop>().StartCoroutine(player.GetComponent<HitStop>().HitStopCoroutine());
+            }
         }
 
 
@@ -147,7 +153,7 @@ public partial class Damageable : MonoBehaviour
         currentHitPoints -= data.amount;
 
         // 죽든 살든 맞는 소리는 나와야 하니까
-        if (playerSword != null)
+        if (gameObject.tag != "Player")
             soundManager.PlaySFX("Enemy_impact_SE", transform);
 
         if (currentHitPoints <= 0)
