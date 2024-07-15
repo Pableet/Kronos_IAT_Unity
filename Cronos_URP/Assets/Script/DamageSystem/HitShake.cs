@@ -8,7 +8,6 @@ public class HitShake : MonoBehaviour
     private Vector3 _originalPos;
     private float _timer;
     private Vector3 _randomPos;
-    private bool _isSake;
 
     [Header("Settings")]
     [Range(0f, 2f)]
@@ -18,16 +17,9 @@ public class HitShake : MonoBehaviour
     [Range(0f, 0.1f)]
     public float delayBetweenShakes = 0f;
 
-    private void LateUpdate()
-    {
-        if (_timer == 0f)
-        {
-            _originalPos = transform.position;
-        }
-    }
-
     public void Begin()
     {
+        _originalPos = transform.position;
         StopAllCoroutines();
         StartCoroutine(Shake());
     }
@@ -35,7 +27,6 @@ public class HitShake : MonoBehaviour
     private IEnumerator Shake()
     {
         _timer = 0f;
-        _isSake = true;
 
         while (_timer < time)
         {
@@ -51,7 +42,6 @@ public class HitShake : MonoBehaviour
             }
             else
             {
-                _isSake = false;
                 yield return null;
             }
         }
