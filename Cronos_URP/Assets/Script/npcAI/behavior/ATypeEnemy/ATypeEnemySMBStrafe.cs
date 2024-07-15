@@ -11,6 +11,7 @@ public class ATypeEnemySMBStrafe : SceneLinkedSMB<ATypeEnemyBehavior>
     private float _strafeTime;
     private float _strafeSpeed;
     private float _timer;
+
     private bool _onRinght;
 
 
@@ -72,23 +73,15 @@ public class ATypeEnemySMBStrafe : SceneLinkedSMB<ATypeEnemyBehavior>
 
             // 시간이 종료 됐을 때
 
+            /// TODO: Player 가 패링 가능 여부를 어떻게 받아올 것인지 구현할 것
             // Attack - 범위보다 플레이어가 멀어 졌을 때
-            Vector3 toTarget = _monoBehaviour.CurrentTarget.transform.position - _monoBehaviour.transform.position;
-            if (toTarget.sqrMagnitude < _monoBehaviour.attackDistance * _monoBehaviour.attackDistance)
+            if (_monoBehaviour.IsInAttackRange())
             {
-
-                // Parriable Attack - 플레이어가 공격 페링 Node 개방 후 40% 확률로 상대 전환
-                float probability = 40f;
-                float randomValue = Random.Range(0f, 100f);
-                /// TODO: Player 가 패링 가능 여부를 어떻게 받아올 것인지 구현할 것
-                if (randomValue < probability)
-                {
-                    _monoBehaviour.TriggerParriableAttack();
-                }
-                else
-                {
-                    _monoBehaviour.TriggerAttack();
-                }
+                _monoBehaviour.TriggerAttack();
+            }
+            else if (_monoBehaviour.IsInStrongAttackRange())
+            {
+                _monoBehaviour.TriggerStrongAttack();
             }
             else
             {

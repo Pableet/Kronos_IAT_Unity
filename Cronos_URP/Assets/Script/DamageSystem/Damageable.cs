@@ -45,13 +45,15 @@ public partial class Damageable : MonoBehaviour
 
     SoundManager soundManager;
     EffectManager effectManager;
-    public Player player;
+    Player player;
+    ImpulseCam impCam;
     [SerializeField] GameObject playerSword;
 
     void Start()
     {
         ResetDamage();
         m_Collider = GetComponent<Collider>();
+        impCam = ImpulseCam.Instance;
     }
 
     private void OnEnable()
@@ -147,6 +149,11 @@ public partial class Damageable : MonoBehaviour
             }
         }
 
+        // 게임오브젝트 태그가 리스폰이면 == 적이면
+        if (gameObject.tag == "Respawn")
+        {
+            impCam.Shake(impCam.shakeStrength);
+        }
 
         if (defensible)
         {

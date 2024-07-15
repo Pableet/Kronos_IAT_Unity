@@ -1,5 +1,4 @@
 using Message;
-using System;
 using TMPro;
 using UnityEngine;
 
@@ -7,20 +6,18 @@ using UnityEngine;
 [RequireComponent(typeof(EnemyController))]
 public class BTypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
 {
-    public bool drawGizmos;
-
     public float attackDistance = 1.8f;
-    public float strafeDistance = 2f;
     public float strafeSpeed = 1f;
     public float rotationSpeed = 1.0f;
 
     public Vector3 BasePosition { get; private set; }
     public EnemyController Controller { get { return _controller; } }
 
+    private HitShake _hitShake;
     private Damageable _damageable;
     private RangeWeapon _rangeWeapon;
     private EnemyController _controller;
-    private MeleeTriggerEnterDamager _meleeWeapon;
+    private SimpleDamager _meleeWeapon;
 
     // Animator Parameters
     public static readonly int hashAim = Animator.StringToHash("aim");
@@ -37,10 +34,11 @@ public class BTypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
     {
         BasePosition = transform.position;
 
+        _hitShake = GetComponent<HitShake>();
         _damageable = GetComponent<Damageable>();
         _rangeWeapon = GetComponent<RangeWeapon>();
         _controller = GetComponent<EnemyController>();
-        _meleeWeapon = GetComponentInChildren<MeleeTriggerEnterDamager>();
+        _meleeWeapon = GetComponentInChildren<SimpleDamager>();
     }
 
     // void Start()
@@ -81,6 +79,9 @@ public class BTypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
         // 공격 범위
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackDistance);
+
+        //Gizmos.color = Color.blue;
+        //Gizmos.DrawWireSphere(transform.position, strafeDistance);
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////
@@ -110,8 +111,13 @@ public class BTypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
 
     public bool IsInAttackRange()
     {
+        return CheckDistanceWithTarget(attackDistance);
+    }
+
+    private bool CheckDistanceWithTarget(float distance)
+    {
         Vector3 toTarget = CurrentTarget.transform.position - transform.position;
-        return toTarget.sqrMagnitude < attackDistance * attackDistance;
+        return toTarget.sqrMagnitude < distance * distance;
     }
 
 
@@ -171,6 +177,7 @@ public class BTypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
     private void Damaged()
     {
         TriggerDamage();
+        _hitShake.Begin();
     }
 
     private void Dead()

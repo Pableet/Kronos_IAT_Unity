@@ -250,72 +250,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 2
---- !u!1001 &5593614204265366135
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 8966731293406568068}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 90de029b95220ce41a263b237769c452, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.016
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 90de029b95220ce41a263b237769c452, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.08
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 90de029b95220ce41a263b237769c452, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.016
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 90de029b95220ce41a263b237769c452, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -0.6578388
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 90de029b95220ce41a263b237769c452, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.00015348285
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 90de029b95220ce41a263b237769c452, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.0008230682
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 90de029b95220ce41a263b237769c452, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.75315833
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 90de029b95220ce41a263b237769c452, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -0.083
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 90de029b95220ce41a263b237769c452, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0.049
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 90de029b95220ce41a263b237769c452, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: -82.271
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 90de029b95220ce41a263b237769c452, type: 3}
-      propertyPath: m_Name
-      value: MeleeWarriorSword
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 90de029b95220ce41a263b237769c452, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 90de029b95220ce41a263b237769c452, type: 3}
---- !u!4 &5344148808968988060 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 90de029b95220ce41a263b237769c452, type: 3}
-  m_PrefabInstance: {fileID: 5593614204265366135}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7117861604545309576
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -751,9 +685,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3b988f7af5ad49748b788f107f9bdf47, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8037021747665676164}
-    - targetCorrespondingSourceObject: {fileID: 1852576806548013000, guid: 3b988f7af5ad49748b788f107f9bdf47, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5344148808968988060}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3b988f7af5ad49748b788f107f9bdf47, type: 3}
       insertIndex: -1
@@ -785,6 +716,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3b988f7af5ad49748b788f107f9bdf47, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3685617736305639920}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3b988f7af5ad49748b788f107f9bdf47, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5960727987830328873}
   m_SourcePrefab: {fileID: 100100000, guid: 3b988f7af5ad49748b788f107f9bdf47, type: 3}
 --- !u!4 &7083932612220552871 stripped
 Transform:
@@ -818,8 +752,7 @@ Animator:
     'mixamorig:LeftHandThumb2'\n\tTransform 'mixamorig:LeftHandIndex1'\n\tTransform
     'mixamorig:LeftHandPinky2'\n\tTransform 'mixamorig:RightHandRing2'\n\tTransform
     'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform 'mixamorig:LeftHandThumb3'\n\tTransform
-    'mixamorig:RightArm'\n\tand more ...\n\tFrom animation clip 'mixamo.com'\n\tFrom
-    animation clip 'mixamo.com'"
+    'mixamorig:RightArm'\n\tand more ...\n\tFrom animation clip 'mixamo.com'"
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -859,7 +792,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  useAnimatiorSpeed: 0
+  useAnimatiorSpeed: 1
   interpolateTurning: 0
   applyAnimationRotation: 0
   rotationLerpSpeed: 0
@@ -946,6 +879,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   onDamageMessageReceivers: []
+  playerSword: {fileID: 0}
 --- !u!114 &2900518972410735992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -958,10 +892,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 611d45435c2762742a0400a711b0280a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToStopPursuit: 0
   drawGizmos: 1
+  timeToStopPursuit: 0
   attackDistance: 6
-  strafeDistance: 2
   strafeSpeed: 1
   rotationSpeed: 1
 --- !u!114 &3157585109899365106
@@ -1004,8 +937,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   active: 1
---- !u!4 &8966731293406568068 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1852576806548013000, guid: 3b988f7af5ad49748b788f107f9bdf47, type: 3}
-  m_PrefabInstance: {fileID: 7333432841982402892}
+--- !u!114 &5960727987830328873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7567454204185697309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3106a914167b004b81d10940c15eaef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 0.2
+  distance: 0.1
+  delayBetweenShakes: 0

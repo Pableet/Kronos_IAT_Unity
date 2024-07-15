@@ -15,7 +15,7 @@ public class CamerZoom : MonoBehaviour
 	private CinemachineFramingTransposer framingTransposer;
 	private CinemachineInputProvider inputProvider;
 
-	private float currentTargetDistance;
+	[SerializeField] private float currentTargetDistance;
 
 	private void Awake()
 	{

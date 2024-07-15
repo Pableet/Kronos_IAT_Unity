@@ -9,6 +9,7 @@ public class DummyController : MonoBehaviour, IMessageReceiver
 {
     private Animator _animator;
     private Rigidbody _rigidbody;
+    private HitShake _hitShake;
     private Damageable _damageable;
 
     public static readonly int hashDamage = Animator.StringToHash("damage");
@@ -17,6 +18,7 @@ public class DummyController : MonoBehaviour, IMessageReceiver
     {
         _animator = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody>();
+        _hitShake = GetComponent<HitShake>();
         _damageable = GetComponent<Damageable>();
     }
 
@@ -53,5 +55,6 @@ public class DummyController : MonoBehaviour, IMessageReceiver
     private void Damaged()
     {
         _animator.SetTrigger(hashDamage);
+        _hitShake.Begin();
     }
 }
