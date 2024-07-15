@@ -50,10 +50,14 @@ public partial class Damageable : MonoBehaviour
 
     void Start()
     {
-        effectManager = EffectManager.Instance;
-        soundManager = SoundManager.Instance;
         ResetDamage();
         m_Collider = GetComponent<Collider>();
+    }
+
+    private void OnEnable()
+    {
+        effectManager = EffectManager.Instance;
+        soundManager = SoundManager.Instance;
         player = GameObject.Find("Player").GetComponent<Player>();
     }
 
