@@ -4,6 +4,8 @@ using UnityEngine.InputSystem.XR;
 
 public class ATypeEnemySMBPursuit : SceneLinkedSMB<ATypeEnemyBehavior>
 {
+    public bool sAttack;
+
     public override void OnSLStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _monoBehaviour.ChangeDebugText("PURSUIT");
@@ -26,13 +28,17 @@ public class ATypeEnemySMBPursuit : SceneLinkedSMB<ATypeEnemyBehavior>
             return;
         }
 
-        if (_monoBehaviour.CurrentTarget != null)
+        if (_monoBehaviour.CurrentTarget != null )
         {
             _monoBehaviour.RequestTargetPosition();
 
+            // STRONG ATTACK - 공격 사거리 안에 있고, SAttack으로 이동해야 하는 경우
+            if (_monoBehaviour.IsInStrongAttackRange() && sAttack == true)
+            {
+                _monoBehaviour.TriggerStrongAttack();
+            }
             // ATTACK - 공격 사거리 안에 있을 때
-            Vector3 toTarget = _monoBehaviour.CurrentTarget.transform.position - _monoBehaviour.transform.position;
-            if (toTarget.sqrMagnitude < _monoBehaviour.attackDistance * _monoBehaviour.attackDistance)
+            else if (_monoBehaviour.IsInAttackRange())
             {
                 _monoBehaviour.TriggerAttack();
             }
@@ -43,7 +49,7 @@ public class ATypeEnemySMBPursuit : SceneLinkedSMB<ATypeEnemyBehavior>
 
                 _monoBehaviour.Controller.SetTarget(targetPoint);
             }
-            else
+            else // Strafe - 타깃을 찾을 수 있을 때
             {
                 _monoBehaviour.TriggerStrafe();
             }

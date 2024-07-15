@@ -27,6 +27,7 @@ public class ATypeEnemySMBStrafe : SceneLinkedSMB<ATypeEnemyBehavior>
         _strafeTime = Random.Range(minStrafeTime, maxStrafeTime);
         _strafeSpeed = Random.Range(-1f, 1f);
         _onRinght = _strafeSpeed > 0;
+
         if (_onRinght)
         {
             _strafeSpeed = 1f;
@@ -79,7 +80,7 @@ public class ATypeEnemySMBStrafe : SceneLinkedSMB<ATypeEnemyBehavior>
             {
                 _monoBehaviour.TriggerAttack();
             }
-            else if (_monoBehaviour.IsInStrongAttackRange())
+            else if (_monoBehaviour.IsInStrongAttackRange() == false)
             {
                 _monoBehaviour.TriggerStrongAttack();
             }
