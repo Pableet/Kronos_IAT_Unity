@@ -60,7 +60,9 @@ public partial class Damageable : MonoBehaviour
     {
         effectManager = EffectManager.Instance;
         soundManager = SoundManager.Instance;
+        // Find의 비용이 크다고 하지만... 인스펙터에서 전부 넣기엔 귀찮다
         player = GameObject.Find("Player").GetComponent<Player>();
+        playerSword = GameObject.Find("Sword");
     }
 
     void Update()
