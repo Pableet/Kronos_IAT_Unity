@@ -17,6 +17,7 @@ public class BTypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
     private Damageable _damageable;
     private RangeWeapon _rangeWeapon;
     private EnemyController _controller;
+    private BulletTimeScalable _bulletTimeScalable;
     private MeleeTriggerEnterDamager _meleeWeapon;
 
     // Animator Parameters
@@ -38,6 +39,7 @@ public class BTypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
         _damageable = GetComponent<Damageable>();
         _rangeWeapon = GetComponent<RangeWeapon>();
         _controller = GetComponent<EnemyController>();
+        _bulletTimeScalable = GetComponent<BulletTimeScalable>();
         _meleeWeapon = GetComponentInChildren<MeleeTriggerEnterDamager>();
     }
 
@@ -176,6 +178,7 @@ public class BTypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
 
     private void Damaged()
     {
+        UnuseBulletTimeScale();
         TriggerDamage();
         _hitShake.Begin();
     }
@@ -183,6 +186,16 @@ public class BTypeEnemyBehavior : CombatZoneEnemy, IMessageReceiver
     private void Dead()
     {
         GetComponent<ReplaceWithRagdoll>().Replace();
+    }
+
+    internal void UseBulletTimeScale()
+    {
+        _bulletTimeScalable.active = true;
+    }
+
+    internal void UnuseBulletTimeScale()
+    {
+        _bulletTimeScalable.active = false;
     }
 
     internal void SetFollowerDataRequire(bool val)
