@@ -14,7 +14,7 @@ public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
 	public static readonly int hashDamageBase = Animator.StringToHash("damage");
 
 
-	public SimpleDamager meleeWeapon;
+	public MeleeTriggerEnterDamager meleeWeapon;
     public FanShape playerScanner = new FanShape();
     public float timeToStopPursuit;
 
@@ -41,7 +41,7 @@ public class TestEnemyBehavior : MonoBehaviour, IMessageReceiver
 
         if (meleeWeapon == null)
         {
-            meleeWeapon = GetComponentInChildren<SimpleDamager>();
+            meleeWeapon = GetComponentInChildren<MeleeTriggerEnterDamager>();
         }
 
     }

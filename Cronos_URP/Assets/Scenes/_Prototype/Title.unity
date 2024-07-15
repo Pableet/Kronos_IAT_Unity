@@ -493,7 +493,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transitioningGameObject: {fileID: 0}
   transitionType: 0
-  newSceneName: Level_v0.2.0
+  newSceneName: Level
   destinationTransform: {fileID: 0}
   transitionWhen: 0
 --- !u!135 &1168937319

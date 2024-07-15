@@ -18,6 +18,7 @@ public class PlayerDamagedState : PlayerBaseState
 	public override void Tick()
 	{
 		stateInfo = stateMachine.Animator.GetCurrentAnimatorStateInfo(0);
+		Debug.Log($"{stateInfo.normalizedTime}");
 		// 애니메이션이 종료되고
 // 		if (stateInfo.normalizedTime >= 1.0f)
 // 		{

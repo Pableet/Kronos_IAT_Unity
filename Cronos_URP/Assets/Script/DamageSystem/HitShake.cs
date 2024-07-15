@@ -17,24 +17,9 @@ public class HitShake : MonoBehaviour
     [Range(0f, 0.1f)]
     public float delayBetweenShakes = 0f;
 
-    private void LateUpdate()
-    {
-        if (_timer >= time)
-        {
-            _originalPos = transform.position;
-        }
-    }
-
-    private void OnValidate()
-    {
-        if (delayBetweenShakes > time)
-        {
-            delayBetweenShakes = time;
-        }
-    }
-
     public void Begin()
     {
+        _originalPos = transform.position;
         StopAllCoroutines();
         StartCoroutine(Shake());
     }
