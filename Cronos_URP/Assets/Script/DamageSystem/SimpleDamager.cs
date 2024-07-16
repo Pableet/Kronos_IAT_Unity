@@ -4,7 +4,7 @@ using System.Diagnostics.Contracts;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public class MeleeTriggerEnterDamager : MonoBehaviour
+public class SimpleDamager : MonoBehaviour
 {
     public bool drawGizmos;
 
@@ -43,7 +43,7 @@ public class MeleeTriggerEnterDamager : MonoBehaviour
 
     private void Reset()
     {
-        GetComponent<Rigidbody>().isKinematic = true;
+        //GetComponent<Rigidbody>().isKinematic = true;
         GetComponent<Collider>().isTrigger = true;
     }
 
