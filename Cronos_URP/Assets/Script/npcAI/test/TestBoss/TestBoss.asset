@@ -361,7 +361,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: b5d6483b1234b3b4aa946f5dfd97f1d2
-  position: {x: -36, y: 245}
+  position: {x: -25.815098, y: 249.60158}
   blackboard:
     monobehaviour: {fileID: 0}
     target: {fileID: 0}

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class MoveToTarget : ActionNode
 {
@@ -9,14 +10,7 @@ public class MoveToTarget : ActionNode
 
     protected override void OnStart()
     {
-        if (blackboard.target == null)
-        {
-            Debug.Log("타깃을 찾을 수 없음");
-        }
-        else
-        {
-            blackboard.moveToPosition = blackboard.target.transform.position;
-        }
+        UpdateMoveToPosition();
 
         context.agent.stoppingDistance = stoppingDistance;
         context.agent.speed = speed;
@@ -31,6 +25,9 @@ public class MoveToTarget : ActionNode
 
     protected override State OnUpdate()
     {
+        UpdateMoveToPosition();
+        UpdateDestination();
+
         if (context.agent.pathPending)
         {
             return State.Running;
@@ -47,5 +44,22 @@ public class MoveToTarget : ActionNode
         }
 
         return State.Running;
+    }
+
+    private void UpdateDestination()
+    {
+        context.agent.SetDestination(blackboard.moveToPosition);
+    }
+
+    private void UpdateMoveToPosition()
+    {
+        if (blackboard.target == null)
+        {
+            Debug.Log("타깃을 찾을 수 없음");
+        }
+        else
+        {
+            blackboard.moveToPosition = blackboard.target.transform.position;
+        }
     }
 }
