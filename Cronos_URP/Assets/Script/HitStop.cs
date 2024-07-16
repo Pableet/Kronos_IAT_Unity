@@ -10,28 +10,29 @@ public class HitStop : MonoBehaviour
     
 	public bool isHit;
 
-    private void Awake()
+    private void OnEnable()
     {
         animator = GetComponent<Animator>();
+        if (animator != null)
+            Debug.Log("애니메이터를 찾았습니다");            
         isHit = false;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.H) && isHit == false)
-        {
-            isHit = true;
-            Debug.Log("Testing HitStop");
-            StartCoroutine(HitStopCoroutine());
-        }
+        
     }
 
 	// 진짜 미안한데 퍼블릭으로 바꿈
     public IEnumerator HitStopCoroutine()
     {
-        animator.speed = hitStopScale;
-        yield return new WaitForSecondsRealtime(hitStopTime);
-        animator.speed = 1.0f;
-        isHit = false;
+        if (!isHit)
+        {
+            isHit = true;
+            animator.speed = hitStopScale;
+            yield return new WaitForSecondsRealtime(hitStopTime);
+            animator.speed = 1.0f;
+            isHit = false;
+        }
     }
 }

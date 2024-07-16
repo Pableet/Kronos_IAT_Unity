@@ -33,7 +33,7 @@ public class Bullet : Projectile
 
     private void OnEnable()
     {
-        m_rigidBody.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        m_rigidBody.collisionDetectionMode = CollisionDetectionMode.Discrete;
         m_rigidBody.isKinematic = true;
         m_sinceFired = 0.0f;
     }

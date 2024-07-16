@@ -76,7 +76,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 	Transform playerTransform;
 	AutoTargetting targetting;
 
-	SimpleDamager meleeWeapon;
+	MeleeTriggerEnterDamager meleeWeapon;
 	PlayerStateMachine PlayerFSM;
 
 	public Damageable _damageable;
@@ -90,6 +90,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 	EffectManager effectManager;
 	ImpulseCam impulseCam;
 	public GameObject playerSword;
+	
 
 	protected void OnDisable()
 	{
@@ -112,7 +113,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 		PlayerFSM = GetComponent<PlayerStateMachine>();
 		playerTransform = GetComponent<Transform>();
 
-		meleeWeapon = GetComponentInChildren<SimpleDamager>();
+		meleeWeapon = GetComponentInChildren<MeleeTriggerEnterDamager>();
 		meleeWeapon.SetOwner(gameObject);
 		meleeWeapon.OnTriggerEnterEvent += ChargeCP;
 

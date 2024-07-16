@@ -18,11 +18,21 @@ public class BulletTimeScalable : MonoBehaviour
         _navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
+
+    private void Update()
+    {
+        if (active == false)
+        {
+            _animator.speed = 1f;
+        }
+    }
+
     void OnAnimatorMove()
     {
-        if (active != true) return;
-
-        _animator.speed = BulletTime.Instance.GetCurrentSpeed();
-        _navMeshAgent.speed *= BulletTime.Instance.GetCurrentSpeed();
+        if (active == true)
+        {
+            _animator.speed = BulletTime.Instance.GetCurrentSpeed();
+            _navMeshAgent.speed *= BulletTime.Instance.GetCurrentSpeed();
+        }
     }
 }
