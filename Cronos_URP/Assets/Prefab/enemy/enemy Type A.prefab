@@ -987,7 +987,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5cd88515cb5d774d830ef4f9a144cf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawGizmos: 0
+  drawGizmos: 1
   damageAmount: 1
   stopCamera: 0
   targetLayers:

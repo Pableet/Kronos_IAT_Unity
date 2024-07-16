@@ -22,4 +22,8 @@ public class ATypeEnemySMBAttack : SceneLinkedSMB<ATypeEnemyBehavior>
         // STRAFE - 애니메이션이 종료 됐을 때
     }
 
+    public override void OnSLStatePreExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        _monoBehaviour.EndAttack();
+    }
 }
