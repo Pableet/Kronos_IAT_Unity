@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class LastEnforcedCombo : StateMachineBehaviour
 {
+	private readonly int idleHash = Animator.StringToHash("goIdle");
 	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-	//override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-	//{
-	//    
-	//}
+	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+	{
+	    
+	}
 
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
 		if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1f)
 		{
+			
 			PlayerStateMachine.GetInstance().SwitchState(new PlayerIdleState(PlayerStateMachine.GetInstance()));
 			return;
 		}

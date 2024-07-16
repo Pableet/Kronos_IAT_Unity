@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class BuffBehaviour : StateMachineBehaviour
@@ -7,18 +8,28 @@ public class BuffBehaviour : StateMachineBehaviour
 	PlayerStateMachine stateMachine;
 	private readonly int attackHash = Animator.StringToHash("Attack");
 	private readonly int moveHash = Animator.StringToHash("isMove");
+	private readonly int idleHash = Animator.StringToHash("goIdle");
+	[SerializeField] private float buffTimer = 0f;
+	[SerializeField] private float buffTime;
 
-	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
 		stateMachine = PlayerStateMachine.GetInstance();
 		animator.ResetTrigger(attackHash);
 		stateMachine.SwitchState(new PlayerBuffState(stateMachine));
+		buffTimer = 0f;
 	}
 
-	//OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
+		buffTimer += Time.deltaTime;
+
+		// 특정 조건을 만족할 때 애니메이션을 종료하고 targetStateName으로 전환
+		if (buffTimer > buffTime)
+		{
+			animator.SetTrigger(idleHash);
+		}
+
 		if (stateMachine.InputReader.moveComposite.magnitude != 0f)
 		{
 			animator.SetBool(moveHash, true);
@@ -48,4 +59,5 @@ public class BuffBehaviour : StateMachineBehaviour
 	//{
 	//    // Implement code that sets up animation IK (inverse kinematics)
 	//}
+
 }
