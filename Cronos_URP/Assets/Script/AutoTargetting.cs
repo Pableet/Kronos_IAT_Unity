@@ -117,13 +117,12 @@ public class AutoTargetting : MonoBehaviour
 			direction.y = 0;
 		}
 
-		
 		xDotResult = Mathf.Abs(Vector3.Dot(maincamTransform.right, Vector3.Cross(Vector3.up, direction.normalized).normalized)); 
 		yDotResult = Mathf.Abs(Vector3.Dot(maincamTransform.up, Vector3.Cross(Vector3.right, direction.normalized).normalized));
 
 		/// 공격이 일어났을때 
 		/// 제대로 쓸거면 inputsystem을 사용하는 방식으로 고치자
-		if (Input.GetButtonDown("Fire1"))
+		if (Input.GetKeyDown(KeyCode.Mouse0))
 		{
 
 			FindTarget();
@@ -151,7 +150,8 @@ public class AutoTargetting : MonoBehaviour
 		// Player가 몬스터 방향으로 몸을 돌린다.
 		if (isTargetting || stateMachine.Player.IsLockOn)
 		{
-			stateMachine.Rigidbody.rotation = Quaternion.LookRotation(direction.normalized);
+			//stateMachine.Rigidbody.rotation = Quaternion.LookRotation(direction.normalized);
+			stateMachine.Rigidbody.MoveRotation(Quaternion.Slerp(stateMachine.transform.rotation, Quaternion.LookRotation(direction.normalized), 0.3f));
 		}
 	}
 

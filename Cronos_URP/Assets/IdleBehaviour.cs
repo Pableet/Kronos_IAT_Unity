@@ -15,6 +15,8 @@ public class IdleBehaviour : StateMachineBehaviour
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
 		stateMachine = PlayerStateMachine.GetInstance();
+		animator.ResetTrigger("goIdle");
+		stateMachine.SwitchState(new PlayerIdleState(stateMachine));
 	}
 
 	//OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

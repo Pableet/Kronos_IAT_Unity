@@ -4,20 +4,26 @@ using UnityEngine;
 
 public class LastEnforcedCombo : StateMachineBehaviour
 {
-	private readonly int idleHash = Animator.StringToHash("goIdle");
+	private readonly int moveHash = Animator.StringToHash("isMove");
+	public float hitStopTime;
 	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
-	    
+		PlayerStateMachine.GetInstance().HitStop.hitStopTime = hitStopTime;
 	}
 
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
-		if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1f)
+		// 이동키입력을 받으면
+		if (PlayerStateMachine.GetInstance().InputReader.moveComposite.magnitude != 0f)
 		{
-			
-			PlayerStateMachine.GetInstance().SwitchState(new PlayerIdleState(PlayerStateMachine.GetInstance()));
-			return;
+			// 이동중
+			animator.SetBool(moveHash, true);
+		}
+		else// 혹은
+		{
+			// 이동아님
+			animator.SetBool(moveHash, false);
 		}
 	}
 

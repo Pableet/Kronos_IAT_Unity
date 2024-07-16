@@ -12,12 +12,16 @@ public class ComboBehaviour : StateMachineBehaviour
 	private readonly int nextComboHash = Animator.StringToHash("NextCombo");
 	private readonly int chargeHash = Animator.StringToHash("Charge");
 
+	public float hitStopTime;
+
 	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
 		stateMachine = PlayerStateMachine.GetInstance();
+		stateMachine.HitStop.hitStopTime = hitStopTime;
 		animator.SetBool(nextComboHash, false);
-		//animator.SetFloat(chargeHash, 0);
+		animator.ResetTrigger("Attack");
+		
 	}
 
 	//OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

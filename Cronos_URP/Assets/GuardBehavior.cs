@@ -5,6 +5,7 @@ using UnityEngine;
 public class GuardBehavior : StateMachineBehaviour
 {
 	PlayerStateMachine stateMachine;
+	private readonly int moveHash = Animator.StringToHash("isMove");
 	private readonly int fallHash = Animator.StringToHash("isFalling");
 	private readonly int guradHash = Animator.StringToHash("isGuard");
 	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -17,10 +18,15 @@ public class GuardBehavior : StateMachineBehaviour
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
+		// 이동키입력을 받으면
+		if (stateMachine.InputReader.moveComposite.magnitude != 0f)
+		{
+			// 이동중
+			animator.SetBool(moveHash, true);
+		}
 		if (Input.GetKeyUp(KeyCode.Mouse1))
 		{
 			animator.SetBool(guradHash, false);
-			stateMachine.SwitchState(new PlayerMoveState(stateMachine));
 		}
 
 	}
