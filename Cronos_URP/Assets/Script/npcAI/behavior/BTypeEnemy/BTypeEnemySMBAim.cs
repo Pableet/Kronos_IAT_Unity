@@ -12,6 +12,8 @@ public class BTypeEnemySMBAim : SceneLinkedSMB<BTypeEnemyBehavior>
     private float _strafeSpeed;
     private bool _onRinght;
 
+    private float _timer;
+
     public override void OnSLStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _monoBehaviour.ChangeDebugText("AIM");
@@ -35,6 +37,10 @@ public class BTypeEnemySMBAim : SceneLinkedSMB<BTypeEnemyBehavior>
             _strafeSpeed = -1f;
         }
 
+        _monoBehaviour.Controller.animator.SetFloat("strafeSpeed", _strafeSpeed);
+
+        ResetTimer();
+
         if (_monoBehaviour.Controller.useAnimatiorSpeed == false)
         {
             _previusSpeed = _monoBehaviour.Controller.GetNavemeshAgentSpeed();
@@ -44,6 +50,8 @@ public class BTypeEnemySMBAim : SceneLinkedSMB<BTypeEnemyBehavior>
 
     public override void OnSLStateNoTransitionUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        _timer += Time.deltaTime;
+
         if (_onRinght)
         {
             _monoBehaviour.StrafeRight();
@@ -53,24 +61,33 @@ public class BTypeEnemySMBAim : SceneLinkedSMB<BTypeEnemyBehavior>
             _monoBehaviour.StrafeLeft();
         }
 
-        _monoBehaviour.FindTarget();
-
-        // ATTACK - 타겟이 공격 사거리 안에 있을 때
-        if (_monoBehaviour.CurrentTarget != null)
+        if (_strafeTime > _timer)
         {
-            if (_monoBehaviour.IsInAttackRange())
-            {
-                _monoBehaviour.TriggerAttack();
-            }
-            else
-            {
-                _monoBehaviour.TriggerPursuit();
-            }
+            return;
         }
-        // IDLE - 타겟을 찾을 수 없을 때
         else
         {
-            _monoBehaviour.TriggerIdle();
+            ResetTimer();
+
+            _monoBehaviour.FindTarget();
+
+            // ATTACK - 타겟이 공격 사거리 안에 있을 때
+            if (_monoBehaviour.CurrentTarget != null)
+            {
+                if (_monoBehaviour.IsInAttackRange())
+                {
+                    _monoBehaviour.TriggerAttack();
+                }
+                else
+                {
+                    _monoBehaviour.TriggerPursuit();
+                }
+            }
+            // IDLE - 타겟을 찾을 수 없을 때
+            else
+            {
+                _monoBehaviour.TriggerIdle();
+            }
         }
     }
 
@@ -80,4 +97,8 @@ public class BTypeEnemySMBAim : SceneLinkedSMB<BTypeEnemyBehavior>
         _monoBehaviour.Controller.SetFollowNavmeshAgent(false);
     }
 
+    private void ResetTimer()
+    {
+        _timer = 0.0f;
+    }
 }

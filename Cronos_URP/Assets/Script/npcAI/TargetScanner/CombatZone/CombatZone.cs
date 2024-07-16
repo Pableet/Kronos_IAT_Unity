@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 public class CombatZone : MonoBehaviour
 {
+    public bool drawGizmos;
+
     public bool isClear;
-
     public GameObject target;
-
     public CombatZoneEnemy[] enemyList;
 
     private bool isTargetIn;
@@ -81,13 +81,15 @@ public class CombatZone : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        if (drawGizmos == false) return;
+
         if (isClear)
         {
             Gizmos.color = new Color(0, 1, 0, 0.5f);
         }
         else
         {
-            Gizmos.color = new Color(1, 0, 0, 0.5f);
+            Gizmos.color = new Color(1, 0, 0, 0.3f);
         }
 
         Gizmos.matrix = transform.localToWorldMatrix;

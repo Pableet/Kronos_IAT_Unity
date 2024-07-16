@@ -24,6 +24,8 @@ public class ImpulseCam : MonoBehaviour
     }
 
     CinemachineImpulseSource impulse;
+    [Range(0, 10)]
+    public float shakeStrength = 1.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -35,5 +37,10 @@ public class ImpulseCam : MonoBehaviour
     public void Shake()
     {
         impulse.GenerateImpulse(1f);
+    }
+
+    public void Shake(float pow)
+    {
+        impulse.GenerateImpulse(pow);
     }
 }

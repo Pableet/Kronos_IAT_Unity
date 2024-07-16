@@ -22,7 +22,7 @@ public class BulletTimeScalable : MonoBehaviour
     {
         if (active != true) return;
 
-        _animator.speed *= BulletTime.Instance.GetCurrentSpeed();
+        _animator.speed = BulletTime.Instance.GetCurrentSpeed();
         _navMeshAgent.speed *= BulletTime.Instance.GetCurrentSpeed();
     }
 }

@@ -46,15 +46,23 @@ public partial class Damageable : MonoBehaviour
     SoundManager soundManager;
     EffectManager effectManager;
     Player player;
+    ImpulseCam impCam;
     [SerializeField] GameObject playerSword;
 
     void Start()
     {
-        effectManager = EffectManager.Instance;
-        soundManager = SoundManager.Instance;
         ResetDamage();
         m_Collider = GetComponent<Collider>();
-        
+        impCam = ImpulseCam.Instance;
+    }
+
+    private void OnEnable()
+    {
+        effectManager = EffectManager.Instance;
+        soundManager = SoundManager.Instance;
+        // Find의 비용이 크다고 하지만... 인스펙터에서 전부 넣기엔 귀찮다
+        player = GameObject.Find("Player").GetComponent<Player>();
+        playerSword = GameObject.Find("Sword");
     }
 
     void Update()
@@ -118,8 +126,8 @@ public partial class Damageable : MonoBehaviour
 
         /// 여기에 민동휘가 만들어놓음
         /// 플레이어 소드를 LookAt 하여 파티클 인스턴싱
-        /// playerSword가 null이 아니면 적
-        if (playerSword != null)
+        /// 태그가 플레이어가 아니면 적이겠지
+        if (gameObject.tag != "Player")
         {
             // 파편 만들기
             Vector3 damagedPosition = transform.position;
@@ -131,13 +139,23 @@ public partial class Damageable : MonoBehaviour
 
             // 피격 이펙트 만들기
             Vector3 dir = (transform.position - playerSword.transform.position).normalized;
-            GameObject slashed = effectManager.SpawnEffect("UpSlash", new Vector3(transform.position.x -dir.x, playerSword.transform.position.y, transform.position.z - dir.z));
+            Vector3 newPos = new Vector3(transform.position.x - dir.x, playerSword.transform.position.y, transform.position.z - dir.z);
+            GameObject slashed = effectManager.SpawnEffect("UpSlash", newPos);
             slashed.transform.forward = Camera.main.transform.forward;
-            //slashed.transform.rotation = playerSword.transform.rotation;
-            //slashed.transform.Rotate(180f, 0, playerSword.transform.rotation.x);
             Destroy(slashed, 1.0f);
+
+            // 히트 스탑 시험중
+            if (player != null)
+            {
+                player.GetComponent<HitStop>().StartCoroutine(player.GetComponent<HitStop>().HitStopCoroutine());
+            }
         }
 
+        // 게임오브젝트 태그가 리스폰이면 == 적이면
+        if (gameObject.tag == "Respawn")
+        {
+            impCam.Shake(impCam.shakeStrength);
+        }
 
         if (defensible)
         {
@@ -148,7 +166,7 @@ public partial class Damageable : MonoBehaviour
         currentHitPoints -= data.amount;
 
         // 죽든 살든 맞는 소리는 나와야 하니까
-        if (playerSword != null)
+        if (gameObject.tag != "Player")
             soundManager.PlaySFX("Enemy_impact_SE", transform);
 
         if (currentHitPoints <= 0)
