@@ -62,7 +62,9 @@ public class EnemyController : MonoBehaviour
             _rigidbody = gameObject.AddComponent<Rigidbody>();
         }
 
-        _rigidbody.isKinematic = true;
+        _rigidbody.drag = 10f;
+        _rigidbody.angularDrag = 1000f;
+        _rigidbody.isKinematic = false;
         _rigidbody.useGravity = false;
         _rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
 
