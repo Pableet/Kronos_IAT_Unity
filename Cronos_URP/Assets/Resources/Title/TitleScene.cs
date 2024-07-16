@@ -1,10 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class TitleScene : MonoBehaviour
 {
+    [SerializeField]
+    Button sButton;
+    [SerializeField]
+    Button oButton;
+    [SerializeField]
+    Button cButton;
+    [SerializeField]
+    Button eButton;
+
+    void Update()
+    {
+
+    }
+
     public void StartGame()
     {
         //SceneManager.LoadScene("MICScene");
@@ -16,9 +28,21 @@ public class TitleScene : MonoBehaviour
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
+    public void Option()
+    {
+
+    }
+
+    public void Credit()
+    {
+
+    }
+
     public void ExitGame()
     {
         Debug.Log("께임 종료!");
         Application.Quit();
     }
+
+
 }

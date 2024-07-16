@@ -76,9 +76,9 @@ MonoBehaviour:
         bypassVoiceEffectsUse: 0
         bypassListenerEffectsUse: 0
       polyphonyMode: 0
-      audioMixerGroup: {fileID: 0}
+      audioMixerGroup: {fileID: 3480944536409242539, guid: 2b7523f8c0bf7214dac4ff2e6d99f187, type: 2}
       soundMix: {fileID: 0}
-      soundPolyGroup: {fileID: 11400000, guid: b561407bc2d2d4447a2b47270b2f9041, type: 2}
+      soundPolyGroup: {fileID: 0}
       soundPolyGroupPriority: 1
       cooldownTime: 0
       probability: 100

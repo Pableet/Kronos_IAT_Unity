@@ -39,7 +39,7 @@ public class UI_PowerUp : MonoBehaviour
     public static void PowerUp()
     {
         powerUp.SetActive(true);
-        PauseManager.PauseGame();
+        //PauseManager.PauseGame();
         isPowerUp = true;
     }
 
@@ -47,6 +47,6 @@ public class UI_PowerUp : MonoBehaviour
     {
         powerUp.SetActive(false);
         player.GetComponent<PlayerStateMachine>().Velocity.y = gravity;
-        PauseManager.UnPauseGame();
+        //PauseManager.UnPauseGame();
     }
 }
