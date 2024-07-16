@@ -143,8 +143,6 @@ public class AutoTargetting : MonoBehaviour
 		}
 	}
 
-
-
 	private void FixedUpdate()
 	{
 		// Player가 몬스터 방향으로 몸을 돌린다.
@@ -158,13 +156,11 @@ public class AutoTargetting : MonoBehaviour
 	// 타겟을 바라보는 건 언제 끝나지? 
 	private void FacingTarget()
 	{
-		if (Mathf.Abs(Vector3.Dot(stateMachine.transform.forward, direction.normalized)) > 0.7f)
+		if (Mathf.Abs(Vector3.Dot(stateMachine.transform.forward, direction.normalized)) > 0.9f)
 		{
 			isFacing = false;
 		}
 	}
-
-	private void LateUpdate() { }
 
 	private void StartAutoTargetting()
 	{
@@ -252,10 +248,9 @@ public class AutoTargetting : MonoBehaviour
 				MonsterList.RemoveAt(i);
 			}
 		}
+
 		// 몬스터리스트를 거리 순으로 정렬한다.
-		MonsterList.Sort((x, y) =>
-		(PlayerObject.position - x.transform.position).sqrMagnitude
-		.CompareTo((PlayerObject.position - y.transform.position).sqrMagnitude));
+		SortMosterList();
 
 		// 현재 몬스터 목록을 순회한다.
 		for (int i = 0; i < MonsterList.Count; i++)
@@ -329,16 +324,6 @@ public class AutoTargetting : MonoBehaviour
 
 	public void SwitchTarget()
 	{
-
-		// 		// 현재 몬스터 목록을 순회한다.
-		// 		for (int i = 0; i < MonsterList.Count; i++)
-		// 		{
-		// 			if (MonsterList[i] == null)
-		// 			{
-		// 				MonsterList.Remove(MonsterList[i]);
-		// 			}
-		// 		}
-
 		for (int i = MonsterList.Count - 1; i >= 0; i--)
 		{
 			if (MonsterList[i] == null)
@@ -346,11 +331,8 @@ public class AutoTargetting : MonoBehaviour
 				MonsterList.RemoveAt(i);
 			}
 		}
-
 		// 몬스터리스트를 거리 순으로 정렬한다.
-		MonsterList.Sort((x, y) =>
-			(PlayerObject.position - x.transform.position).sqrMagnitude
-			.CompareTo((PlayerObject.position - y.transform.position).sqrMagnitude));
+		SortMosterList();
 
 		// 정렬된 몬스터리스트에서 가장 가까운 몬스터를 Target과 비교한다
 		if (MonsterList.Count > 0)
@@ -367,6 +349,14 @@ public class AutoTargetting : MonoBehaviour
 				Target = MonsterList[1]?.transform;
 			}
 		}
+	}
+
+	public void SortMosterList()
+	{
+		// 몬스터리스트를 거리 순으로 정렬한다.
+		MonsterList.Sort((x, y) =>
+			(PlayerObject.position - x.transform.position).sqrMagnitude
+			.CompareTo((PlayerObject.position - y.transform.position).sqrMagnitude));
 	}
 
 }

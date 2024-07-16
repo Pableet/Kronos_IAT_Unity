@@ -11,6 +11,11 @@ public class ComboBehaviour : StateMachineBehaviour
 	private readonly int moveHash = Animator.StringToHash("isMove");
 	private readonly int nextComboHash = Animator.StringToHash("NextCombo");
 	private readonly int chargeHash = Animator.StringToHash("Charge");
+	private readonly int chargeAttackHash = Animator.StringToHash("chargeAttack");
+	private readonly int dodgeHash = Animator.StringToHash("Dodge");
+	private readonly int guradHash = Animator.StringToHash("isGuard");
+
+	[SerializeField] float moveForce;
 
 	public float hitStopTime;
 
@@ -21,14 +26,18 @@ public class ComboBehaviour : StateMachineBehaviour
 		stateMachine.HitStop.hitStopTime = hitStopTime;
 		animator.SetBool(nextComboHash, false);
 		animator.ResetTrigger("Attack");
-		
+
+		stateMachine.Rigidbody.AddForce(stateMachine.transform.forward * moveForce, ForceMode.VelocityChange);
+
 	}
 
 	//OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
-		
-
+		if (Input.GetKeyDown(KeyCode.Mouse1))
+		{
+			animator.SetBool(guradHash, true);
+		}
 		// 이동키입력을 받으면
 		if (stateMachine.InputReader.moveComposite.magnitude != 0f)
 		{
@@ -47,16 +56,35 @@ public class ComboBehaviour : StateMachineBehaviour
 			// NEXTCOMBO 활성화
 			animator.SetBool(nextComboHash, true);
 		}
+		
 		// 좌클릭 누르는 중에는 차징
 		if (Input.GetKey(KeyCode.Mouse0))
 		{
 			float current = animator.GetFloat(chargeHash);
 			animator.SetFloat(chargeHash, current + Time.deltaTime);
 		}
+		
+		// 누르고있으면 차징중이다
+		if (Input.GetKey(KeyCode.Mouse0))
+		{
+			//인풋중에 뭐라고 정해줘야할듯
+			animator.SetBool(chargeAttackHash, true);
+		}
+		else
+		{
+			//인풋중에 뭐라고 정해줘야할듯
+			animator.SetBool(chargeAttackHash, false);
+		}
+		
 		// 좌클릭땔때 차징 비활성화
 		if (Input.GetKeyUp(KeyCode.Mouse0))
 		{
 			animator.SetFloat(chargeHash, 0);
+		}
+
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			animator.SetTrigger(dodgeHash);
 		}
 
 	}

@@ -61,8 +61,11 @@ public abstract class PlayerBaseState : State
 	/// </summary>
 	protected void Move()
 	{
-		//Debug.Log($"speed : {stateMachine.Animator.speed}, Player speed {stateMachine.Player.moveSpeed}");
-		stateMachine.Rigidbody.AddForce(stateMachine.Velocity * stateMachine.Animator.speed * stateMachine.Player.moveSpeed * Time.fixedDeltaTime - GetPlayerHorizentalVelocity(), ForceMode.VelocityChange);
+		stateMachine.Rigidbody.AddForce(stateMachine.Velocity
+									* stateMachine.Animator.speed
+									* stateMachine.Player.moveSpeed
+									* Time.fixedDeltaTime
+									- GetPlayerHorizentalVelocity(), ForceMode.VelocityChange);
 	}
 
 	protected Vector3 GetPlayerHorizentalVelocity()
@@ -76,6 +79,8 @@ public abstract class PlayerBaseState : State
 	protected void MoveOnAnimation()
 	{
 		float animationSpeed = stateMachine.Animator.deltaPosition.magnitude;
+
+
 
 		// test
 		Vector3 direction = stateMachine.transform.forward.normalized;
