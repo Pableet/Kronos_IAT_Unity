@@ -14,7 +14,20 @@ public class AbilityAmountLimit : MonoBehaviour
         Render();
     }
 
-    public bool CanSpend() => available > 0;
+    public int CanSpend(int point)
+    {
+        if (available <= 0) 
+            return -1;
+
+        int result = available - point;
+        
+        if (result < 0)
+        {
+            return -1;
+        }
+
+        return result;
+    }
 
     public int GetAvailable() => available;
 
@@ -23,19 +36,16 @@ public class AbilityAmountLimit : MonoBehaviour
         availableText.text = available.ToString();
     }
 
-    public bool UpdateSpent(int point)
+    public void UpdateSpent(int point)
     {
-        int result = available - point;
-        bool canSpend = result > 0;
+        int canSpend = CanSpend(point);
 
-        if (canSpend)
+        if (canSpend != -1)
         {
-            available = result;
+            available = canSpend;
             totalSpent += point;
         }
 
         Render();
-
-        return canSpend;
     }
 }

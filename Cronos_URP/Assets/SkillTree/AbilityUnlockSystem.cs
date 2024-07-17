@@ -15,6 +15,8 @@ public class AbilityUnlockSystem : MonoBehaviour, IObserver<AbilityIncreaseButto
     private List<IDisposable> _unsubscribers;
     private bool _initialized;
 
+    private AbilityIncreaseButton _lastpressed;
+
     // IObserver /////////////////////////////////////////////////////////////
 
     public virtual void Subscribe(IObservable<AbilityIncreaseButton> provider)
@@ -34,18 +36,36 @@ public class AbilityUnlockSystem : MonoBehaviour, IObserver<AbilityIncreaseButto
 
     public virtual void OnNext(AbilityIncreaseButton value)
     {
-        if (abilityAmounts.CanSpend() == true)
+
+        if (value.isFocaus == false)
         {
-            if(abilityAmounts.UpdateSpent(value.abilityLevel.pointNeeded) == true)
+            value.FocusIn();
+
+            if (_lastpressed != null &&
+                _lastpressed != value)
             {
-                value.Increment();
+                _lastpressed.FocusOut();
             }
         }
+        else
+        {
+
+            if (abilityAmounts.CanSpend(value.abilityLevel.pointNeeded) != -1)
+            {
+                if (value.Increment() == true)
+                {
+                    abilityAmounts.UpdateSpent(value.abilityLevel.pointNeeded);
+                }
+
+            }
+        }
+        
+        _lastpressed = value;
     }
 
     public virtual void Unsubscribe()
     {
-        foreach (var unsubscriber in _unsubscribers) 
+        foreach (var unsubscriber in _unsubscribers)
         {
             unsubscriber.Dispose();
             _unsubscribers.Remove(unsubscriber);
@@ -90,5 +110,5 @@ public class AbilityUnlockSystem : MonoBehaviour, IObserver<AbilityIncreaseButto
         _abilityAmountLimit.UpdateSpent(spent);
     }
 
-    
+
 }
