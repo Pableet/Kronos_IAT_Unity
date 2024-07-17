@@ -37,7 +37,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 4.7044, y: 3.351}
+  m_AnchoredPosition: {x: 4.7044067, y: 3.3510132}
   m_SizeDelta: {x: 9.4087, y: 6.7019}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &6724260207127709406
@@ -119,8 +119,6 @@ MonoBehaviour:
   playerCam: {fileID: 0}
   targetUI: {fileID: 8510305877237274625}
   player: {fileID: 0}
-  yUp: 0
-  uiScaler: 5
 --- !u!1 &8510305877237274625
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,7 +184,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9fa512ffd47a9dd4da6c3b8be71e961e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: af82ba2163cf3e54d956944a21f81659, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
