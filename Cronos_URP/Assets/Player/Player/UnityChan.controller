@@ -398,31 +398,55 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 6798249207383254174, guid: 7016da273b515074f8856ec6415db446, type: 3}
     m_Threshold: -1
-    m_Position: {x: 0, y: 0}
+    m_Position: {x: -1, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0.5
     m_DirectBlendParameter: MoveSpeed
     m_Mirror: 1
   - serializedVersion: 2
     m_Motion: {fileID: 898576106058754382, guid: 8ea5256cf8236f04db7eecd36a6c3394, type: 3}
-    m_Threshold: -0.5
-    m_Position: {x: 0, y: 0}
+    m_Threshold: -0.71428573
+    m_Position: {x: 1, y: 1}
+    m_TimeScale: 1
+    m_CycleOffset: 0.5
+    m_DirectBlendParameter: MoveSpeed
+    m_Mirror: 1
+  - serializedVersion: 2
+    m_Motion: {fileID: 898576106058754382, guid: 8ea5256cf8236f04db7eecd36a6c3394, type: 3}
+    m_Threshold: -0.4285714
+    m_Position: {x: -1, y: -1}
     m_TimeScale: 1
     m_CycleOffset: 0.5
     m_DirectBlendParameter: MoveSpeed
     m_Mirror: 1
   - serializedVersion: 2
     m_Motion: {fileID: 6798249207383254174, guid: 7016da273b515074f8856ec6415db446, type: 3}
-    m_Threshold: 0
-    m_Position: {x: 0, y: 0}
+    m_Threshold: -0.14285713
+    m_Position: {x: 0, y: 1}
+    m_TimeScale: 1
+    m_CycleOffset: 0.5
+    m_DirectBlendParameter: MoveSpeed
+    m_Mirror: 1
+  - serializedVersion: 2
+    m_Motion: {fileID: 6798249207383254174, guid: 7016da273b515074f8856ec6415db446, type: 3}
+    m_Threshold: 0.1428572
+    m_Position: {x: 0, y: -1}
     m_TimeScale: 1
     m_CycleOffset: 0.5
     m_DirectBlendParameter: MoveSpeed
     m_Mirror: 1
   - serializedVersion: 2
     m_Motion: {fileID: 726148274987121126, guid: 134806c51a14e394eb5837aeea4a4bed, type: 3}
-    m_Threshold: 0.5
-    m_Position: {x: 0, y: 0}
+    m_Threshold: 0.42857146
+    m_Position: {x: 1, y: -1}
+    m_TimeScale: 1
+    m_CycleOffset: 0.5
+    m_DirectBlendParameter: MoveSpeed
+    m_Mirror: 1
+  - serializedVersion: 2
+    m_Motion: {fileID: 726148274987121126, guid: 134806c51a14e394eb5837aeea4a4bed, type: 3}
+    m_Threshold: 0.71428573
+    m_Position: {x: -1, y: 1}
     m_TimeScale: 1
     m_CycleOffset: 0.5
     m_DirectBlendParameter: MoveSpeed
@@ -430,18 +454,18 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 6798249207383254174, guid: 7016da273b515074f8856ec6415db446, type: 3}
     m_Threshold: 1
-    m_Position: {x: 0, y: 0}
+    m_Position: {x: 1, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0.5
     m_DirectBlendParameter: MoveSpeed
     m_Mirror: 1
-  m_BlendParameter: SideWalk
-  m_BlendParameterY: Blend
+  m_BlendParameter: moveX
+  m_BlendParameterY: moveY
   m_MinThreshold: -1
   m_MaxThreshold: 1
   m_UseAutomaticThresholds: 1
   m_NormalizedBlendValues: 0
-  m_BlendType: 0
+  m_BlendType: 1
 --- !u!114 &-6454120483440880315
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1693,79 +1717,91 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: goIdle
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: MoveSpeed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: SideWalk
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Charge
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: NextCombo
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Attack
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: isGuard
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Dodge
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: isFalling
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Damaged
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: isLockOn
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: chargeAttack
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
+  - m_Name: moveX
+    m_Type: 1
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: moveY
+    m_Type: 1
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer

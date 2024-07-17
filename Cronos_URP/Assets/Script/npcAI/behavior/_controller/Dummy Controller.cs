@@ -11,6 +11,7 @@ public class DummyController : MonoBehaviour, IMessageReceiver
     private Rigidbody _rigidbody;
     private HitShake _hitShake;
     private Damageable _damageable;
+    private BulletTimeScalable _bulletTimeScalable;
 
     public static readonly int hashDamage = Animator.StringToHash("damage");
 
@@ -20,6 +21,7 @@ public class DummyController : MonoBehaviour, IMessageReceiver
         _rigidbody = GetComponent<Rigidbody>();
         _hitShake = GetComponent<HitShake>();
         _damageable = GetComponent<Damageable>();
+        _bulletTimeScalable = GetComponent<BulletTimeScalable>();
     }
 
     void OnEnable()
@@ -54,7 +56,18 @@ public class DummyController : MonoBehaviour, IMessageReceiver
 
     private void Damaged()
     {
+        UnuseBulletTimeScale();
         _animator.SetTrigger(hashDamage);
         _hitShake.Begin();
+    }
+
+    internal void UseBulletTimeScale()
+    {
+        _bulletTimeScalable.active = true;
+    }
+
+    internal void UnuseBulletTimeScale()
+    {
+        _bulletTimeScalable.active = false;
     }
 }

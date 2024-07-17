@@ -1,5 +1,6 @@
 using Message;
 using UnityEngine;
+using UnityEngine.Playables;
 
 [DefaultExecutionOrder(100)]
 [RequireComponent(typeof(EnemyController))]
@@ -9,7 +10,8 @@ public class TestBossBehavior : MonoBehaviour, IMessageReceiver
     public GameObject target;
     public float targetDistance;
 
-    BehaviorTreeRunner _btRunner;
+    private BehaviorTreeRunner _btRunner;
+    private PlayableDirector _playableDirector;
 
     void Awake()
     {

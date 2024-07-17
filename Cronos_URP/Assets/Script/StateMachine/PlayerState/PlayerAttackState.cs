@@ -4,19 +4,19 @@ public class PlayerAttackState : PlayerBaseState
 	public PlayerAttackState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 	public override void Enter()
 	{
-		stateMachine.InputReader.onRAttackStart += SwitchToDefanceState;
 		stateMachine.Rigidbody.velocity = Vector3.zero;
 	}
-	public override void Tick()	{}
-	public override void FixedTick(){}
+	public override void Tick()
+	{
+		CalculateMoveDirection();   // 방향을 계산하고
+	}
+	public override void FixedTick()
+	{
+		stateMachine.Rigidbody.AddForce(stateMachine.transform.forward * stateMachine.MoveForce * stateMachine.Animator.speed * Time.fixedDeltaTime, ForceMode.Impulse);
+	}
 	public override void LateTick(){}
 	public override void Exit()
-	{
-		stateMachine.InputReader.onRAttackStart -= SwitchToDefanceState;
-	}
-
-	private void SwitchToDefanceState()
-	{
-		stateMachine.SwitchState(new PlayerDefenceState(stateMachine));
+	{ 
+		stateMachine.transform.rotation = Quaternion.LookRotation(stateMachine.Velocity);
 	}
 }

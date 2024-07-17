@@ -18,7 +18,7 @@ public abstract class PlayerBaseState : State
 	/// 카메라 정보를 기반으로
 	/// Player의 이동방향을 구한다.
 	/// </summary>
-	protected void CalculateMoveDirection()
+	protected void CalculateMoveDirection ()
 	{
 		// 스테이트 머신에 들어있는 카메라 정보를 기반으로
 		// 카메라의 전방, 좌우 벡터를 저장한다.
@@ -28,7 +28,7 @@ public abstract class PlayerBaseState : State
 		// 이동벡터생성,
 		// 카메라의 전방벡터에 인풋의 move.y 수치를 곱한다,
 		// 카메라의 좌우벡터에 인풋의 movecomposite.x를 곱한다.
-		moveDirection	= cameraForward.normalized * stateMachine.InputReader.moveComposite.y	// 전방
+		moveDirection = cameraForward.normalized * stateMachine.InputReader.moveComposite.y // 전방
 								+ cameraRight.normalized * stateMachine.InputReader.moveComposite.x;    // 후방
 
 		// 상태머신의 속도는 이동벡터와 속력의 곱이다.
@@ -42,7 +42,6 @@ public abstract class PlayerBaseState : State
 	/// </summary>
 	protected void FaceMoveDirection()
 	{
-
 		Vector3 faceDirection = new(stateMachine.Velocity.x, 0f, stateMachine.Velocity.z);
 
 		// 이동속도가 없다면
@@ -79,8 +78,6 @@ public abstract class PlayerBaseState : State
 	protected void MoveOnAnimation()
 	{
 		float animationSpeed = stateMachine.Animator.deltaPosition.magnitude;
-
-
 
 		// test
 		Vector3 direction = stateMachine.transform.forward.normalized;
