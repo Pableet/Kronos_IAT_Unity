@@ -13,7 +13,6 @@ public class AbilityAmountLimit : MonoBehaviour
     {
         Render();
     }
-
     public int CanSpend(int point)
     {
         if (available <= 0) 

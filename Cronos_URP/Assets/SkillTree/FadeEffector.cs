@@ -21,7 +21,6 @@ public class FadeEffector : MonoBehaviour
             return;
         }
 
-        // 시작 시 페이드 인 효과를 실행합니다.
         StartCoroutine(FadeIn(fadeDuration));
     }
 
@@ -36,7 +35,6 @@ public class FadeEffector : MonoBehaviour
             return;
         }
 
-        // 시작 시 페이드 인 효과를 실행합니다.
         StartCoroutine(FadeOut(fadeDuration));
     }
 
@@ -47,12 +45,13 @@ public class FadeEffector : MonoBehaviour
         while (Time.time < startTime + fadeDuration)
         {
             float t = (Time.time - startTime) / fadeDuration;
-            canvasGroup.alpha = Mathf.Lerp(0, 1, t);
+            canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, 1, t);
             yield return null;
         }
 
         canvasGroup.alpha = 1;
     }
+
     private IEnumerator FadeOut(float fadeDuration)
     {
         float startTime = Time.time;
@@ -60,7 +59,7 @@ public class FadeEffector : MonoBehaviour
         while (Time.time < startTime + fadeDuration)
         {
             float t = (Time.time - startTime) / fadeDuration;
-            canvasGroup.alpha = Mathf.Lerp(1, 0, t);
+            canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, 0, t);
             yield return null;
         }
 

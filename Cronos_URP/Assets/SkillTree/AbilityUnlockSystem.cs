@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static UnityEditor.FilePathAttribute;
 
@@ -10,12 +11,10 @@ public class AbilityUnlockSystem : MonoBehaviour, IObserver<AbilityIncreaseButto
     [SerializeField] public Button rootAbilityNode;
     [SerializeField] public AbilityAmountLimit abilityAmounts;
 
-    private AbilityAmountLimit _abilityAmountLimit;
     private List<IObservable<AbilityIncreaseButton>> _obserables;
     private List<IDisposable> _unsubscribers;
-    private bool _initialized;
 
-    private AbilityIncreaseButton _lastpressed;
+    private AbilityIncreaseButton _lastPressed;
 
     // IObserver /////////////////////////////////////////////////////////////
 
@@ -41,13 +40,13 @@ public class AbilityUnlockSystem : MonoBehaviour, IObserver<AbilityIncreaseButto
         {
             value.FocusIn();
 
-            if (_lastpressed != null &&
-                _lastpressed != value)
+            if (_lastPressed != null &&
+                _lastPressed != value)
             {
-                _lastpressed.FocusOut();
+                _lastPressed.FocusOut();
             }
         }
-        else
+        else if (value.isFocaus == true)
         {
 
             if (abilityAmounts.CanSpend(value.abilityLevel.pointNeeded) != -1)
@@ -60,7 +59,7 @@ public class AbilityUnlockSystem : MonoBehaviour, IObserver<AbilityIncreaseButto
             }
         }
         
-        _lastpressed = value;
+        _lastPressed = value;
     }
 
     public virtual void Unsubscribe()
@@ -78,6 +77,7 @@ public class AbilityUnlockSystem : MonoBehaviour, IObserver<AbilityIncreaseButto
     {
         // 구독자 구독
         _obserables = GetComponentsInChildren<IObservable<AbilityIncreaseButton>>().ToList();
+
         foreach (var obserable in _obserables)
         {
             obserable.Subscribe(this);
@@ -86,29 +86,8 @@ public class AbilityUnlockSystem : MonoBehaviour, IObserver<AbilityIncreaseButto
         rootAbilityNode.interactable = false;
     }
 
-    public void OnGUI()
-    {
-        if (_initialized) return;
-        _initialized = true;
-
-        TriggerRootNodeChange();
-    }
-
-    private void SetupSkillTree()
-    {
-        _abilityAmountLimit = abilityAmounts;
-        //_observers = gameObject.GetComponentsInChildren<AbilityIncreaseButton>().ToList();
-    }
-
-    private void TriggerRootNodeChange()
+    public void OnEnable()
     {
         rootAbilityNode.interactable = true;
     }
-
-    private void UpdateSkillAmounts(int spent)
-    {
-        _abilityAmountLimit.UpdateSpent(spent);
-    }
-
-
 }

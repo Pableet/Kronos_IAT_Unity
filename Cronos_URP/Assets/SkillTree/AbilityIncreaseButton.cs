@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class AbilityIncreaseButton : MonoBehaviour, IObservable<AbilityIncreaseButton>
@@ -15,12 +16,14 @@ public class AbilityIncreaseButton : MonoBehaviour, IObservable<AbilityIncreaseB
 
     public Button[] childButton;
 
+    public FadeEffector fadeUI;
+
     public bool isFocaus;
 
     private Button _button;
-    private FadeEffector _fadeUI;
     private CinemachineVirtualCamera _virtualCam;
     private IObserver<AbilityIncreaseButton> _observer;
+
 
     // IObservable /////////////////////////////////////////////////////////////
 
@@ -55,12 +58,12 @@ public class AbilityIncreaseButton : MonoBehaviour, IObservable<AbilityIncreaseB
     {
         _button = GetComponent<Button>();
         _virtualCam = GetComponentInChildren<CinemachineVirtualCamera>();
-        _fadeUI = GetComponentInChildren<FadeEffector>();
     }
 
     private void OnEnable()
     {
         _button.onClick.AddListener(OnClickButton);
+        fadeUI.GetComponent<CanvasGroup>().alpha = 0f;
     }
 
     private void Start()
@@ -73,65 +76,33 @@ public class AbilityIncreaseButton : MonoBehaviour, IObservable<AbilityIncreaseB
     {
         // 텍스트 업데이트
         Render();
-
-        // 자식 노드 활성화
-        //if (currentPoint > 0)
-        if (abilityLevel.currentPoint == abilityLevel.nextNodeUnlockCondition ||
-            abilityLevel.currentPoint == abilityLevel.maxPoint)
-        {
-            foreach (var child in childButton)
-            {
-                child.interactable = true;
-            }
-        }
-
-        /// Test
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            FocusOut();
-        }
-
     }
 
     public void FocusIn()
     {
+        StartCoroutine(SetFocausAfter(true, 2));
         _virtualCam.Priority = 10;
-        StartCoroutine(InFocausAfter(2));
-        _fadeUI.StartFadeIn(2);
+        fadeUI.StartFadeIn(1.8f);
     }
+
     public void FocusOut()
     {
-        isFocaus = false;
+        StartCoroutine(SetFocausAfter(false, 2));
         _virtualCam.Priority = 0;
-        _fadeUI.StartFadeOut(2);
+        fadeUI.StartFadeOut(1.8f);
     }
 
     private void OnClickButton()
     {
         _observer.OnNext(this);
-        //if (isFocaus == false)
-        //{
-        //    FocusIn();
-        //}
-        //else if (isFocaus == true)
-        //{
-        //    if (abilityLevel.currentPoint < abilityLevel.maxPoint)
-        //    {
-        //        _observer.OnNext(this);
-        //    }
-        //    else if (abilityLevel.currentPoint >= abilityLevel.maxPoint)
-        //    {
-        //        abilityLevel.currentPoint = abilityLevel.maxPoint;
-        //    }
-        //}
     }
 
-    private IEnumerator InFocausAfter(float time)
+    private IEnumerator SetFocausAfter(bool val, float time)
     {
         // 지정된 시간(2초) 대기
         yield return new WaitForSeconds(time);
 
-        isFocaus = true;
+        isFocaus = val;
     }
 
     private void Render()
@@ -150,6 +121,21 @@ public class AbilityIncreaseButton : MonoBehaviour, IObservable<AbilityIncreaseB
             abilityLevel.currentPoint = addedPoint;
         }
 
+        // 자식 노드 활성화
+        UpdateChilds();
+
         return result;
+    }
+
+    private void UpdateChilds()
+    {
+        if (abilityLevel.currentPoint == abilityLevel.nextNodeUnlockCondition ||
+            abilityLevel.currentPoint == abilityLevel.maxPoint)
+        {
+            foreach (var child in childButton)
+            {
+                child.interactable = true;
+            }
+        }
     }
 }
