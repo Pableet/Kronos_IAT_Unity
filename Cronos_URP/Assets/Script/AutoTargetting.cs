@@ -140,16 +140,16 @@ public class AutoTargetting : MonoBehaviour
 		if (stateMachine.Player.IsLockOn)
 		{
 			LockOn();
-		}
+		}  
 	}
 
 	private void FixedUpdate()
 	{
 		// Player가 몬스터 방향으로 몸을 돌린다.
-		if (isTargetting || stateMachine.Player.IsLockOn)
+		if ((isTargetting || stateMachine.Player.IsLockOn || isFacing) && stateMachine.GetState().ToString() != "PlayerParryState")
 		{
 			//stateMachine.Rigidbody.rotation = Quaternion.LookRotation(direction.normalized);
-			stateMachine.Rigidbody.MoveRotation(Quaternion.Slerp(stateMachine.transform.rotation, Quaternion.LookRotation(direction.normalized), 0.3f));
+			stateMachine.Rigidbody.MoveRotation(Quaternion.Slerp(stateMachine.transform.rotation, Quaternion.LookRotation(direction.normalized), 0.1f));
 		}
 	}
 

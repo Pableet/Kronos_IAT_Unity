@@ -5,10 +5,10 @@ using UnityEngine;
 public class IdleBehaviour : StateMachineBehaviour
 {
 	PlayerStateMachine stateMachine;
+	Vector3 direction;
 
 	private readonly int attackHash = Animator.StringToHash("Attack");
 	private readonly int moveHash = Animator.StringToHash("isMove");
-	private readonly int dodgeHash = Animator.StringToHash("Dodge");
 	private readonly int guradHash = Animator.StringToHash("isGuard");
 
 	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -40,12 +40,6 @@ public class IdleBehaviour : StateMachineBehaviour
 		{
 			animator.SetBool(guradHash, true);
 		}
-
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-			animator.SetTrigger(dodgeHash);
-		}
-
 	}
 	// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 	//override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

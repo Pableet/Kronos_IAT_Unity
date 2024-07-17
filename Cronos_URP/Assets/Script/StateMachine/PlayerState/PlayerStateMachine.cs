@@ -20,7 +20,7 @@ public class PlayerStateMachine : StateMachine
     public Transform PlayerTransform { get; private set; }
     public HitStop HitStop { get; private set; }
 	public AutoTargetting AutoTargetting;
-
+	public float MoveForce {  get; set; }
 	public bool IsGrounded {  get;  set; }
 
 	public void Awake()

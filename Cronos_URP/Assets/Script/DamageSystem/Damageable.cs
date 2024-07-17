@@ -24,7 +24,7 @@ public partial class Damageable : MonoBehaviour
     public Defensible defensible;
 
     public bool isInvulnerable { get; set; }
-    private bool isVulnerable { get; set; }
+    private bool isVulnerable { get; set; } 
 
     public float currentHitPoints
     {
