@@ -21,8 +21,8 @@ public class PlayerStateMachine : StateMachine
     public Transform MainCamera { get; private set; }
     public Transform PlayerTransform { get; private set; }
     public HitStop HitStop { get; private set; }
+	public GroundChecker GroundChecker { get; private set; }
 	public AutoTargetting AutoTargetting;
-	public GroundChecker GroundChecker;
 	public float MoveForce {  get; set; }
 	public bool IsGrounded {  get;  set; }
 
@@ -46,9 +46,4 @@ public class PlayerStateMachine : StateMachine
 		// 시작 상태를 정해준다.
 		SwitchState(new PlayerIdleState(this));
 	}
-
-	[SerializeField] private LayerMask groundLayer;
-	[SerializeField] private float radius = 0.3f;
-	[SerializeField] private float offset = 0.1f;
-	[SerializeField] private bool drawGizmo;
 }
