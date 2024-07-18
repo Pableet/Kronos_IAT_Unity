@@ -1,18 +1,22 @@
 using System.Drawing;
 using TMPro;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class AbilityAmountLimit : MonoBehaviour
 {
     [SerializeField] public TMP_Text availableText;
 
-    public Player player;
-
     public int available;
     public int totalSpent;
 
+    private Player _player;
+
     public void Awake()
     {
+        _player = Player.Instance;
+
+
         UpdatePlayerTimePoint();
 
         Render();
@@ -42,9 +46,9 @@ public class AbilityAmountLimit : MonoBehaviour
 
     public void UpdatePlayerTimePoint()
     {
-        if (player != null)
+        if (_player != null)
         {
-            available = (int)player.TP;
+            available = (int)_player.TP;
         }
 
         Render();
@@ -60,9 +64,9 @@ public class AbilityAmountLimit : MonoBehaviour
             totalSpent += point;
         }
 
-        if (player != null)
+        if (_player != null)
         {
-            player.TP = (float)available;
+            _player.TP = (float)available;
         }
 
         Render();
