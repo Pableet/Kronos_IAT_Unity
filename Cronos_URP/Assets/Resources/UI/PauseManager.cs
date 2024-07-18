@@ -5,32 +5,61 @@ using UnityEngine.InputSystem;
 
 public class PauseManager : MonoBehaviour
 {
-    public static PauseManager pauseManager;
+    [SerializeField]
+    Player player;
+    [SerializeField]
+    GameObject playerCam;
+
+    // ±×·± ½Ì±ÛÅÏÀ¸·Î ±¦ÂúÀº°¡
+    private static PauseManager instance;
+    public static PauseManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<PauseManager>();
+                if (instance == null)
+                {
+                    GameObject pauseManager = new GameObject(typeof(PauseManager).Name);
+                    instance = pauseManager.AddComponent<PauseManager>();
+
+                    DontDestroyOnLoad(pauseManager);
+                }
+            }
+            return instance;
+        }
+    }
     public static PlayerInput playerInput;
 
     public static bool isPaused { get; private set; }
 
-    private void Awake()
+    private void OnEnable()
     {
-        if (pauseManager == null)
-            pauseManager = this;
-
         playerInput = GetComponent<PlayerInput>();
     }
 
-    public static void PauseGame()
-    {
-        isPaused = true;
-        Time.timeScale = 0f;
 
-        playerInput.SwitchCurrentActionMap("UI");
+    private void Update()
+    {
+
     }
 
-    public static void UnPauseGame()
+    public void PauseGame()
     {
-        isPaused = false;
-        Time.timeScale = 1f;
+        playerCam.gameObject.SetActive(false);
+        Debug.Log("Pause");
+        playerInput.SwitchCurrentActionMap("UI");
+        player.gameObject.GetComponent<InputReader>().enabled = false;
+        Time.timeScale = 0f;
+    }
 
+    public void UnPauseGame()
+    {
+        playerCam.gameObject.SetActive(true);
+        Debug.Log("Unpause");
         playerInput.SwitchCurrentActionMap("Player");
+        player.gameObject.GetComponent<InputReader>().enabled = true;
+        Time.timeScale = 1f;
     }
 }

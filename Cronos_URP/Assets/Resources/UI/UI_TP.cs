@@ -12,7 +12,7 @@ public class UI_TPCP : MonoBehaviour
 
     protected enum Texts
     {
-        UI_TP,
+        HUD_TPAmount,
         //UI_CP
     }
 
