@@ -156,7 +156,7 @@ public class SoundMixer : MonoBehaviour
         sfxSlider.value = aSfx / 100f;
     }
 
-    void ExitPanel()
+    public void ExitPanel()
     {
         // 레이캐스트 돌려놓고가
         canvasGroup.blocksRaycasts = true;

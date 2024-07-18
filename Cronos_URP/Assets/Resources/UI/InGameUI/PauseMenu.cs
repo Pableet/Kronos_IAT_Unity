@@ -67,40 +67,56 @@ public class PauseMenu : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (!isPaused)
-            {
-                pausePanel.SetActive(true);
-                isPaused = true;
-                pauseManager.PauseGame();
-                Debug.Log("퍼즈메뉴열기");
-            }
-            else if (isOption)
-            {
-                optionPanel.SetActive(false);
-                isOption = false;
-            }
-            else if (isControl)
-            {
-                controlPanel.SetActive(false);
-                isControl = false;
-            }
-            else if (isLoad)
-            {
-                loadPanel.GetComponent<LoadPanel>().ExitLoad();
-                isLoad = false;
-            }
-            else if (isTitle)
-            {
-                titlePanel.GetComponent<LoadPanel>().ExitLoad();
-                isTitle = false;
-            }
+                OpenPauseMenu();
+
             else
-            {
-                pausePanel.SetActive(false);
-                optionPanel.SetActive(false);
-                isPaused = false;
-                pauseManager.UnPauseGame();
-                Debug.Log("퍼즈메뉴닫기");
-            }
+                ClosePanel();
+        }
+    }
+
+    void OpenPauseMenu()
+    {
+        pausePanel.SetActive(true);
+        isPaused = true;
+        pauseManager.PauseGame();
+        Debug.Log("퍼즈메뉴열기");
+    }
+
+    void ClosePauseMenu()
+    {
+        pausePanel.SetActive(false);
+        optionPanel.SetActive(false);
+        isPaused = false;
+        pauseManager.UnPauseGame();
+        Debug.Log("퍼즈메뉴닫기");
+    }
+
+    void ClosePanel()
+    {
+        if (isOption)
+        {
+            optionPanel.GetComponentInChildren<SoundMixer>().NoButton();
+            optionPanel.GetComponentInChildren<SoundMixer>().ExitPanel();
+            isOption = false;
+        }
+        else if (isControl)
+        {
+            controlPanel.SetActive(false);
+            isControl = false;
+        }
+        else if (isLoad)
+        {
+            loadPanel.GetComponent<LoadPanel>().ExitLoad();
+            isLoad = false;
+        }
+        else if (isTitle)
+        {
+            titlePanel.GetComponent<LoadPanel>().ExitLoad();
+            isTitle = false;
+        }
+        else
+        {
+            ClosePauseMenu();
         }
     }
 }
