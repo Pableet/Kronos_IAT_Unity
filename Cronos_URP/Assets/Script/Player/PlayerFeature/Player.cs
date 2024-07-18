@@ -359,10 +359,12 @@ public class Player : MonoBehaviour, IMessageReceiver
 	public void AttackStart()
 	{
 		meleeWeapon.BeginAttack();
+		meleeWeapon.gameObject.SetActive(true);
 	}
 	public void AttackEnd()
 	{
 		meleeWeapon.EndAttack();
+		meleeWeapon.gameObject.SetActive(false);
 	}
 
 	// 칼 사운드를 출력할 때 이펙트를 뿜어보자
