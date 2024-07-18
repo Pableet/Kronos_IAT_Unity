@@ -163,7 +163,10 @@ public class Player : MonoBehaviour, IMessageReceiver
 		CurrentState = PlayerFSM.GetState().GetType().Name;
 
 		// 실시간으로 TP 감소
-		_damageable.currentHitPoints -= Time.deltaTime;
+		if(_damageable.currentHitPoints > 0f)
+		{
+			_damageable.currentHitPoints -= Time.deltaTime;
+		}
 
 		// 실시간으로 CP감소
 		if (IsDecreaseCP && CP > 0)

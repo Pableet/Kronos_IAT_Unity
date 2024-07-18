@@ -2,13 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
-using UnityEngine.Tilemaps;
-using UnityEngine.Rendering.Universal.Internal;
-using System.Data.SqlTypes;
-using UnityEngine.Purchasing.Extension;
 using Unity.Mathematics;
-using System.Security;
-using System.Data;
 public class AutoTargetting : MonoBehaviour
 {
 	static AutoTargetting instance;
@@ -21,13 +15,13 @@ public class AutoTargetting : MonoBehaviour
 	public float verticalSpeed = 3f;    // 수직 회전 속도
 
 	public GameObject Player;       // 플레이어
-	public Transform Target = null;     // Player가 바라볼 대상
-	public Transform PlayerObject; // 플레이어 오브젝트 
+	public Transform Target = null; // Player가 바라볼 대상
+	public Transform PlayerObject;	// 플레이어 오브젝트 
 
 	Transform maincamTransform;
 
-	public float lockOnAixsDamp = 0.99f;  // 어느정도까지 따라갈 것인가!
-	public float autoTargettingAixsDamp = 0.99f;  // 어느정도까지 따라갈 것인가!
+	public float lockOnAixsDamp = 0.99f;			// 어느정도까지 따라갈 것인가!
+	public float autoTargettingAixsDamp = 0.99f;	// 어느정도까지 따라갈 것인가!
 	public float exitValue;
 
 	private PlayerStateMachine stateMachine;
@@ -35,8 +29,8 @@ public class AutoTargetting : MonoBehaviour
 	private Vector3 direction;
 	private float xDotResult;
 	private float yDotResult;
-	bool isTargetting = false;
-	bool isFacing = false;
+	private bool isTargetting = false;
+	private bool isFacing = false;
 
 
 	// 몬스터리스트
@@ -45,8 +39,8 @@ public class AutoTargetting : MonoBehaviour
 
 	private void Awake()
 	{
-		instance = this;
-		MonsterList = new List<GameObject>();
+		instance = this;	// 싱글턴으로 쓰겠다.
+		MonsterList = new List<GameObject>(); // 몬스터를 담자
 	}
 
 	public Transform GetTarget()
@@ -58,30 +52,78 @@ public class AutoTargetting : MonoBehaviour
 	public void OnEnable()
 	{
 		stateMachine = Player.GetComponent<PlayerStateMachine>();
+
 		maincamTransform = Camera.main.transform;
 		CinemachinePOV = PlayerCamera.GetCinemachineComponent<CinemachinePOV>();
 		var pov = PlayerCamera.GetCinemachineComponent<CinemachinePOV>();
 		var test = PlayerCamera.IsValid;
 	}
 
+	/// 콜라이더에 몬스터가 들어오면 리스트에 추가한다.
 	private void OnTriggerEnter(Collider other)
 	{
-		// 콜라이더에 몬스터가 들어오면 리스트에 추가한다.
 		if (other.CompareTag("Respawn"))
 		{
 			MonsterList.Add(FindChildRecursive(other.gameObject.transform, "LockOnTarget").gameObject);
 		}
 
 	}
+	/// 콜라이더에서 몬스터가 나가면 리스트에서 제거한다.
 	private void OnTriggerExit(Collider other)
 	{
-		// 콜라이더에서 몬스터가 나가면 리스트에서 제거한다.
 		if (other.CompareTag("Respawn"))
 		{
 			MonsterList.Remove(FindChildRecursive(other.gameObject.transform, "LockOnTarget").gameObject);
 		}
 	}
 
+	// Update is called once per frame
+	void Update()
+	{
+		// Player가 바라볼 방향을 정한다.
+		if (Target != null)
+		{
+			direction = Target.position - PlayerObject.position;
+			direction.y = 0;
+		}
+
+		xDotResult = Mathf.Abs(Vector3.Dot(maincamTransform.right, Vector3.Cross(Vector3.up, direction.normalized).normalized)); 
+		yDotResult = Mathf.Abs(Vector3.Dot(maincamTransform.up, Vector3.Cross(Vector3.right, direction.normalized).normalized));
+
+		if (Input.GetKeyDown(KeyCode.Mouse0))
+		{
+			if (FindTarget())
+			{
+				isTargetting = true;
+				StartCoroutine(AutoTarget());
+			}
+			else
+			{
+				return;
+			}
+		}
+
+		if (stateMachine.Player.IsLockOn)
+		{
+			LockOn();
+		}  
+	}
+
+	private void FixedUpdate()
+	{
+		// Player가 몬스터 방향으로 몸을 돌린다.
+		if ((isTargetting || stateMachine.Player.IsLockOn || isFacing) && stateMachine.GetState().ToString() != "PlayerParryState")
+		{
+			stateMachine.Rigidbody.MoveRotation(Quaternion.Slerp(stateMachine.transform.rotation, Quaternion.LookRotation(direction.normalized), 0.1f));
+		}
+	}
+
+	/// <summary>
+	/// 오브젝트를 순회하며 찾는다.
+	/// </summary>
+	/// <param name="parent">부모 오브젝트</param>
+	/// <param name="childName">자식 오브젝트 이름</param>
+	/// <returns></returns>
 	Transform FindChildRecursive(Transform parent, string childName)
 	{
 		// 현재 부모의 하위 오브젝트들을 순회합니다.
@@ -104,55 +146,6 @@ public class AutoTargetting : MonoBehaviour
 		return null;
 	}
 
-
-
-	// Update is called once per frame
-	void Update()
-	{
-
-		// Player가 바라볼 방향을 정한다.
-		if (Target != null)
-		{
-			direction = Target.position - PlayerObject.position;
-			direction.y = 0;
-		}
-
-		xDotResult = Mathf.Abs(Vector3.Dot(maincamTransform.right, Vector3.Cross(Vector3.up, direction.normalized).normalized)); 
-		yDotResult = Mathf.Abs(Vector3.Dot(maincamTransform.up, Vector3.Cross(Vector3.right, direction.normalized).normalized));
-
-		/// 공격이 일어났을때 
-		/// 제대로 쓸거면 inputsystem을 사용하는 방식으로 고치자
-		if (Input.GetKeyDown(KeyCode.Mouse0))
-		{
-
-			FindTarget();
-			if (Target == null)
-			{
-				return;
-			}
-			else
-			{
-				isTargetting = true;
-				StartAutoTargetting();
-			}
-		}
-
-		if (stateMachine.Player.IsLockOn)
-		{
-			LockOn();
-		}  
-	}
-
-	private void FixedUpdate()
-	{
-		// Player가 몬스터 방향으로 몸을 돌린다.
-		if ((isTargetting || stateMachine.Player.IsLockOn || isFacing) && stateMachine.GetState().ToString() != "PlayerParryState")
-		{
-			//stateMachine.Rigidbody.rotation = Quaternion.LookRotation(direction.normalized);
-			stateMachine.Rigidbody.MoveRotation(Quaternion.Slerp(stateMachine.transform.rotation, Quaternion.LookRotation(direction.normalized), 0.1f));
-		}
-	}
-
 	// 타겟을 바라보는 건 언제 끝나지? 
 	private void FacingTarget()
 	{
@@ -160,11 +153,6 @@ public class AutoTargetting : MonoBehaviour
 		{
 			isFacing = false;
 		}
-	}
-
-	private void StartAutoTargetting()
-	{
-		StartCoroutine(AutoTarget());
 	}
 
 	private void StopAutoTargetting()
@@ -195,7 +183,7 @@ public class AutoTargetting : MonoBehaviour
 
 				// 내적값이 0.99 보다 작으면 더한다.
 				if (xDotResult < autoTargettingAixsDamp)
-				{
+				{	
 					if (xDotResult > exitValue && stateMachine.InputReader.moveComposite.magnitude != 0f)
 					{
 						StopAutoTargetting();
@@ -221,7 +209,6 @@ public class AutoTargetting : MonoBehaviour
 	{
 		CinemachinePOV.m_VerticalAxis.Value -= value;
 	}
-
 	// 특정 포지션을 특정 트렌스폼에서 바라본다.
 	private Vector3 TransformPosition(Transform transform, Vector3 worldPosition)
 	{
