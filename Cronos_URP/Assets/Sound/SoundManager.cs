@@ -45,7 +45,7 @@ public class SoundManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //PlayBGM("Demo_SE");
+        PlayBGM("Demo_SE");
     }
 
     void Update()
