@@ -804,6 +804,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6874883383856070356, guid: 274a3a78a3e481640809fb1bb0518c65, type: 3}
+      propertyPath: targetLayers.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     - target: {fileID: 8719960461159335241, guid: 274a3a78a3e481640809fb1bb0518c65, type: 3}
       propertyPath: m_IsTrigger
       value: 1
