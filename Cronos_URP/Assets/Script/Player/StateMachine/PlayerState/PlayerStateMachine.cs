@@ -1,4 +1,6 @@
 
+using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
 //using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 [RequireComponent(typeof(Player))]
@@ -20,6 +22,7 @@ public class PlayerStateMachine : StateMachine
     public Transform PlayerTransform { get; private set; }
     public HitStop HitStop { get; private set; }
 	public AutoTargetting AutoTargetting;
+	public GroundChecker GroundChecker;
 	public float MoveForce {  get; set; }
 	public bool IsGrounded {  get;  set; }
 
@@ -38,20 +41,14 @@ public class PlayerStateMachine : StateMachine
         MainCamera = Camera.main.transform;
         PlayerTransform = GetComponent<Transform>();
         HitStop = GetComponent<HitStop>();
+		GroundChecker = GetComponent<GroundChecker>();
 
 		// 시작 상태를 정해준다.
 		SwitchState(new PlayerIdleState(this));
 	}
 
-
-	public void AnimationStop()
-	{
-		Animator.speed = 0f; 
-	}
-
-	public void AnimationGO()
-	{
-		Animator.speed = 1f;
-	}
-
+	[SerializeField] private LayerMask groundLayer;
+	[SerializeField] private float radius = 0.3f;
+	[SerializeField] private float offset = 0.1f;
+	[SerializeField] private bool drawGizmo;
 }

@@ -34,10 +34,10 @@ public class PlayerIdleState : PlayerBaseState
 		}
 
 		// playerComponent기준으로 땅에 닿아있지 않다면
-		if (!IsGrounded())
-		{
-			//stateMachine.SwitchState(new PlayerFallState(stateMachine)); // 상태를 생성해서 접근한다.
-		}
+// 		if (!IsGrounded())
+// 		{
+// 			//stateMachine.SwitchState(new PlayerFallState(stateMachine)); // 상태를 생성해서 접근한다.
+// 		}
 		// 움직이면 == 이동키입력을 받으면
 		if (stateMachine.InputReader.moveComposite.magnitude != 0f)
 		{

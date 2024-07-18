@@ -14,12 +14,11 @@ public class PlayerFallState : PlayerBaseState
 	}
 	public override void Tick()
 	{
-
-		if (IsGrounded())
+		if (stateMachine.GroundChecker.IsGrounded())
 		{
-			stateMachine.Animator.speed = 1f;
+			//stateMachine.Animator.speed = 1f;
 			stateMachine.Animator.SetBool(FallHash, false);
-			stateMachine.SwitchState(new PlayerIdleState(stateMachine));
+			//stateMachine.SwitchState(new PlayerIdleState(stateMachine));
 		}
 
 	}

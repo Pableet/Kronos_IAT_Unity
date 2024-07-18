@@ -89,16 +89,39 @@ public abstract class PlayerBaseState : State
 	}
 
 
-	public bool IsGrounded()
-	{
-		RaycastHit hit;
-		float distance = 0.1f;
-		bool isGrounded = Physics.Raycast(stateMachine.transform.position, Vector3.down, out hit, distance);
-		//Debug.Log($"¶¥¿¡ ´ê¾Ò³ª? {isGrounded}");
-		// Raycast¸¦ »ç¿ëÇÏ¿© ¶¥À» Ã¼Å©
-		stateMachine.IsGrounded = isGrounded;
-		return isGrounded;
-	}
+	//public bool IsGrounded()
+// 	{
+// 		RaycastHit hit;
+// 		float distance = 0.1f;
+// 		bool isGrounded = Physics.Raycast(stateMachine.transform.position, Vector3.down, out hit, distance);
+// 		//Debug.Log($"¶¥¿¡ ´ê¾Ò³ª? {isGrounded}");
+// 		// Raycast¸¦ »ç¿ëÇÏ¿© ¶¥À» Ã¼Å©
+// 		stateMachine.IsGrounded = isGrounded;
+// 		return isGrounded;
+// 	}
+// 	[SerializeField] private LayerMask groundLayer;
+// 	[SerializeField] private float radius = 0.3f;
+// 	[SerializeField] private float offset = 0.1f;
+// 	[SerializeField] private bool drawGizmo;
+// 
+// 
+// 	private void OnDrawGizmos()
+// 	{
+// 		if (!drawGizmo)
+// 		{
+// 			return;
+// 		}
+// 
+// 		Gizmos.color = Color.cyan;
+// 		Gizmos.DrawSphere(stateMachine.transform.position + Vector3.up * offset, radius);
+// 	}
+// 	public bool IsGrounded()
+// 	{
+// 		Vector3 pos = stateMachine.transform.position + Vector3.up * offset;
+// 		bool isGrounded = Physics.CheckSphere(pos, radius, groundLayer);
+// 
+// 		return isGrounded;
+// 	}
 
 
 

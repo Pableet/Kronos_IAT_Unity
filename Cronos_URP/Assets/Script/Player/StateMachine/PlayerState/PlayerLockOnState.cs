@@ -42,10 +42,10 @@ public class PlayerLockOnState : PlayerBaseState
 		stateMachine.Animator.speed = stateMachine.Player.CP * stateMachine.Player.MoveCoefficient + 1f;
 
 		// playerComponent기준으로 땅에 닿아있지 않다면
-		if (!IsGrounded())
-		{
-			stateMachine.SwitchState(new PlayerFallState(stateMachine)); // 상태를 생성해서 접근한다.
-		}
+		//if (!IsGrounded())
+		//{
+			//stateMachine.SwitchState(new PlayerFallState(stateMachine)); // 상태를 생성해서 접근한다.
+		//}
 		 
 		float moveSpeed = 0.5f;
 

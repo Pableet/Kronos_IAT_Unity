@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 public class FallBehaviour : StateMachineBehaviour
@@ -10,12 +11,14 @@ public class FallBehaviour : StateMachineBehaviour
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
 		stateMachine = PlayerStateMachine.GetInstance();
+		stateMachine.SwitchState(new PlayerFallState(stateMachine));
 	}
 
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
-		if (stateMachine.IsGrounded)
+		if (stateMachine.GroundChecker.isActiveAndEnabled
+			)
 		{
 			animator.SetBool(fallHash, false);
 		}
