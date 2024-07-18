@@ -22,24 +22,12 @@ public class PlayerMoveState : PlayerBaseState
 
 	public override void Enter()
 	{
-// 		stateMachine.InputReader.onJumpPerformed += SwitchToParryState; // 스테이트에 돌입할때 input에 맞는 함수를 넣어준다
-// 		stateMachine.InputReader.onLAttackStart += SwitchToLAttackState;
-// 		stateMachine.InputReader.onRAttackStart += SwitchToRAttackState;
-// 		stateMachine.InputReader.onRAttackStart += SwitchToDefanceState;
-		//stateMachine.InputReader.onLockOnStart += LockOn;
-
 		stateMachine.InputReader.onSwitchingStart += Deceleration;
 	}
 
 	// state의 update라 볼 수 있지
 	public override void Tick()
 	{
-// 		// 이동하지 않으면 idle
-// 		if (stateMachine.InputReader.moveComposite.magnitude == 0)
-// 		{
-// 			stateMachine.SwitchState(new PlayerIdleState(stateMachine));
-// 		}
-
 		if (Input.GetKeyDown(KeyCode.V))
 		{
 			stateMachine.Player.CP += 1f;
@@ -47,12 +35,6 @@ public class PlayerMoveState : PlayerBaseState
 
 		// 플레이어의 cp 를 이동속도에 반영한다.
 		stateMachine.Animator.speed = stateMachine.Player.CP * stateMachine.Player.MoveCoefficient + 1f;
-
-// 		// playerComponent기준으로 땅에 닿아있지 않다면
-// 		if (!IsGrounded())
-// 		{
-// 			stateMachine.SwitchState(new PlayerFallState(stateMachine)); // 상태를 생성해서 접근한다.
-// 		}
 
 		//moveSpeed = 0.5f;
 		if (Input.GetButton("Run"))
@@ -147,12 +129,6 @@ public class PlayerMoveState : PlayerBaseState
 
 	public override void Exit()
 	{
-		// 상태를 탈출할때는 jump의 대한 Action을 제거해준다.
-// 		stateMachine.InputReader.onJumpPerformed -= SwitchToParryState;
-// 		stateMachine.InputReader.onLAttackStart -= SwitchToLAttackState;
-// 		stateMachine.InputReader.onRAttackStart -= SwitchToRAttackState;
-// 		stateMachine.InputReader.onRAttackStart -= SwitchToDefanceState;
-
 		stateMachine.InputReader.onSwitchingStart -= Deceleration;
 	}
 
@@ -165,27 +141,6 @@ public class PlayerMoveState : PlayerBaseState
 		}
 
 	}
-
-// 	private void SwitchToParryState()
-// 	{
-// 		stateMachine.SwitchState(new PlayerParryState(stateMachine));
-// 	}
-// 
-// 	private void SwitchToLAttackState()
-// 	{
-// 		stateMachine.SwitchState(new PlayerAttackState(stateMachine));
-// 	}
-// 
-// 	private void SwitchToRAttackState()
-// 	{
-// 		
-// 		stateMachine.SwitchState(new PlayerDefenceState(stateMachine));
-// 	}
-// 
-// 	private void SwitchToDefanceState()
-// 	{
-// 		stateMachine.SwitchState(new PlayerDefenceState(stateMachine));
-// 	}
 
 	// 값 변화를 부드럽게 주자
 	IEnumerator SmoothChangeSpeed()

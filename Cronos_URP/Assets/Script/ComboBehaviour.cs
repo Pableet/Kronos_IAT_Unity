@@ -25,8 +25,9 @@ public class ComboBehaviour : StateMachineBehaviour
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
 		stateMachine = PlayerStateMachine.GetInstance();
-		stateMachine.MoveForce = moveForce;
 		stateMachine.SwitchState(new PlayerAttackState(stateMachine));
+
+		stateMachine.MoveForce = moveForce;
 		stateMachine.HitStop.hitStopTime = hitStopTime;
 		animator.SetBool(nextComboHash, false);
 		animator.ResetTrigger("Attack");
@@ -35,6 +36,11 @@ public class ComboBehaviour : StateMachineBehaviour
 	//OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
+
+		if (stateMachine.Velocity.z != 0f)
+		{
+			int a = 3;
+		}
 		/// Å°ÀÔ·Â
 		if (Input.GetKeyDown(KeyCode.Mouse1))
 		{
