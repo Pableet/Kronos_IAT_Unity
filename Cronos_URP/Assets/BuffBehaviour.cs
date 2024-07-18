@@ -1,25 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class BuffBehaviour : StateMachineBehaviour
 {
-	PlayerStateMachine stateMachine;
 	private readonly int attackHash = Animator.StringToHash("Attack");
 	private readonly int moveHash = Animator.StringToHash("isMove");
+	private readonly int idleHash = Animator.StringToHash("goIdle");
+	private readonly int dodgeHash = Animator.StringToHash("Dodge");
+	[SerializeField] private float buffTimer = 0f;
+	[SerializeField] private float buffTime;
 
-	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
-		stateMachine = PlayerStateMachine.GetInstance();
+		PlayerStateMachine.GetInstance().SwitchState(new PlayerBuffState(PlayerStateMachine.GetInstance()));
 		animator.ResetTrigger(attackHash);
-		stateMachine.SwitchState(new PlayerBuffState(stateMachine));
+		animator.ResetTrigger(idleHash);
+		buffTimer = 0f;
 	}
 
-	//OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
-		if (stateMachine.InputReader.moveComposite.magnitude != 0f)
+		buffTimer += Time.deltaTime;
+
+		// 특정 조건을 만족할 때 애니메이션을 종료하고 targetStateName으로 전환
+		if (buffTimer > buffTime)
+		{
+			animator.SetTrigger(idleHash);
+		}
+
+		if (PlayerStateMachine.GetInstance().InputReader.moveComposite.magnitude != 0f)
 		{
 			animator.SetBool(moveHash, true);
 		}
@@ -28,7 +39,10 @@ public class BuffBehaviour : StateMachineBehaviour
 		{
 			animator.SetTrigger(attackHash);
 		}
-
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			animator.SetTrigger(dodgeHash);
+		}
 	}
 
 	// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -48,4 +62,5 @@ public class BuffBehaviour : StateMachineBehaviour
 	//{
 	//    // Implement code that sets up animation IK (inverse kinematics)
 	//}
+
 }

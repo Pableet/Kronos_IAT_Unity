@@ -33,6 +33,11 @@ public class MoveTreeBehaviour : StateMachineBehaviour
 			animator.SetBool(moveHash, false);
 		}
 
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			animator.SetTrigger(dodgeHash);
+		}
+
 	}
 	// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 	//override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

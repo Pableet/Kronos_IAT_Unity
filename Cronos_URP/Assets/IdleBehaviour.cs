@@ -5,16 +5,18 @@ using UnityEngine;
 public class IdleBehaviour : StateMachineBehaviour
 {
 	PlayerStateMachine stateMachine;
+	Vector3 direction;
 
 	private readonly int attackHash = Animator.StringToHash("Attack");
 	private readonly int moveHash = Animator.StringToHash("isMove");
-	private readonly int dodgeHash = Animator.StringToHash("Dodge");
 	private readonly int guradHash = Animator.StringToHash("isGuard");
 
 	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
 		stateMachine = PlayerStateMachine.GetInstance();
+		animator.ResetTrigger("goIdle");
+		stateMachine.SwitchState(new PlayerIdleState(stateMachine));
 	}
 
 	//OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -23,6 +25,10 @@ public class IdleBehaviour : StateMachineBehaviour
 		if (stateMachine.InputReader.moveComposite.magnitude != 0f)
 		{
 			animator.SetBool(moveHash, true);
+		}
+		else
+		{
+			animator.SetBool(moveHash, false);
 		}
 
 		if (Input.GetKeyDown(KeyCode.Mouse0))

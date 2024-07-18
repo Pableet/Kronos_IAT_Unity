@@ -76,7 +76,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 	Transform playerTransform;
 	AutoTargetting targetting;
 
-	MeleeTriggerEnterDamager meleeWeapon;
+	SimpleDamager meleeWeapon;
 	PlayerStateMachine PlayerFSM;
 
 	public Damageable _damageable;
@@ -113,7 +113,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 		PlayerFSM = GetComponent<PlayerStateMachine>();
 		playerTransform = GetComponent<Transform>();
 
-		meleeWeapon = GetComponentInChildren<MeleeTriggerEnterDamager>();
+		meleeWeapon = GetComponentInChildren<SimpleDamager>();
 		meleeWeapon.SetOwner(gameObject);
 		meleeWeapon.OnTriggerEnterEvent += ChargeCP;
 
@@ -265,7 +265,11 @@ public class Player : MonoBehaviour, IMessageReceiver
 		{
 			return;
 		}
-			PlayerFSM.SwitchState(new PlayerDamagedState(PlayerFSM));
+		if (PlayerFSM.GetState().ToString() == "PlayerDamagedState")
+		{
+			return;
+		}
+		PlayerFSM.SwitchState(new PlayerDamagedState(PlayerFSM));
 	}
 
 	public void Death(Damageable.DamageMessage msg)

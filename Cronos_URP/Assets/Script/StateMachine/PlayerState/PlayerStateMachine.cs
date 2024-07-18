@@ -20,7 +20,7 @@ public class PlayerStateMachine : StateMachine
     public Transform PlayerTransform { get; private set; }
     public HitStop HitStop { get; private set; }
 	public AutoTargetting AutoTargetting;
-
+	public float MoveForce {  get; set; }
 	public bool IsGrounded {  get;  set; }
 
 	public void Awake()
@@ -41,7 +41,6 @@ public class PlayerStateMachine : StateMachine
 
 		// 시작 상태를 정해준다.
 		SwitchState(new PlayerIdleState(this));
-		//SwitchState(new PlayerMoveState(this));
 	}
 
 

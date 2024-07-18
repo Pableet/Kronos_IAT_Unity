@@ -21,4 +21,8 @@ public class ATypeEnemySMBStrongAttack : SceneLinkedSMB<ATypeEnemyBehavior>
 
         // Strafe - 플레이어가 공격 패링에 실패 했을 때(애니메이션이 모두 끝난 뒤)
     }
+
+    public override void OnSLStatePreExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+    }
 }

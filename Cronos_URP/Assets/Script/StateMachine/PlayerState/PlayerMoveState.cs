@@ -9,24 +9,23 @@ public class PlayerMoveState : PlayerBaseState
 {
 	private readonly int MoveSpeedHash = Animator.StringToHash("MoveSpeed");
 	private readonly int SideWalkHash = Animator.StringToHash("SideWalk");
-	private readonly int MoveBlendTreeHash = Animator.StringToHash("MoveBlendTree");
+	private readonly int moveXHash = Animator.StringToHash("moveX");
+	private readonly int moveYHash = Animator.StringToHash("moveY");
 	private const float AnimationDampTime = 0.1f;
-	private const float CrossFadeDuration = 0.3f;
 
 	float moveSpeed = 0.5f;
 	public float targetSpeed = 0.5f;
 
 	float releaseLockOn = 0f;
 
-
 	public PlayerMoveState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
 	public override void Enter()
 	{
-		stateMachine.InputReader.onJumpPerformed += SwitchToParryState; // 스테이트에 돌입할때 input에 맞는 함수를 넣어준다
-		stateMachine.InputReader.onLAttackStart += SwitchToLAttackState;
-		stateMachine.InputReader.onRAttackStart += SwitchToRAttackState;
-		stateMachine.InputReader.onRAttackStart += SwitchToDefanceState;
+// 		stateMachine.InputReader.onJumpPerformed += SwitchToParryState; // 스테이트에 돌입할때 input에 맞는 함수를 넣어준다
+// 		stateMachine.InputReader.onLAttackStart += SwitchToLAttackState;
+// 		stateMachine.InputReader.onRAttackStart += SwitchToRAttackState;
+// 		stateMachine.InputReader.onRAttackStart += SwitchToDefanceState;
 		//stateMachine.InputReader.onLockOnStart += LockOn;
 
 		stateMachine.InputReader.onSwitchingStart += Deceleration;
@@ -35,11 +34,11 @@ public class PlayerMoveState : PlayerBaseState
 	// state의 update라 볼 수 있지
 	public override void Tick()
 	{
-		// 이동하지 않으면 idle
-		if (stateMachine.InputReader.moveComposite.magnitude == 0)
-		{
-			stateMachine.SwitchState(new PlayerIdleState(stateMachine));
-		}
+// 		// 이동하지 않으면 idle
+// 		if (stateMachine.InputReader.moveComposite.magnitude == 0)
+// 		{
+// 			stateMachine.SwitchState(new PlayerIdleState(stateMachine));
+// 		}
 
 		if (Input.GetKeyDown(KeyCode.V))
 		{
@@ -49,14 +48,13 @@ public class PlayerMoveState : PlayerBaseState
 		// 플레이어의 cp 를 이동속도에 반영한다.
 		stateMachine.Animator.speed = stateMachine.Player.CP * stateMachine.Player.MoveCoefficient + 1f;
 
-		// playerComponent기준으로 땅에 닿아있지 않다면
-		if (!IsGrounded())
-		{
-			stateMachine.SwitchState(new PlayerFallState(stateMachine)); // 상태를 생성해서 접근한다.
-		}
+// 		// playerComponent기준으로 땅에 닿아있지 않다면
+// 		if (!IsGrounded())
+// 		{
+// 			stateMachine.SwitchState(new PlayerFallState(stateMachine)); // 상태를 생성해서 접근한다.
+// 		}
 
 		//moveSpeed = 0.5f;
-
 		if (Input.GetButton("Run"))
 		{
 			moveSpeed = 1f;
@@ -104,8 +102,9 @@ public class PlayerMoveState : PlayerBaseState
 		if (stateMachine.Player.IsLockOn && moveSpeed < 0.6f)
 		{
 			// moveSpeed에 y값을곱해서 전방이동인지 후방이동인지 확인한다.
-			stateMachine.Animator.SetFloat(MoveSpeedHash, 
-											/*Mathf.Abs(stateMachine.InputReader.moveComposite.y) > 0f ? moveSpeed :*/ (moveSpeed * stateMachine.InputReader.moveComposite.y), AnimationDampTime, Time.deltaTime);
+			stateMachine.Animator.SetFloat(MoveSpeedHash,
+											/*Mathf.Abs(stateMachine.InputReader.moveComposite.y) > 0f ? moveSpeed :*/ 
+											(moveSpeed * stateMachine.InputReader.moveComposite.y), AnimationDampTime, Time.deltaTime);
 		}
 		else
 		{
@@ -120,6 +119,8 @@ public class PlayerMoveState : PlayerBaseState
 		}
 		else
 		{
+			stateMachine.Animator.SetFloat(moveXHash, stateMachine.InputReader.moveComposite.x, AnimationDampTime, Time.deltaTime);
+			stateMachine.Animator.SetFloat(moveYHash, stateMachine.InputReader.moveComposite.y, AnimationDampTime, Time.deltaTime);
 			stateMachine.Animator.SetFloat(SideWalkHash, stateMachine.InputReader.moveComposite.x, AnimationDampTime, Time.deltaTime);
 		}
 		CalculateMoveDirection();   // 방향을 계산하고
@@ -147,66 +148,44 @@ public class PlayerMoveState : PlayerBaseState
 	public override void Exit()
 	{
 		// 상태를 탈출할때는 jump의 대한 Action을 제거해준다.
-		stateMachine.InputReader.onJumpPerformed -= SwitchToParryState;
-		stateMachine.InputReader.onLAttackStart -= SwitchToLAttackState;
-		stateMachine.InputReader.onRAttackStart -= SwitchToRAttackState;
-		stateMachine.InputReader.onRAttackStart -= SwitchToDefanceState;
+// 		stateMachine.InputReader.onJumpPerformed -= SwitchToParryState;
+// 		stateMachine.InputReader.onLAttackStart -= SwitchToLAttackState;
+// 		stateMachine.InputReader.onRAttackStart -= SwitchToRAttackState;
+// 		stateMachine.InputReader.onRAttackStart -= SwitchToDefanceState;
 
 		stateMachine.InputReader.onSwitchingStart -= Deceleration;
-
 	}
 
 	private void Deceleration()
 	{
 		if (stateMachine.Player.CP >= 100)
 		{
-			Debug.Log("몬스터들이 느려진다");
 			BulletTime.Instance.DecelerateSpeed();
 			stateMachine.Player.IsDecreaseCP = true;
 		}
 
 	}
 
-	private void SwitchToParryState()
-	{
-		Debug.Log("구른다");
-		stateMachine.SwitchState(new PlayerParryState(stateMachine));
-	}
-
-	private void SwitchToLAttackState()
-	{
-		//stateMachine.Animator.SetTrigger("Attack");
-		stateMachine.SwitchState(new PlayerAttackState(stateMachine));
-	}
-
-	private void SwitchToRAttackState()
-	{
-		stateMachine.Animator.SetBool("isGuard", true);
-		stateMachine.SwitchState(new PlayerDefenceState(stateMachine));
-	}
-
-	private void SwitchToDefanceState()
-	{
-		stateMachine.SwitchState(new PlayerDefenceState(stateMachine));
-	}
-	private void LockOn()
-	{
-		if (!stateMachine.Player.IsLockOn)
-		{
-			// 			// 자동조준을 해제하고 
-			// 			stateMachine.AutoTargetting.LockOff();
-			// 대상을 찾고
-			stateMachine.Player.IsLockOn = stateMachine.AutoTargetting.FindTarget();
-			// lockOn한다.
-			//stateMachine.AutoTargetting.LockOn();
-		}
-		else
-		{
-			stateMachine.AutoTargetting.LockOff();
-			//stateMachine.AutoTargetting.SwitchTarget();
-		}
-
-	}
+// 	private void SwitchToParryState()
+// 	{
+// 		stateMachine.SwitchState(new PlayerParryState(stateMachine));
+// 	}
+// 
+// 	private void SwitchToLAttackState()
+// 	{
+// 		stateMachine.SwitchState(new PlayerAttackState(stateMachine));
+// 	}
+// 
+// 	private void SwitchToRAttackState()
+// 	{
+// 		
+// 		stateMachine.SwitchState(new PlayerDefenceState(stateMachine));
+// 	}
+// 
+// 	private void SwitchToDefanceState()
+// 	{
+// 		stateMachine.SwitchState(new PlayerDefenceState(stateMachine));
+// 	}
 
 	// 값 변화를 부드럽게 주자
 	IEnumerator SmoothChangeSpeed()
