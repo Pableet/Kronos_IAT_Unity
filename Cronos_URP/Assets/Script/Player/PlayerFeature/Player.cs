@@ -111,7 +111,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 	Transform playerTransform;
 	AutoTargetting targetting;
 
-	SimpleDamager meleeWeapon;
+    MeleeWeapon meleeWeapon;
 	PlayerStateMachine PlayerFSM;
 
 	public Damageable _damageable;
@@ -148,9 +148,8 @@ public class Player : MonoBehaviour, IMessageReceiver
 		PlayerFSM = GetComponent<PlayerStateMachine>();
 		playerTransform = GetComponent<Transform>();
 
-		meleeWeapon = GetComponentInChildren<SimpleDamager>();
-		meleeWeapon.SetOwner(gameObject);
-		meleeWeapon.OnTriggerEnterEvent += ChargeCP;
+		meleeWeapon = GetComponentInChildren<MeleeWeapon>();
+		meleeWeapon.GetComponentInChildren<SimpleDamager>().OnTriggerEnterEvent += ChargeCP;
 
 		targetting = GetComponentInChildren<AutoTargetting>();
 		totalspeed = Speed;
@@ -165,7 +164,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 		GameManager.Instance.PlayerDT = playerData;
 		GameManager.Instance.PlayerDT.saveScene = SceneManager.GetActiveScene().name;
 		
-		currentDamage = meleeWeapon.damageAmount;
+		currentDamage = meleeWeapon.GetComponentInChildren<SimpleDamager>().damageAmount;
 		
 		// 여기에 초기화
         soundManager = SoundManager.Instance;
@@ -245,7 +244,7 @@ public class Player : MonoBehaviour, IMessageReceiver
 	public void AdjustAttackPower(float value)
 	{
 		currentDamage = value;
-		meleeWeapon.damageAmount = currentDamage;
+		meleeWeapon.GetComponentInChildren<SimpleDamager>().damageAmount = currentDamage;
 	}
 	public void AdjustSpeed(float vlaue)
 	{
