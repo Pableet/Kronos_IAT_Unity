@@ -804,6 +804,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8719960461159335241, guid: 274a3a78a3e481640809fb1bb0518c65, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9047352775516390619, guid: 274a3a78a3e481640809fb1bb0518c65, type: 3}
       propertyPath: m_Name
       value: Sword
