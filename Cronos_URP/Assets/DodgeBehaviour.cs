@@ -3,36 +3,31 @@ using System.Collections.Generic;
 using UnityEditorInternal;
 using UnityEngine;
 
-public class LastCombo : StateMachineBehaviour
+public class DodgeBehaviour : StateMachineBehaviour
 {
+	PlayerStateMachine stateMachine;
+	Vector3 direction;
 	private readonly int moveHash = Animator.StringToHash("isMove");
-	public float hitStopTime;
 	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-	{
-		animator.ResetTrigger("Attack");
-		PlayerStateMachine.GetInstance().HitStop.hitStopTime = hitStopTime;
+   {
+		stateMachine = PlayerStateMachine.GetInstance();
+		// 상태전환
+		PlayerStateMachine.GetInstance().SwitchState(new PlayerParryState(PlayerStateMachine.GetInstance()));
+		PlayerStateMachine.GetInstance().Player._damageable.isInvulnerable = true;
 	}
 
-	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-	{
-		// 이동키입력을 받으면
-		if (PlayerStateMachine.GetInstance().InputReader.moveComposite.magnitude != 0f)
-		{
-			// 이동중
-			animator.SetBool(moveHash, true);
-		}
-		else
-		{
-			animator.SetBool(moveHash, false);
-		}
-
-	}
+	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+// 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+// 	{
+// 
+// 
+// 	}
 
 	// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 	override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
-
+		PlayerStateMachine.GetInstance().Player._damageable.isInvulnerable = false;
 	}
 
 	// OnStateMove is called right after Animator.OnAnimatorMove()

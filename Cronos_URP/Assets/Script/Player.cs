@@ -265,7 +265,11 @@ public class Player : MonoBehaviour, IMessageReceiver
 		{
 			return;
 		}
-			PlayerFSM.SwitchState(new PlayerDamagedState(PlayerFSM));
+		if (PlayerFSM.GetState().ToString() == "PlayerDamagedState")
+		{
+			return;
+		}
+		PlayerFSM.SwitchState(new PlayerDamagedState(PlayerFSM));
 	}
 
 	public void Death(Damageable.DamageMessage msg)
