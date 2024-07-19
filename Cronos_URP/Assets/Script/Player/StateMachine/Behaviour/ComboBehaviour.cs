@@ -39,7 +39,7 @@ public class ComboBehaviour : StateMachineBehaviour
 
 		if (stateMachine.Velocity.z != 0f)
 		{
-			int a = 3;
+			//int a = 3;
 		}
 		/// е╟ют╥б
 		if (Input.GetKeyDown(KeyCode.Mouse1))

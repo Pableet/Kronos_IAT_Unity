@@ -7,9 +7,9 @@ using UnityEngine;
 // ³¡
 public class PlayerIdleState : PlayerBaseState
 {
-	private readonly int idleHash = Animator.StringToHash("Idle");
-	private readonly float duration = 0.3f;
-	private bool isMove = false;
+	//private readonly int idleHash = Animator.StringToHash("Idle");
+	//private readonly float duration = 0.3f;
+	//private bool isMove = false;
 
 	float releaseLockOn = 0f;
 
@@ -129,7 +129,7 @@ public class PlayerIdleState : PlayerBaseState
 
 	private void IsMove()
 	{
-		isMove = true;
+		//isMove = true;
 	}
 	private void SwitchToParryState()
 	{

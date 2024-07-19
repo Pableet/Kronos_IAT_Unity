@@ -1,7 +1,7 @@
 using UnityEngine;
 public class PlayerAttackState : PlayerBaseState
 {
-	private bool ismove = false;
+	//private bool ismove = false;
 	public PlayerAttackState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 	public override void Enter()
 	{
@@ -12,7 +12,7 @@ public class PlayerAttackState : PlayerBaseState
 		CalculateMoveDirection();   // 방향을 계산하고
 		if (stateMachine.Velocity.magnitude != 0f)
 		{
-			ismove = true;
+			//ismove = true;
 		}
 	}
 	public override void FixedTick()
